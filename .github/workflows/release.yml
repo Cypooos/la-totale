@@ -1,0 +1,37 @@
+name: Publish Version
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  render-paper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: typst-community/setup-typst@v5
+
+      - name: Compile the main document
+        run: typst compile main.typ export.pdf
+
+      - name: Generate release notes
+        run: |
+          {
+            echo "# Changelog"
+            echo
+            git log -1 --pretty=%B
+          } > release-notes.md
+
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        with:
+          body_path: release-notes.md
+          files: export.pdf

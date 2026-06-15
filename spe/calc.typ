@@ -135,5 +135,3 @@ type 'a set = 'a -> bool;;
 2. Montrer que la fonction ```ml val is_empty: int set -> bool``` qui à un ensemble donné indique s'il est vide ou non n'est pas calculable.
 3. Soit ```ml val P: int set set```, montrer qu’il existe un $N in NN$ tel que pour tout ```ml val x: int set```, dans le calcul de `P x`, `P` n'évalue `x` que sur entrées inférieure à $N$. Est-ce vrai avec ```ml val P: (int -> int) set```~?
 4. ($*$) Montrer que la fonction ```ml val is_empty: (int set set) -> int set``` qui à un ```ml int set set``` donné indique s'il est vide ou non est calculable.
-
-#pagebreak()

@@ -231,38 +231,169 @@ Et les règles $R'$ sont:
 6. Proposer un langage régulier $K$ tel que $K inter D_n = L(G)$. Conclure la preuve du théorème.
 
 
-== Image de Parikh de langage non contextuels stable par permutation
+== Théorème de Ginsburg-Spanier
 
-Soit $Sigma = {a_1, ..., a_k}$ un alphabet fini et $L$ un langage sur $Sigma$, on dit que $L$ est _stable par permutation des lettres_ si pour tout $w_1...w_n in L$ et pour toutes permutation $sigma : [|1;n|] --> [|1;n|]$ on a $w_(sigma(1)) ... w_(sigma(n)) in L$.
+Soit $Sigma$ un alphabet fini. Un langage $L subset.eq Sigma^*$ est dit _borné_ s'il existe $u_1,...,u_k in Sigma^+$ tels que $L subset.eq u_1^* ... u_k^*.$ Pour un tel langage, on définit son _ensemble d'exposants_ $E(L)$ par
+$
+E(L) = { (n_1,...,n_k) in NN^k : u_1^(n_1) ... u_k^(n_k) in L }.
+$
 
-Pour un mot $w in Sigma^*$, on définit son _image de Parikh_ par $Psi(w) = (|w|_(a_1), ..., |w|_(a_k)) in NN^k$. Pour un langage $L subset.eq Sigma^*$, on pose $Psi(L) = {Psi(w) : w in L} subset.eq NN^k.$
-
-Un ensemble $S subset.eq NN^k$ est dit _linéaire_ s'il existe $b, p_1, ..., p_m in NN^k$
-tels que
+Un ensemble $S subset.eq NN^k$ est dit _linéaire_ s'il existe $b, p_1, ..., p_m in NN^k$ tels que
 $
 S = { b + lambda_1 p_1 + ... + lambda_m p_m : (lambda_1,...,lambda_m) in NN^m }.
 $
+Les vecteurs $p_i$ sont appelés _périodes_. On note $"Supp"((x_1,...,x_k)) = { i : x_i != 0 }.$ le support d'un vecteur. Un ensemble linéaire $S$ est dit _stratifié_ si :
+- pour toute période $p_i$, on a $|"Supp"(p_i)| <= 2$ et 
+- il n'existe pas deux périodes de supports ${a,b}$ et ${a',b'}$, avec $a<b$ et $a'<b'$, telles que $a < a' < b < b'.$
 
-Un ensemble est dit _semi-linéaire_ s'il est union finie d'ensembles linéaires.
+Un ensemble est _semi-linéaire stratifié_ s'il est union finie d'ensembles linéaires stratifiés.
 
-1. Calculer l'image de Parikh des langages suivants:
-  - $L_1 = {a^n b^n : n in NN}$,
-  - $L_2 = {a^n b^m c^(n+m) : n,m in NN}$,
-  - $L_3 = L(a b^*)$,
-2. Montrer que si $A,B subset.eq NN^k$ sont semi-linéaire, alors $A union B$ et $A + B$ le sont aussi.
-3. Montrer que si $L$ est régulier, alors $Psi(L)$ est semi-linéaire.
+On va prouver le théorème de Ginsburg-Spanier, qui affirme que pour $L$ un langage bornée, on a
+$
+L " est hors-contexte "
+<==>
+E(L) " est semi-linéaire stratifié".
+$
 
-Le thérème de Parikh dit que si $L$ est non-contextuel, alors $Psi(L)$ est semi-linéaire. La preuve (exercice suivant) est dure, on cherche à prouver une version plus simple seulement sur des $L$ stable par permutation des lettres.
+=== Sens Réciproque
 
-Un langage $L$ est dit _trié_ si $L subset.eq L(a_(sigma(1))^* ... a_(sigma(n))^*)$ pour une certaine permutation.
+Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) stratifié via $b, p_1, ..., p_m in NN^k$. Pour chaque $0 < i <= j <= k$, on ajoute un symbole non terminal $H_(i,j)$ tel que $H_(i,j)$ engendre les $L inter L(u_1^* ... u_j^*)$.
+1. Pour $"Supp"(p) = {i}$, proposer des règles de grammaire pour $H_(i,i)$. Attention à ne pas oublier l'impact du vecteur $b$.
+2. Pour $"Supp"(p) = {i,j}$ avec $i< j$, proposer des règles de grammaire pour $H_(i,j)$ en fonction de $H_(i+1,j-1)$
+3. En déduire une grammaire $G$ tel que $E(L(G)) = E(L)$.
+4. Conclure sur un sens du théorème
 
-4. Montrer que si $L$ est un langage non-contextuel stable par permutation alors il existe un langage trié $R$ non-contextuel tel que $Psi(L) = Psi(R)$.
+=== Sens direct
+On suppose maintenant que $L$ est hors-contexte et borné. On se fait d'abord au cas $L subset.eq L(a_1^* ... a_k^*)$ sur $Sigma = {a_1,...,a_k}$.
 
-On admet que tout grammaire peut être mise en forme normale de Chomsky, c'est à dire que toutes les règles de la grammaire sont soit $X -> Y Z$, soit $X -> alpha$ ou soit $S -> epsilon$ avec $X,Y,Z in Gamma$, $alpha in Sigma$ et $S$ le symbole initial. Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte sous forme normale de Chomsky reconnaissant $L$ un langage non-contextuel trié. On ordonne nos lettres $a_1,...,a_n$ telles que $L subset.eq L(a_1^* ... a_n^*)$. On suppose que $epsilon in.not L$.
+On fixe une grammaire $G$ en forme normale de Chomsky reconnaissant $L$.
 
-Pour $A in Gamma$ et $1 <= i <= j <= |Sigma|$, on introduit un nouveau symbole non-terminal $A_(i,j)$. L'idée est que $A_(i,j)$ représente les dérivations de $A =>^* w$ telle $w subset.eq L(a_i^* a_(i+1)^* ... a_j^*)$.
+8. Soit $T$ un arbre de dérivation d'un mot
+   $
+   a_1^(n_1) ... a_k^(n_k).
+   $
+   Montrer que tout nœud de $T$ engendre un facteur contenu dans un intervalle de blocs
+   $
+   a_i^* ... a_j^*.
+   $
 
-5. TODO
+9. On appelle *type* d'un nœud le triplet
+   $
+   (X,i,j),
+   $
+   où $X$ est le non-terminal du nœud, et où $[i,j]$ est le plus petit intervalle de blocs contenant son mot engendré.
+
+Montrer qu'il n'y a qu'un nombre fini de types.
+
+10. Montrer que si un arbre contient deux nœuds comparables de même type $(X,i,j)$, alors on obtient une dérivation pompable
+    $
+    X =>^* alpha X beta.
+    $
+
+11. Montrer que le pompage correspondant ajoute une période dont le support est inclus dans ${i,j}$.
+
+12. En déduire que toutes les périodes obtenues ont un support de taille au plus $2$.
+
+13. Expliquer pourquoi deux pompages dans un arbre sont nécessairement disjoints ou imbriqués, mais jamais croisés.
+
+14. En déduire qu'on ne peut pas obtenir deux périodes de supports ${a,b}$ et ${a',b'}$ avec
+    $
+    a < a' < b < b'.
+    $
+
+15. On appelle *arbre réduit* un arbre dans lequel il n'existe pas deux nœuds comparables de même type. Montrer que les arbres réduits ont une hauteur bornée.
+
+16. En déduire qu'il n'y a qu'un nombre fini d'arbres réduits.
+
+17. Montrer que tous les arbres de dérivation s'obtiennent à partir d'un arbre réduit en réinsérant des cycles pompables.
+
+18. Conclure que $E(L)$ est une union finie d'ensembles linéaires stratifiés.
+
+19. Conclure le théorème de Ginsburg-Spanier.
+
+
+
+// 
+// == Théorème de Ginsburg-Spanier
+// 
+// Soit $Sigma$ un alphabet fini et $L$ un langage sur $Sigma$. $L$ est dit _bornée_ s'il existe $u_1,...,u_k in Sigma^*$ tel que $L subset.eq L(u_1^* ... u_k^*)$.
+// 
+// Pour $L$ un langage bornée par $u_1,...,u_k in Sigma^*$, on définit son _nombre d'exposants_
+// $ 
+// E(L) = { (n_1,...,n_k) in NN^k | u_1^(n_1) ... u_k^(n_k) in L}
+// $
+// 
+// Un ensemble $S subset.eq NN^k$ est dit _linéaire_ s'il existe $b, p_1, ..., p_m in NN^k$
+// tels que
+// $
+// S = { b + lambda_1 p_1 + ... + lambda_m p_m : (lambda_1,...,lambda_m) in NN^m }.
+// $
+// 
+// Les $(p_i)_i$ sont nommé _périodes_. On note $"Supp"((x_1,...,x_k)) = {i : x_i != 0}$ _le support_ d'un $(x_1,...,x_k) in NN^k$.
+// Un ensemble linéaire est dit _stratifié_ si $forall i, |"Supp"(p_i)| <= 2$ et que pour deux périodes $p_i, p_j$ de support de cardinal 2 que l'on écrit $"Supp"(p_i) = {a,b}$ et $"Supp"(p_j) = {a',b'}$, on ai pas $a < a' < b < b'$.
+// 
+// On cherche à montrer le théorème de Ginsburg-Spanier, qui dit qu'un langage $L$ bornée est non-contextuel ssi son nombre d'expossants est semi-linéaire stratifié. 
+// 
+// Soit $L$ un langage bornée tel que $E(L)$ est linéaire stratifié via $b, p_1, ..., p_m in NN^k$.
+// Pour chaque période $p_i = (x_1,...,x_k)$ on crée un symbole non terminal $X_(p_i)$, tel que:
+// - Si $"Supp"(p_i) = {a}$ alors $X_(p_i)$ reconnait les mots ${ w_a^(lambda x_a) : lambda in NN }$
+// - Si $"Supp"(p_i) = {a,b}$ alors $X_(p_i)$ reconnait les mots ${ w_a^(lambda x_a) w_(a+1)^(lambda_1) ... w_(b-1)^(lambda_t) w_b^(lambda x_b) : lambda in NN, (underbrace(0\,...\,0,a+1 "fois"),lambda_1,...,lambda_t, underbrace(0\,...\,0,k-b+1 "fois")) in E(L) }$
+// 1. Proposer des règles de grammaire pour les $X_(p_i)$
+// 2. Proposer une règle à ajouter sur un symbole initial $S$ pour avoir que $E(L(S)) = E(L)$.
+// 3. En déduire un sens du théorème.
+// 
+// On cherche à montrer l'autre sens. Soit $L$ un langage non-contextuel borné. On admet que $L$ peut être mise en forme normale de Chomsky, c'est à dire que toutes les règles de la grammaire sont soit $X -> Y Z$, soit $X -> alpha$ ou soit $S -> epsilon$ avec $X,Y,Z in Gamma$, $alpha in Sigma$ et $S$ le symbole initial.
+// 
+// 
+// 
+// 
+
+// Un ensemble est dit _semi-linéaire stratifié_ s'il est union finie d'ensembles linéaires stratifié. Un ensebmel 
+
+
+// 1. Calculer l'image de Parikh des langages suivants:
+//   - $L_1 = {a^n b^n : n in NN}$,
+//   - $L_2 = {a^n b^m c^(n+m) : n,m in NN}$,
+//   - $L_3 = L(a b^*)$,
+// 2. Montrer que si $A,B subset.eq NN^k$ sont semi-linéaire, alors $A union B$ et $A + B$ le sont aussi.
+// 3. Montrer que si $L$ est régulier, alors $Psi(L)$ est semi-linéaire.
+
+// On cherche à montrer le théorème de Ginsburg-Spanier: Si $L$ est bornée, alors $L$ est hors-contexte ssi son nombre d'exposant est semi-linéaire stratifié.
+
+
+
+
+// Un ensemble est dit _semi-linéaire_ s'il est union finie d'ensembles linéaires.
+
+
+// //On dit que $L$ est _stable par permutation des lettres_ si pour tout $w_1...w_n in L$ et pour toutes permutations $sigma : [|1;n|] --> [|1;n|]$ on a $w_(sigma(1)) ... w_(sigma(n)) in L$.
+
+// Pour un mot $w in Sigma^*$, on définit son _image de Parikh_ par $Psi(w) = (|w|_(a_1), ..., |w|_(a_k)) in NN^k$. Pour un langage $L subset.eq Sigma^*$, on pose $Psi(L) = {Psi(w) : w in L} subset.eq NN^k.$
+
+// Un ensemble $S subset.eq NN^k$ est dit _linéaire_ s'il existe $b, p_1, ..., p_m in NN^k$
+// tels que
+// $
+// S = { b + lambda_1 p_1 + ... + lambda_m p_m : (lambda_1,...,lambda_m) in NN^m }.
+// $
+
+// Un ensemble est dit _semi-linéaire_ s'il est union finie d'ensembles linéaires.
+
+
+// Le thérème de Parikh dit que si $L$ est non-contextuel, alors $Psi(L)$ est semi-linéaire. La preuve (exercice suivant) est dure, on cherche à prouver une version plus simple seulement sur des $L$ stable par permutation des lettres.
+
+// Un langage $L$ est dit _trié_ si $L subset.eq L(a_1^* ... a_n^*)$ pour un certain ordre $a_1 < ... < a_n$ des lettres de $Sigma$.
+
+// 4. Montrer que si $L$ est un langage non-contextuel stable par permutation alors il existe un langage trié $R$ non-contextuel tel que $Psi(L) = Psi(R)$.
+
+// On admet que tout grammaire peut être mise en forme normale de Chomsky, c'est à dire que toutes les règles de la grammaire sont soit $X -> Y Z$, soit $X -> alpha$ ou soit $S -> epsilon$ avec $X,Y,Z in Gamma$, $alpha in Sigma$ et $S$ le symbole initial.
+
+// Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte sous forme normale de Chomsky reconnaissant $L$ un langage non-contextuel trié. On ordonne nos lettres $a_1,...,a_n$ telles que $L subset.eq L(a_1^* ... a_n^*)$. On suppose que $epsilon in.not L$.
+
+// Pour $A in Gamma$ et $1 <= i <= j <= |Sigma|$, on introduit un nouveau symbole non-terminal $A_(i,j)$. L'idée est que $A_(i,j)$ représente les dérivations de $A scripts(=>)^* w$ telle $w subset.eq L(a_i^* a_(i+1)^* ... a_j^*)$.
+
+
+
+// 5. TODO
 
 == Théorème de Parikh TODO #footnote[Tiré d'une preuve simplifié https://arxiv.org/pdf/2301.00047]
 

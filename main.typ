@@ -70,6 +70,7 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 #include "sup/imp.typ"
 #include "sup/func.typ"
 #include "sup/seq.typ"
+#include "sup/ind.typ"
 #include "sup/tree.typ"
 #include "sup/graph.typ"
 #include "sup/prop.typ"

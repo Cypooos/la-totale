@@ -16,7 +16,7 @@ Quand c’est possible, une note bibliographique indique l’inspiration de l’
 
 ## État du document
 
-Ce document est vivant, incomplet, et encore imparfait.
+Ce document est vivant, incomplet, et encore imparfait. Le dernière version stable du document est téléchargable [ici](https://github.com/Cypooos/la-totale/releases/latest)
 
 Il contient de nombreuses fautes d’orthographe, des exercices non finis, et probablements quelques erreurs de logique ou de difficulté.
 

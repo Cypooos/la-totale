@@ -42,7 +42,7 @@ Ce document est bourré de fautes d'orthographe, et probablement de quelques fau
 
 N'hésitez pas à m'envoyer d'autres exercices, des corrections, ou des demandes de corrigés pour certains exos. Normalement, je sais tous les faire, et je les rescanne de temps en temps. Vous pouvez me contacter à #link("mailto:la-totale@bourotte.com", [la-totale\@bourotte.com]).
 
-Lien vers le githug du document: #link("https://github.com/Cypooos/la-totale").
+Lien vers le github du document: #link("https://github.com/Cypooos/la-totale").
 Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hésitez pas à faire des push request avec d'autres exercices !
 
 *Certaines inspirations bibliographique utilisées:*

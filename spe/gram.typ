@@ -231,7 +231,7 @@ Et les règles $R'$ sont:
 6. Proposer un langage régulier $K$ tel que $K inter D_n = L(G)$. Conclure la preuve du théorème.
 
 
-== Théorème de Ginsburg-Spanier
+== Sens réciproque de Ginsburg-Spanier
 
 Soit $Sigma$ un alphabet fini. Un langage $L subset.eq Sigma^*$ est dit _borné_ s'il existe $u_1,...,u_k in Sigma^+$ tels que $L subset.eq u_1^* ... u_k^*.$ Pour un tel langage, on définit son _ensemble d'exposants_ $E(L)$ par
 $
@@ -248,70 +248,19 @@ Les vecteurs $p_i$ sont appelés _périodes_. On note $"Supp"((x_1,...,x_k)) = {
 
 Un ensemble est _semi-linéaire stratifié_ s'il est union finie d'ensembles linéaires stratifiés.
 
-On va prouver le théorème de Ginsburg-Spanier, qui affirme que pour $L$ un langage bornée, on a
+On va prouver un des deux sens du théorème de Ginsburg-Spanier, qui affirme que pour $L$ un langage bornée, on a
 $
 L " est hors-contexte "
 <==>
 E(L) " est semi-linéaire stratifié".
 $
 
-=== Sens Réciproque
 
 Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) stratifié via $b, p_1, ..., p_m in NN^k$. Pour chaque $0 < i <= j <= k$, on ajoute un symbole non terminal $H_(i,j)$ tel que $H_(i,j)$ engendre les $L inter L(u_1^* ... u_j^*)$.
 1. Pour $"Supp"(p) = {i}$, proposer des règles de grammaire pour $H_(i,i)$. Attention à ne pas oublier l'impact du vecteur $b$.
 2. Pour $"Supp"(p) = {i,j}$ avec $i< j$, proposer des règles de grammaire pour $H_(i,j)$ en fonction de $H_(i+1,j-1)$
 3. En déduire une grammaire $G$ tel que $E(L(G)) = E(L)$.
-4. Conclure sur un sens du théorème
-
-=== Sens direct
-On suppose maintenant que $L$ est hors-contexte et borné. On se fait d'abord au cas $L subset.eq L(a_1^* ... a_k^*)$ sur $Sigma = {a_1,...,a_k}$.
-
-On fixe une grammaire $G$ en forme normale de Chomsky reconnaissant $L$.
-
-8. Soit $T$ un arbre de dérivation d'un mot
-   $
-   a_1^(n_1) ... a_k^(n_k).
-   $
-   Montrer que tout nœud de $T$ engendre un facteur contenu dans un intervalle de blocs
-   $
-   a_i^* ... a_j^*.
-   $
-
-9. On appelle *type* d'un nœud le triplet
-   $
-   (X,i,j),
-   $
-   où $X$ est le non-terminal du nœud, et où $[i,j]$ est le plus petit intervalle de blocs contenant son mot engendré.
-
-Montrer qu'il n'y a qu'un nombre fini de types.
-
-10. Montrer que si un arbre contient deux nœuds comparables de même type $(X,i,j)$, alors on obtient une dérivation pompable
-    $
-    X =>^* alpha X beta.
-    $
-
-11. Montrer que le pompage correspondant ajoute une période dont le support est inclus dans ${i,j}$.
-
-12. En déduire que toutes les périodes obtenues ont un support de taille au plus $2$.
-
-13. Expliquer pourquoi deux pompages dans un arbre sont nécessairement disjoints ou imbriqués, mais jamais croisés.
-
-14. En déduire qu'on ne peut pas obtenir deux périodes de supports ${a,b}$ et ${a',b'}$ avec
-    $
-    a < a' < b < b'.
-    $
-
-15. On appelle *arbre réduit* un arbre dans lequel il n'existe pas deux nœuds comparables de même type. Montrer que les arbres réduits ont une hauteur bornée.
-
-16. En déduire qu'il n'y a qu'un nombre fini d'arbres réduits.
-
-17. Montrer que tous les arbres de dérivation s'obtiennent à partir d'un arbre réduit en réinsérant des cycles pompables.
-
-18. Conclure que $E(L)$ est une union finie d'ensembles linéaires stratifiés.
-
-19. Conclure le théorème de Ginsburg-Spanier.
-
-
+4. Conclure sur le sens réciproque
 
 // 
 // == Théorème de Ginsburg-Spanier
@@ -395,7 +344,7 @@ Montrer qu'il n'y a qu'un nombre fini de types.
 
 // 5. TODO
 
-== Théorème de Parikh TODO #footnote[Tiré d'une preuve simplifié https://arxiv.org/pdf/2301.00047]
+== Théorème de Parikh (TODO: Vérifier) #footnote[Tiré d'une preuve simplifié https://arxiv.org/pdf/2301.00047]
 
 
 1. Montrer que tous les langages régulier sont non contextuels.
@@ -432,105 +381,54 @@ On dit qu'un arbre $T'$ est un sous-arbre de $T$ si on retrouve $T'$ en entier d
 Le meme lemme est vrai sur les arbre-bloc minimal par une preuve simmilaire que l'on admet: ils ne peuvent pas contenir deux occurrences d'un même non-terminal sur une même branche, sauf les deux occurrences de $A$ qui définissent l'arbre bloc.
 
 6. En déduire qu'il n'existe qu'un nombre fini d'arbres minimaux pleins et d'arbres-blocs minimaux, à isomorphisme près.
+7. Soit $T$ un arbre plein non minimal. Montrer qu'il existe un sous-arbre-bloc strict $B$ de $T$ tel qu'en supprimant $B$, on obtient un arbre de dérivation $T'$ vérifiant $Psi(T) = Psi(T') + Psi(B).$
 
-
-
-
-7. Soit $T$ un arbre plein non minimal. Montrer qu'il existe un sous-arbre-bloc strict $B$ de $T$ tel qu'en supprimant $B$, on obtient un arbre de dérivation $T'$ vérifiant
-  $
-    Psi(T) = Psi(T') + Psi(B).
-  $
-  On appelle cette opération une _compression_.
+On appelle cette opération une _compression_.
 8. Montrer qu'en appliquant successivement des compressions, tout arbre plein $T$ se décompose en un arbre plein minimal $T_0$, et une famille finie d'arbres-blocs minimaux $B_1, ..., B_r$, tels que
 $
   Psi(T) = Psi(T_0) + sum_(i <= r) Psi(B_i).
 $
 
-Soient $T_1,T_2$ deux arbres minimaux. On dit qu'un arbre $T$ est une _composition_ de $T_1$ et $T_2$ si $T_2$ à pour racine un $A in Gamma$ et que $T$ s'obtient en remplacant une occurrence d'une feuile de $T_1$ par $T_2$.
+Soient $T_1,T_2$ deux arbres minimaux. On dit qu'un arbre $T$ est une _composition_ de $T_1$ et $T_2$ si $T_2$ à pour racine un $A in Gamma$ et que $T$ s'obtient en remplacant une occurrence d'une feuille de $T_1$ par $T_2$.
 
 9. Montrer que, si $T$ est une composition de $T_1$ et $T_2$, alors
 $
   Psi(T) = Psi(T_1) + Psi(T_2).
 $
 
-10. On appelle _multiensemble bien formé_ un multiensemble $M$ d'arbres minimaux tel qu'en composant successivement ses arbres, on obtient un arbre plein.
+On appelle _multiensemble bien formé_ un multiensemble $M$ d'arbres minimaux tel qu'en composant successivement ses arbres, on obtient un arbre plein.
 
-Montrer que si $M$ est bien formé et se compose en un arbre plein $T$, alors
+10. Montrer que si $M$ est bien formé et se compose en un arbre plein $T$, alors, en tenant compte des multiplicités,
 $
   Psi(T) = sum_(U in M) Psi(U),
 $
-où la somme tient compte des multiplicités.
+11. Montrer que tout arbre plein $T$ peut être décomposé en un multiensemble bien formé $M_T$ d'arbres minimaux. _Indication :_ si $T$ n'est pas minimal, extraire un sous-arbre-bloc strict, puis recommencer.
+12. Soit $M$ un multiensemble bien formé d'arbres minimaux. On suppose qu'un arbre-bloc minimal $B$ apparaît dans $M$. Montrer que le multiensemble $M union {B}$ est encore bien formé. 
+13. Soit $M$ un multiensemble bien formé d'arbres minimaux. On suppose qu'un arbre-bloc minimal $B$ apparaît au moins deux fois dans $M$. Montrer que l'on peut supprimer une occurrence de $B$ et obtenir encore un multiensemble bien formé.
+14. Soient $M$ et $M'$ deux multiensembles d'arbres minimaux. On suppose que :
+  - $M$ est bien formé,
+  - $M$ et $M'$ contiennent le même arbre plein minimal,
+  - pour tout arbre-bloc minimal $B$, $B$ apparaît dans $M$ si et seulement si $B$ apparaît dans $M'$.
 
-11. Montrer que tout arbre plein $T$ peut être décomposé en un multiensemble bien formé $M_T$ d'arbres minimaux.
+  Montrer que $M'$ est bien formé.
 
-_Indication :_ si $T$ n'est pas minimal, extraire un sous-arbre-bloc strict, puis recommencer.
-
-12. Soit $M$ un multiensemble bien formé d'arbres minimaux. On suppose qu'un arbre-bloc minimal $B$ apparaît dans $M$.
-
-Montrer que le multiensemble $M union {B}$ est encore bien formé.
-
-_Indication :_ si $B$ est de forme $A scripts(=>)^* u A v$, alors l'arbre plein obtenu à partir de $M$ contient une occurrence de $A$ où l'on peut greffer une nouvelle copie de $B$.
-
-13. Soit $M$ un multiensemble bien formé d'arbres minimaux. On suppose qu'un arbre-bloc minimal $B$ apparaît au moins deux fois dans $M$.
-
-Montrer que l'on peut supprimer une occurrence de $B$ et obtenir encore un multiensemble bien formé.
-
-_Indication :_ considérer deux copies de $B$ dans une dérivation de l'arbre plein final, et rediriger les greffes faites dans la deuxième copie vers la première.
-
-14. En déduire le lemme suivant.
-
-Soient $M$ et $M'$ deux multiensembles d'arbres minimaux. On suppose que :
-- $M$ est bien formé ;
-- $M$ et $M'$ contiennent le même arbre plein minimal ;
-- pour tout arbre-bloc minimal $B$, $B$ apparaît dans $M$ si et seulement si $B$ apparaît dans $M'$.
-
-Montrer que $M'$ est bien formé.
-
-15. Pour un multiensemble bien formé $M$, contenant un unique arbre plein minimal $T_0$, on note $M^0$ l'ensemble obtenu en supprimant les répétitions dans $M$.
+Pour un multiensemble bien formé $M$, contenant un unique arbre plein minimal $T_0$, on note $M^0$ l'ensemble obtenu en supprimant les répétitions dans $M$.
 
 On définit
 $
   "Lin"(M^0)
   =
   {
-    Psi(M^0) + sum_(B in M^0, B " bloc") lambda_B Psi(B)
+    Psi(M^0) + sum_(B in M^0\ B " bloc") lambda_B Psi(B)
     : lambda_B in NN
   }.
 $
 
-Montrer que $"Lin"(M^0) subset.eq Psi(L(G))$.
-
-16. Montrer que
-$
-  Psi(T) in "Lin"(M_T^0)
-$
-pour tout arbre plein $T$, où $M_T$ est une décomposition de $T$ en arbres minimaux.
-
-_Indication :_ les doublons supprimés dans $M_T^0$ peuvent être réintroduits par les coefficients $lambda_B$.
-
+15. Montrer que $"Lin"(M^0) subset.eq Psi(L(G))$.
+16. Montrer que $Psi(T) in "Lin"(M_T^0)$ pour tout arbre plein $T$, où $M_T$ est une décomposition de $T$ en arbres minimaux.
 17. Montrer qu'il n'y a qu'un nombre fini de possibilités pour $M_T^0$ lorsque $T$ parcourt tous les arbres pleins de $G$.
-
-18. Conclure que
-$
-  Psi(L(G))
-  =
-  union_(M^0) "Lin"(M^0),
-$
-où l'union porte sur un nombre fini d'ensembles $M^0$.
-
-En déduire que $Psi(L(G))$ est semi-linéaire.
-En déduire que si $L$ est hors-contexte, alors $Psi(L)$ est semi-linéaire. Ce résultat s'appelle le _théorème de Parikh_.
-
-10. On revient au cas $Sigma = {a}$. Montrer qu'un ensemble semi-linéaire $S subset.eq NN$ est ultimement périodique, c'est-à-dire qu'il existe $N in NN$ et $p >= 1$ tels que pour tout $n >= N$,
-$
-  n in S <=> n+p in S.
-$
-
-11. Montrer que si $S subset.eq NN$ est ultimement périodique, alors le langage suivant est régulier :
-$
-  L_S = {a^n : n in S}
-$
-
-
-12. Conclure que sur l'alphabet unaire $Sigma = {a}$, tout langage hors-contexte est régulier.
+18. Conclure que $Psi(L(G)) = union.big_(M^0) "Lin"(M^0)$, où l'union porte sur un nombre fini d'ensembles $M^0$.
+19. En déduire que si $L$ est hors-contexte, alors $Psi(L)$ est semi-linéaire. Ce résultat s'appelle le _théorème de Parikh_.
+20. Montrer que si $S subset.eq NN^k$ est semi-linéaire alors il existe un langage régulier $L$ tel que $Psi(L) = S$.
+21. En déduire que sur $Sigma = {a}$, tout langage hors-contexte est régulier.
 

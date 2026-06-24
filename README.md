@@ -12,8 +12,11 @@ Le document vise notamment :
 
 Les exercices sont trié par section, chapitre, puis dans chaque chapitre par ordre (très) approximatif de difficulté :
 - `sup/`: Contiens les chapitres `imp` (impératif), `func` (fonctionnel), `seq` (structures de données séquentielles), `ind` (inductions et ordres), `tree` (arbres et structures inductives), `graph` (théorie des graphes), `prop` (logique propositionelle), `db` (base de données, SQL), `algo` (algorithmique)
-- `spe/` : Contiens les chapitres `lang` (théorie des langages), `reg` (langages régulier), `gram` (grammaires non-contextuelles), `graph2` (théorie des graphes 2), `game` (théorie des jeux), `data` (apprentissage), `system` (mutex, sémaphores), `proba` (approx et algorithmes probabilistes), `deduc` (déduction naturelle), `class` (classes de complexitées), `calc` (calculabilité)
+- `spe/` : Contiens les chapitres `lang` (théorie des langages), `reg` (langages régulier), `gram` (grammaires non-contextuelles), `graph2` (théorie des graphes 2), `game` (théorie des jeux), `data` (apprentissage), `system` (mutex, sémaphores), `proba` (algorithmes d'approximation et probabilistes), `deduc` (déduction naturelle), `class` (classes de complexitées), `calc` (calculabilité)
 
+Dans le futur, les 2 sections suivantes seront rajoutées:
+- `math/` : Contiens les chapitres de mathématiques utile pour l'informatique, comme `g-alg` (utilliser l'algèbre pour la théorie des graphes), `model` (Théorie des modèles, ZFC, Godel), `ord` (Relations d'ordres, wqo), `denom` (Dénombrement, série génératrices de langages), `topo` (Topologie pour l'informatique)
+- `compl/` : Contiens les chaptres complémentaire / avancés d'informatique non présent dans le programme, comme `lamb` (lambda calcul, le chapitre le plus accesible), `parra` (algorithmes parralélisés), `fpt` (FPT, tree-width), `logic` (Logique avancé, Système F, Rocq)
 
 Les exercices sont conçus pour être aussi indépendants que possible, sauf mention contraire. Ils sont souvent difficiles : beaucoup correspondent plutôt à une bonne colle, voire à une partie de sujet d’écrit. Il ne faut donc pas hésiter à ajouter des questions intermédiaires si vous souhaitez les donner à des élèves.
 

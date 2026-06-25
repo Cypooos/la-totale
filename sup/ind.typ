@@ -79,6 +79,27 @@ On se fixe un ensemble fini de lettres $Sigma = {a,b}$. On déifni un _mot_ comm
 3. Soit $w_1 ... w_n$ un mot de A, montrer qu'il existe un $i<=n$ tel que  pour tout $j < i$, le mot $w_1...w_j$ possède strictement plus de $a$ que de $b$ et que le mot $w_1... w_i$ possède autant de $a$ que de $b$
 4. Montrer que votre définition de la question 2 est équivalente à la définition question 1.
 
+== Fonctions Primitives#footnote[Oraux ENS Ulm 2021]
+
+On définit pour tout $n in NN$ l'ensemble de fonctions $cal(C)_n$ par récurrence. Pour $n = 0$, on pose $cal(C)$ comme l'ensemble contenant les fonctions suivantes :
+- La fonction $Z : NN -> NN$, définie par $Z(x) = 0$
+- La fonction $S : NN -> NN$, définie par $S(x) = x+1$
+- Pour tout  $0 <= i < k in NN$, les fonctions $pi^k_i : NN^k --> NN$ définies par $pi^k_i (x_1,...,x_k) = x_i$
+Si $cal(C)_n$ est définit, on définit $cal(C)_(n+1)$ comme étant $cal(C)_n$ auquel, pour tout $i, k in NN$, et pour tout $g_1,...,g_i in cal(C)_n$ de type $NN^k --> NN$ et $h in cal(C)_n$ de type $NN^i --> NN$, on ajoute la fonction suivante :
+$ h compose (g_1,...,g_n) : &NN^k --> NN\ &arrow(x) |-> h(g_1(arrow(x)),...,g_i (arrow(x)))  $
+
+On définit $cal(C)_oo := union.big(n in NN) cal(C)_n$.
+
+1. Montrer que la fonction $(x,y) |-> y+1$ est primitive.
+2. Montrer que si $f : NN^2 --> NN in cal(C)_n$, alors $g : NN^2 --> NN in cal(C)_(n+1)$ avec $g(x,y) = f(y,x)$.
+3. Montrer que en réalité $g in cal(C)_n$.
+4. Montrer que pour toute fonction $f in cal(C)_oo$ de signature $f : NN^k --> NN$, il existe un $N in NN$ tel que soit $f$ soit constante à $N$, soit $f(x_1,...,x_k) = x_i + N$.
+
+On rajoute maintenant à la définition de $cal(C)_0$ la fonction $"add" : NN^2 --> NN$ défine par $"add"(x,y) = x+y$
+
+5. Montrer que la fonction $(x,y) |-> (y+1,2x)$ est alors primitive.
+6. Proposer un équivalent similaire à la question 4 pour charactériser les fonctions primitives dans ce cas.
+
 == Système MIU
 
 On pose $Sigma = {M,I,U}$ et on définit inductivement l'ensemble $S subset.eq Sigma^*$ par les règles suivantes:

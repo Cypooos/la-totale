@@ -2,6 +2,21 @@
 = *MP2I: Structures de données séquentielles*
 
 == Cours
+
+*Partie mémoire et preuve de programme*
+- Paradigmes: impératif structuré, déclaratif fonctionnel, logique
+- Savoir coder en C
+- Différence entre compilé et interprété
+- Représentation des entiers: signé, non signé, bytes/bits
+- Représentation des flottants: signe, mantisse, exposant
+- Preuve sur programme. Invariant de boucle. Correction partielle (vrai si termine), correction totale (vrai et termine)
+- Complexité~: pire cas, cas moyen, coût amorti
+- Spécialisation d'une fonction. Commentaires, annotation
+- Programmation défensive, assertions
+- Jeu de test. Graphe de flot de contreole. Chemin faisable. Couverture des sommets, couverture des arêtes. Test exaustif d'une boucle.
+- Pointeurs, allocation, stack, heap, call stack, stack overflow.
+
+*Structure séquentielles*
 - Définition d'une liste. Liste doublement chainée. D'un tableau. Cout des opérations de création, ajout, supression en temps et mémoire.
 - Différence entre struture immuable et mutable.
 - Définition d'une pile. Implémentation d'une pile par tableau dynamique.

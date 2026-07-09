@@ -1,10 +1,10 @@
-// imp, func, seq, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, all
+//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, all
 
 
 // Ceci permet de compiler le fichier avec chap=<chapitre> pour avoir un pdf avec 1 exos par page et que les exos du chapitre. 
 // Par exemple, `typst compile totale.typ out.pdf --input chap=reg` pour avoir les exos en langages réguliers.
 #let orga = (
-  "sup": ( "imp", "func", "seq", "ind", "tree", "graph", "prop", "db", "algo" ),
+  "sup": (  "seq", "func", "ind", "tree", "graph", "prop", "db", "algo" ),
   "spe": ( "lang", "reg", "gram", "graph2", "game", "data", "system", "proba", "deduc", "class", "calc"),
 )
 #let template(body) = {
@@ -67,9 +67,8 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 
 #parbreak()
 
-#include "sup/imp.typ"
-#include "sup/func.typ"
 #include "sup/seq.typ"
+#include "sup/func.typ"
 #include "sup/ind.typ"
 #include "sup/tree.typ"
 #include "sup/graph.typ"

@@ -231,6 +231,37 @@ Et les règles $R'$ sont:
 6. Proposer un langage régulier $K$ tel que $K inter D_n = L(G)$. Conclure la preuve du théorème.
 
 
+== Grammaire sur une lettre
+
+On cherche à montrer que pour $L$ un langage sur $Sigma = {a}$, on a que $L$ est régulier ssi $L$ est hors-contexte.
+
+1. Montrer que si $L$ est régulier alors $L$ est hors-contexte.
+
+On suppose que $G = (Gamma, S, R)$ est une grammaire hors-contexte reconnaissant $L \\ {epsilon}$. On admet que $G$ peut etre supposé telle que $forall (X -> w) in R$, $|w|>1$ ou $w in Sigma$ et il existe $u in Sigma^*$ tel que $w scripts(=>)^* u$.
+
+2. Montrer que si $S scripts(=>)^* w in (Sigma union Gamma)^*$, alors $w scripts(=>)^* u in Sigma^*$ avec $|u| >= |w|$
+3. On pose $C = (max_((X -> alpha) in R) |alpha|)^(|Gamma| + 1).$ Montrer que si $w in L$ avec $|w| > C$, alors il existe $u,v, u', v', w' in Sigma^*$ et $A in Gamma$ tel que $S scripts(=>)^* u A v$ et $A scripts(=>)^* u' A v'$ et $A scripts(=>)^* w'$ telle que $w = u u' w' v' v$, avec $|u' w' v'| <= C$ et $|u'v'| > 0.$ _Ind: On pourra montrer qu'une branche d'un arbre de dérivation de $w$ possède 2 fois le meme symbole non terminaux._
+4. Montrer qu’il existe $B in NN^*$ tel que, pour tout $a^p in L$, il existe $r,s <= B$ et des entiers $q_1, dots, q_s <= B$ tels que $p = r + n_1 q_1 + dots + n_s q_s$ pour certains $n_1, dots, n_s in NN$, et tels que
+$
+forall k_1, dots, k_s in NN,
+quad
+a^(r + k_1 q_1 + dots + k_s q_s) in L.
+$
+
+On peut admettre le lemme mathématique suivant#footnote[Non pas par difficulté, mais principalement car c'est pas de l'informatique. N'hésitez pas a essayer de le prouver!] : Soient $q_1, dots, q_s in NN^*$ et soit $d = "pgcd"(q_1, dots, q_s).$ Montrer qu’il existe un entier $C in NN$ tel que, pour tout $n >= C$,
+$ d " divise " n
+quad ==> quad
+exists k_1, dots, k_s in NN,
+quad
+n = k_1 q_1 + dots + k_s q_s.
+$
+
+5. En déduire qu'il existe $N in NN^*$ tel que pour tout $w = a^p in L$ il existe $0 <= q_w,r_w <= N$ tel que $p = m q_w + r_w$ pour un certain $m in NN$ et que pour tout $k in NN, a^(k q_w + r_w) in L \\ {epsilon}$.
+6. On pose $M = {(q_w,r_w) : w in L}$. Montrer que $M$ est fini et que $ union.big_((q,r) in M) { a^(k q + r) : k in NN} = L \\ {epsilon} $
+7. En déduire que sur $Sigma = {a}$, $L$ est régulier ssi $L$ est hors-contexte.
+
+Le _théorème de Parikh_ permet de généraliser ces résultats pour $Sigma$ de taille arbitraire, on montrant que si pour $w in Sigma = {a_1,...,a_k}$, si on note $Psi(w) = (|w|_(a_1),...,|w|_(a_k)) in NN^k$, on a que l'image d'un langage régulier ou hors-conexte est la meme par $Psi(L)$.
+
 == Sens réciproque de Ginsburg-Spanier
 
 Soit $Sigma$ un alphabet fini. Un langage $L subset.eq Sigma^*$ est dit _borné_ s'il existe $u_1,...,u_k in Sigma^+$ tels que $L subset.eq u_1^* ... u_k^*.$ Pour un tel langage, on définit son _ensemble d'exposants_ $E(L)$ par
@@ -261,6 +292,7 @@ Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) 
 2. Pour $"Supp"(p) = {i,j}$ avec $i< j$, proposer des règles de grammaire pour $H_(i,j)$ en fonction de $H_(i+1,j-1)$
 3. En déduire une grammaire $G$ tel que $E(L(G)) = E(L)$.
 4. Conclure sur le sens réciproque
+
 
 // 
 // == Théorème de Ginsburg-Spanier
@@ -344,6 +376,7 @@ Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) 
 
 // 5. TODO
 
+/*
 == Théorème de Parikh (TODO: Vérifier) #footnote[Tiré d'une preuve simplifié https://arxiv.org/pdf/2301.00047]
 
 
@@ -432,3 +465,4 @@ $
 20. Montrer que si $S subset.eq NN^k$ est semi-linéaire alors il existe un langage régulier $L$ tel que $Psi(L) = S$.
 21. En déduire que sur $Sigma = {a}$, tout langage hors-contexte est régulier.
 
+*/

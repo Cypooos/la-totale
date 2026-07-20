@@ -89,3 +89,5 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 #include "spe/class.typ"
 #include "spe/calc.typ"
 
+#include "math/g-alg.typ"
+#include "math/model.typ"

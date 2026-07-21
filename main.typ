@@ -1,10 +1,10 @@
-// imp, func, seq, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, all
+//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, all
 
 
 // Ceci permet de compiler le fichier avec chap=<chapitre> pour avoir un pdf avec 1 exos par page et que les exos du chapitre. 
 // Par exemple, `typst compile totale.typ out.pdf --input chap=reg` pour avoir les exos en langages réguliers.
 #let orga = (
-  "sup": ( "imp", "func", "seq", "ind", "tree", "graph", "prop", "db", "algo" ),
+  "sup": (  "seq", "func", "ind", "tree", "graph", "prop", "db", "algo" ),
   "spe": ( "lang", "reg", "gram", "graph2", "game", "data", "system", "proba", "deduc", "class", "calc"),
 )
 #let template(body) = {
@@ -42,7 +42,7 @@ Ce document est bourré de fautes d'orthographe, et probablement de quelques fau
 
 N'hésitez pas à m'envoyer d'autres exercices, des corrections, ou des demandes de corrigés pour certains exos. Normalement, je sais tous les faire, et je les rescanne de temps en temps. Vous pouvez me contacter à #link("mailto:la-totale@bourotte.com", [la-totale\@bourotte.com]).
 
-Lien vers le githug du document: #link("https://github.com/Cypooos/la-totale").
+Lien vers le github du document: #link("https://github.com/Cypooos/la-totale").
 Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hésitez pas à faire des push request avec d'autres exercices !
 
 *Certaines inspirations bibliographique utilisées:*
@@ -67,9 +67,9 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 
 #parbreak()
 
-#include "sup/imp.typ"
-#include "sup/func.typ"
 #include "sup/seq.typ"
+#include "sup/func.typ"
+#include "sup/ind.typ"
 #include "sup/tree.typ"
 #include "sup/graph.typ"
 #include "sup/prop.typ"
@@ -89,3 +89,5 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 #include "spe/class.typ"
 #include "spe/calc.typ"
 
+#include "math/g-alg.typ"
+#include "math/model.typ"

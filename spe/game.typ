@@ -86,7 +86,7 @@ Soit $G = (V,E)$ un graphe, on définit le jeu à deux joueurs (A)lice et (B)ob 
 4. Proposer un algorithme dans le cas ou $G$ est un arbre pour savoir qui possède une stratégie gagnante.
 5. On considère le cas ou $V subset.eq NN^2$ et $forall ((x,y),(x',y')) in E, |x-x'|+|y-y'| = 1$ avec $G$ connexe. A quelle condition sur $|V|$ est-ce que Alice possède une stratégie gagnante~? 
 
-== Exercice 2 : Jeux et automates~#footnote[Sujet fait main!]
+== Jeux et automates~#footnote[Sujet fait main!]
 
 Soit $A subset.eq NN$ un ensemble d'objectifs et $n in NN$, Alice et Bob jouent à un jeu à 2 joueurs. A tour de role, Alice et Bob, en commençant par Alice, choisissent 0 ou 1. Après $n$ itérations, le jeu s'arrête et on obtient une séquence $(u_1,...,u_n)$, avec $u_i$ le choix fait au $i$-ème tour. Alice gagne si $ sum_(1 <=i <= n) u_i times 2^(n-i) in A $
 
@@ -100,6 +100,19 @@ On pose $A = 3 NN$.
 5. Proposer un algorithme qui décide, pour un entier $n$ et un automate $cal(A)$ si Alice possède une stratégie gagnante pour l'objectif des entiers associés aux mots de $L(cal(A))$. Quelle est sa complexité?
 6. Montrer que l'on peut faire la question 5 en complexité $O(k 2^k)$ pour $k$ le nombre d'états de l'automate. 
 
+== Jeu de minorité
+
+On considère le jeu de minorité comme suit : $N$ personnes s'affrontent sur un nombre indéterminé de tours.
+À chaque tour, les personnes en vie doivent choisir secrètement entre deux camps. Quand tous les camps sont choisis, toutes les personnes du camp majoritaire sont éliminés. En cas d'égalité aucune personne n'est éliminée. Le jeu s'arrête lorsque le nombre de personnes restantes est de 1 ou 2.
+
+Pour un $N$ donné, on note $R(N) <= N$ le nombre minimal de personnes qu'il faut controller pour qu'il existe une stratégie commune à ces personnes garantissant que :
+- soit le gagnant fait partie de ce groupe
+- soit le jeu ne termine pas
+
+1. Montrer que si $N' < N$, alors $R(N') < R(N)$
+2. Proposer un algorithme polynomial en la taille de $N$ qui calcule $R(N)$ (donc polynomial en $log N$)
+3. Montrer que $R(N)$ est au plus la plus grande puissance de deux inférieur ou égale à $ceil(N\/2)$
+4. Est-ce que l'inégalité est stricte?
 
 == Jeu de Shannon
 

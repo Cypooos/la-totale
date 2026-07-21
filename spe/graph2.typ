@@ -207,7 +207,7 @@ Soit $G$ connexe planaire. On définie $f$ le nombre de face comme le nombre de 
 
 Soit $G = (S,A)$ un graphe non orienté. On dit que $G$ est un _graphe d'amis_ si pour tout $s_1,s_2 in S$ avec $s_1 != s_2$, il existe un unique $s'$ avec ${s_1,s'} in A$ et ${s_2,s'} in A$. On dit qu'un sommet $s^*$ est un _roi_ si pour tout $s in S\\{s^*}, {s,s^*} in A$.
 
-On cherche à montrer que un graphe d'amis possède toujours un roi.
+On cherche à montrer que un graphe d'amis sans $C_5$ possède toujours un roi.
 
 1. Montrer que le cycle de longueur $4$ n'est pas un graphe d'amis.
 2. Montrer que dans un graphe d'amis, toutes les arêtes font parti d'un cycle. 
@@ -217,6 +217,29 @@ On admet qu'un graphe d'amis ne possède pas de cycle de longeur $5$.
 
 4. Montrer que que si $G$ possède un cycle de longueur $>= 4$ alors $G$ n'est pas un graphe d'amis. 
 5. Montrer que tout les graphes d'amis possède un roi.
+
+_Version Complete de cet exercice sans l'hypothèse sans $C_5$ dans `math/algb-graph`_
+
+== Graphes d'amis non régulier
+
+Soit $G = (S,A)$ un graphe non orienté. On dit que $G$ est un _graphe d'amis_ si pour tout $s_1,s_2 in S$ avec $s_1 != s_2$, il existe un unique $s'$ avec ${s_1,s'} in A$ et ${s_2,s'} in A$. On dit qu'un sommet $s^*$ est un _roi_ si pour tout $s in S\\{s^*}, {s,s^*} in A$. Un graphe est dit $k$-régulier si $forall v in V, deg(v) = k$. 
+
+On cherche à montrer que un graphe d'amis non régulier possède toujours un roi.
+
+Soit $G$ un graphe d'amis.
+
+1. Montrer que $G$ est connexe et que toute arête appartient à un unique triangle.
+2. Soient $x$ et $y$ deux sommets non adjacents. Pour $u in N(x)$, on note $f(u)$ l'unique voisin commun à $u$ et $y$. Montrer que $f : N(x) --> N(y)$ est injective.
+3. Montrer que si ${x,y} in.not E$, alors $deg(x) = deg(y)$.
+On suppose d'abord $G$ non régulier. Soient $x,y$ deux sommets de différent degrée et $z$ l'unique voisin commun. Comme $deg(x) != deg(y)$, on a que $deg(z)$ est différent d'au moins un des deux, que l'on suppose sans perte de généralité etre $x$.
+
+Soit $w in.not {x,y,z}$.
+
+4. Montrer que $w in (N(x) union N(y)) inter (N(x) union N(z))$.
+5. Montrer que $w in.not N(y) in N(z)$, et en déduire que $w in N(x)$.
+6. Conclure et montrer que si $G$ n'est pas régulier, alors $G$ possède un roi.
+
+_Version Complete de cet exercice sans l'hypothèse de régularité dans `math/algb-graph`_
 
 == Graphes d'amis 2
 

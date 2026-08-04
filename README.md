@@ -4,6 +4,8 @@
 
 L’objectif est simple : rassembler un grand nombre d’exercices intéressants, pédagogiques, classiques ou originaux, pour aider à préparer des colles, des TD, des oraux, des écrits, ou simplement pour découvrir de belles idées d’informatique théorique.
 
+La dernière version "stable" du document est téléchargable [ici](https://github.com/Cypooos/la-totale/releases/latest), mais il faut garder en tete que tant que la version n'atteint pas encore les `v1.x`, toutes les versions sont a considérer comme des betas.
+
 Le document vise notamment :
 * les profs de prépa ou d'université qui veulent préparer des feuilles de TD ou des colles
 * les agrégatifs, chercheurs et étudiants qui veulent s’entrainer ou découvrir de nouvelles notions
@@ -25,7 +27,6 @@ Quand c’est possible, une note bibliographique indique l’inspiration de l’
 ## État du document
 
 Ce projet est encore a ses débuts, est incomplet, et encore imparfait.
-La dernière version "stable" du document est téléchargable [ici](https://github.com/Cypooos/la-totale/releases/latest), mais il faut garder en tete que tant que la version n'atteint pas encore les `v1.x`, toutes les versions sont a considérer comme des betas.
 
 Il contient encore de nombreuses fautes d’orthographe, des exercices non finis, et probablement quelques erreurs de logique ou de difficulté.
 À l’origine, c’est un document personnel et assez brouillon. Le but du dépôt est justement de le rendre plus propre.

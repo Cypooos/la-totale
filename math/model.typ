@@ -29,6 +29,14 @@ Soit $T$ une théorie du 1er ordre cohérente dans un langage $cal(L)$. On pose 
 3. Montrer que la théorie $T^*$ est complete.
 4. En déduire que si $T$ peut encoder Peano, alors $T^*$ n'est pas récursivement énumrable.
 
+== Cloture par ordinal interne 
+
+Soit $A$ un ensemble. Montrer qu'il existe un unique ensemble $B$ tel que $B = { x in A | x subset.eq B}$
+/*
+  - L'équation reviens à $B = P(B) sect A$ (un point-fixe de $X |-> P(X) sect A$)
+  - On peut montrer que $B$ est transitif et inclus dans $A$
+  - $B$ est en réalité le plus grand ensemble transitif inclus dans $A$
+*/
 == ZF intuitioniste et le tiers exclu
 
 On considère les axiomes de ZF en logique intuitioniste. Les axiomes de ZF ne permettent pas de prouver le tiers exclu.

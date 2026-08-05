@@ -54,6 +54,28 @@ On considère $overline(M)$ le symétrique de $M$ : c'est le graphe $(V,overline
 
 Montrer que $overline(M)$ est le graphe de Rado. On pourra considerer ${u_M : u in U} union {{v_M : v in V}} in M$.
 
+== Nains et Axiome du Choix
+
+On considère une suite de nains indéxé par $omega$, en file indienne, à la queue-le-le, à qui on va mettre des chapeaux. Le $i$-ème nain peut observer les chapeaux de tout les nains plus grand que lui (les $j > i$), mais ne peux voir ni son propre chapeau ni le chapeau des nains $j < i$. Les nains (qui peuvent utilliser l'axiome du choix de manière constructive et se mettre d'accord sur des systèmes de représentant par exemple), établissent une stratégie commune, avant que l'on distribue les chapeaux, qui sont soit blanc soit noirs. Ils vont tous en meme temps essayer de deviner la couleur de leurs chapeau, et il ne faut qu'un nombre fini d'entre eux fassent une erreur.
+
+On modélise plus sérieusemennt le jeu. Soit $C$ un ensemble de couleurs de chapeau et $(X,<)$ une relation d'ordre, on pose $N(x) = {y in X | y > x}$. Une stratégie pour les nains consistent en une série de fonction $(f_x)_(x in X)$ tel que $f_x : C^N(x) --> C$. Le nombre d'erreur d'une stratégie sur une séquence $u in C^X$, en notant $u_(>x)$ la séquence démarrant sur $x$ (exclut), est défini comme le cardinal de ${x in X | f_x (u_(>x)) != u_x}$. 
+
+
+1. Pour $u,v in {0,1}^omega$, on dit que $u tilde v$ si $exists i, forall j > i, u_j = v_j$. Montrer que c'est une relation d'équivalence.
+2. Montrer que pour $C = {0,1}$ et la relation d'ordre $(omega,<)$ les nains peuvent toujours faire un nombre fini d'erreur.
+3. Montrer que pour un $C$ quelquonque, sur $(omega, <)$ les nains peuvent toujours faire un nombre fini d'erreur.
+4. On suppose que les nains ne connaissent pas leur position dans la suite, et ne peuvent que choisir en fonction de l'infinité devant eux, sans savoir le nombre d'éléments derrière eux. On modélisera ça par le fait qu'il existe $f : C^(omega \\ {0}) --> C$ de manière à ce que tout les $(f_i)_i$ sont juste $f$ qui à translaté $u_(>x)$ en un $u_(>0)$. Montrer que les nains peuvent toujours faire un nombre fini d'erreur.
+5. Montrer que pour tout ordinal $alpha$, les nains ont une stratégie gagnante sur $(alpha,<)$ avec $C$ quelquonque. (?)
+6. On suppose que $X$ soit un ordre total avec un minimum. Est-ce que les nains ont toujours une stratégie avec un nombre fini d'erreurs?
+
+On suppose maintenant que les nains parlent à tour de role : d'abord le nain 0, puis 1 etc..., en sachant que le $i$-ème nain entend ce que dit tout les nains d'avant.
+
+7. Proposer une modélisation du problème dans ce cas et montrer que les nains peuvent toujours atteindre 1 erreur pour $C = {0,1}$. Et pour $C$ quelquonque?
+
+On considère maintenant une famille de nains indéxé sur $RR$, et une suite $(epsilon_x)_(x in RR)$. Le $x$-ème nain (pour $x in RR$) ne peux que voir les chapeaux des nains dans $]x-epsilon_x ; x+epsilon_x [space \\ {x}$. 
+
+8. Montrer que les nains peuvent ne faire qu'un nombre dénombrable d'erreurs.
+
 
 == Ordinal de Hartogs
 

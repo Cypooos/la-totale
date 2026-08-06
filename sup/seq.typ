@@ -22,8 +22,8 @@
 - Définition d'une pile. Implémentation d'une pile par tableau dynamique.
 - Définition d'une file. Implémentation par une liste doublement chainé, et par un tableau dynamique.
 - Table de Hachage, tableau associatif.
-- Hachage: Collision, densité, structure hachable (HP)  
-- Sérialisation d'un tableau ou d'une table de hashage (ou d'un arbre). 
+- Hachage: Collision, densité, structure hachable (HP)
+- Sérialisation d'un tableau ou d'une table de hashage (ou d'un arbre).
 
 == Complexité des opérations de bases
 
@@ -34,8 +34,8 @@ Pour chacune des structure entre tableau, liste, liste doublement chainée, tabl
   3. Ajouter un élément à la fin.
   #colbreak()
   4. Ajouter un élément au début.
-  5. Retirer le premier élément. 
-  6. Retirer le dernier élément. 
+  5. Retirer le premier élément.
+  6. Retirer le dernier élément.
   #colbreak()
   7. Inverser l'ordre.
   8. Tester si il y a un $42$.
@@ -106,6 +106,11 @@ On cherche maintenant $s <= t <= N$ tel que $sum_(i=s)^t T[i]$ soit maximale
 
 *Question 4* On cherche maintenant à calculer le nombre de couples $(i,j)$ avec $i<j$ tel que $sum_(i=s)^t T[i]$ soit maximale. Proposer un algorithme répondant au problème.
 
+== L'unique #footnote[#link("https://www.normalesup.org/~rouvroy/post/avantlamp2i.html", "Avant la MP2I"), Clément Rouvroy]
+Soit $T$ un tableau de $n$ entiers dans lequel chaque élément apparaît exactement 2 fois sauf un, noté $e$, qui n'apparait qu'une unique fois.
+
+Donner un algorithme qui prend en entrée $T$ et qui renvoie $e$ en n'effectuant qu'un seul parcours de $T$ (c'est à dire en utilisant $T[i]$ au plus $n$ fois) et en $O(1)$ en mémoire.
+
 == Multiplication rapide de polynome#footnote[Algo 1 ENS Lyon]
 
 Ici on considère des polynômes d'entiers $ZZ[X]$. Soient $P,Q in ZZ_n [X]$, leur produit $R = P Q in ZZ_(2d) [X]$
@@ -130,14 +135,14 @@ On cherche à implémenter une structure de données pour représenter un sous-e
 
 On cherche à avoir une complexité spatiale aussi petite que possible. Attention, à partir de maintenant, on prendra en compte la taille des entiers. On rappelle qu'un entier $N$ à une taille de mémoire $log_2(N)$.
 
-2. On considère la représentation qui à $1 <= a_1 <= ... <= a_m <= n$ associe la liste 
+2. On considère la représentation qui à $1 <= a_1 <= ... <= a_m <= n$ associe la liste
 $ [a_1, a_2-a_1, a_3-a_2,...,a_m-a_(m-1)] $
 Montrer que cette représentation est en $O(n)$ de mémoire.
 3. Implémenter les fonctions `add` et `del` pour cette représentation. Quels sont les complexités~?
 4. Proposer une implementation tel que `add` et `del` soient en $O(1)$ en complexité, mais que la structure soit toujours en $O(N)$ d'espace. La fonction `create` peut-être en $O(N)$. //_Ind: On pourra essayer d'utiliser des tableaux de booléens_
 5. Peut-on faire mieux en complexité spatiale que $O(N)$~?
 
-== Inverser une liste sans toucher aux pointeurs 
+== Inverser une liste sans toucher aux pointeurs
 
 On considère le type suivant d'une liste en C :
 ```c

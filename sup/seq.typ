@@ -42,6 +42,19 @@ Pour chacune des structure entre tableau, liste, liste doublement chainée, tabl
   9. Insérer un élément au milleu.
 ]
 
+== Nombre de 1
+
+Ecrire une fonction C ```c int get_nb_1(int nb)``` telle que ```c get_nb_1(x)``` renvoie le nombre de 1 dans l'écriture binaire de $x$. Quel est la complexité de la fonction?
+
+== Flottant et mantisse
+Proposer une fonction $C$ qui calcule la mantisse et une autre qui calcule l'exposant d'un nombre flottant donné en argument. On pourra cast le nombre flottant dans un entier.
+ 
+== Nombre d'amstrong#footnote[Informatique MP2I-MPI Tout-en-un]
+
+On dit que $n in NN$ est un _nombre d'amstrong de première espèce_ si, pour $p$ le nombre de chiffre de $n$ en base $10$, on a que $n$ est égal à la somme des puissances $p$-ème de ses chiffres en base 10.
+
+Proposer un code C qui prend un $n$ et qui calcule tout les nombres d'amstrong $<= n$. Quel est sa complexité?
+
 == Merge de liste
 Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule la liste trié des éléments contenue dans $L_1$ et $L_2$.
 
@@ -50,6 +63,16 @@ Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule 
 Proposer un algorithme qui prend un tableau d'entiers $T$ de longueur $N$ et qui en $O(n)$ renvoie $sum_(0<=j<i<n) T[i]-T[j]$
 
 _On peut facilement transformer cet exercice en un autre en changeant la formule_
+
+== Base $-2$#footnote[Informatique MP2I-MPI Tout-en-un]
+
+On dit qu'un nombre $n$ est écrivable en base $-2$ s'il existe une suite finie $a_0,...,a_m$ avec $forall i <= m, a_i in {0,1}$ telle que
+$ n = sum_(i = 0)^m a_i times (-2)^(i) $
+Dans ce cas, la suite fini $a_0,...,a_m$ sera appellée la _représentation_ de $n$.
+
+1. Quelle est la valeur représenté par $110101$ en base $-2$ ?
+2. Proposer un code qui prend en entrée une liste représentant un entier en base -2 et qui renvoie ça valeure.
+3. Proposer un algorithme qui prend un entier relatif $k in ZZ$ et qui renvoie une liste le représentant si cela existe.
 
 == Permutation suivante
 On représente une permutation $sigma$ comme un tableau $T$ de longueur $n$ tel que $forall i<N, T[i] = sigma(i)$

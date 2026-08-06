@@ -8,6 +8,7 @@
 - Savoir coder en C
 - Différence entre compilé et interprété
 - Représentation des entiers: signé, non signé, bytes/bits
+- XOR, $(ZZ\/(2ZZ))^k$ comme groupe (HP)
 - Représentation des flottants: signe, mantisse, exposant
 - Preuve sur programme. Invariant de boucle. Correction partielle (vrai si termine), correction totale (vrai et termine)
 - Complexité~: pire cas, cas moyen, coût amorti
@@ -189,6 +190,16 @@ Remarquer que le pointeur "next" pourrait être n'importe quel maillon de la lis
 5. On cherche maintenant à calculer le nombre de maillons d'une liste cyclique. Proposer un algorithme en $O(n)$ de temps et $O(1)$ de mémoire.
 
 _Info bonus:_ Sachez que l'on peut définir de telle listes en OCaml~! Le code suivant définit la liste de la question 2~: ```ml let q2 = 1 :: (let rec l = 2 :: 3 :: l in l) ```
+
+== Trouver un élément non multiple
+
+Soit $T$ un tableau d'entier positif de taille $N$ représenté en $C$. On suppose qu'un unique élément est contenu un nombre impair de fois, tout les autres sont contenus un nombre pair.
+
+1. Donner un algorithme qui calcule cet élément en $O(N)$ et $O(1)$ mémoire. _Ind: penser à l'opération de XOR._
+
+Soit $p in PP$ un nombre premier. On suppose que toutes les entiers ont un nombre d'occurences dans $T$ qui sont un multiple de $p$, sauf un. 
+
+3. Trouver un algorithme en $O(N)$ qui trouve cet entier. 
 
 == Tableaux auto-référents
 

@@ -23,8 +23,8 @@
 - Définition d'une pile. Implémentation d'une pile par tableau dynamique.
 - Définition d'une file. Implémentation par une liste doublement chainé, et par un tableau dynamique.
 - Table de Hachage, tableau associatif.
-- Hachage: Collision, densité, structure hachable (HP)  
-- Sérialisation d'un tableau ou d'une table de hashage (ou d'un arbre). 
+- Hachage: Collision, densité, structure hachable (HP)
+- Sérialisation d'un tableau ou d'une table de hashage (ou d'un arbre).
 
 == Complexité des opérations de bases
 
@@ -35,8 +35,8 @@ Pour chacune des structure entre tableau, liste, liste doublement chainée, tabl
   3. Ajouter un élément à la fin.
   #colbreak()
   4. Ajouter un élément au début.
-  5. Retirer le premier élément. 
-  6. Retirer le dernier élément. 
+  5. Retirer le premier élément.
+  6. Retirer le dernier élément.
   #colbreak()
   7. Inverser l'ordre.
   8. Tester si il y a un $42$.
@@ -130,6 +130,11 @@ On cherche maintenant $s <= t <= N$ tel que $sum_(i=s)^t T[i]$ soit maximale
 
 *Question 4* On cherche maintenant à calculer le nombre de couples $(i,j)$ avec $i<j$ tel que $sum_(i=s)^t T[i]$ soit maximale. Proposer un algorithme répondant au problème.
 
+== L'unique #footnote[#link("https://www.normalesup.org/~rouvroy/post/avantlamp2i.html", "Avant la MP2I"), Clément Rouvroy]
+Soit $T$ un tableau de $n$ entiers dans lequel chaque élément apparaît exactement 2 fois sauf un, noté $e$, qui n'apparait qu'une unique fois.
+
+Donner un algorithme qui prend en entrée $T$ et qui renvoie $e$ en n'effectuant qu'un seul parcours de $T$ (c'est à dire en utilisant $T[i]$ au plus $n$ fois) et en $O(1)$ en mémoire.
+
 == Multiplication rapide de polynome#footnote[Algo 1 ENS Lyon]
 
 Ici on considère des polynômes d'entiers $ZZ[X]$. Soient $P,Q in ZZ_n [X]$, leur produit $R = P Q in ZZ_(2d) [X]$
@@ -154,14 +159,14 @@ On cherche à implémenter une structure de données pour représenter un sous-e
 
 On cherche à avoir une complexité spatiale aussi petite que possible. Attention, à partir de maintenant, on prendra en compte la taille des entiers. On rappelle qu'un entier $N$ à une taille de mémoire $log_2(N)$.
 
-2. On considère la représentation qui à $1 <= a_1 <= ... <= a_m <= n$ associe la liste 
+2. On considère la représentation qui à $1 <= a_1 <= ... <= a_m <= n$ associe la liste
 $ [a_1, a_2-a_1, a_3-a_2,...,a_m-a_(m-1)] $
 Montrer que cette représentation est en $O(n)$ de mémoire.
 3. Implémenter les fonctions `add` et `del` pour cette représentation. Quels sont les complexités~?
 4. Proposer une implementation tel que `add` et `del` soient en $O(1)$ en complexité, mais que la structure soit toujours en $O(N)$ d'espace. La fonction `create` peut-être en $O(N)$. //_Ind: On pourra essayer d'utiliser des tableaux de booléens_
 5. Peut-on faire mieux en complexité spatiale que $O(N)$~?
 
-== Inverser une liste sans toucher aux pointeurs 
+== Inverser une liste sans toucher aux pointeurs
 
 On considère le type suivant d'une liste en C :
 ```c
@@ -218,109 +223,3 @@ On dit que $T$ est auto-référent si $H_T = T$. Par exemple, $[1,2,1,0]$ est un
 *Question 5* Montrer que pour tout $n > 6$ il existe un tableau autoréférent de longueur $n$
 
 *Question 6* ($*$) Montrer qu'il est unique
-
-#pagebreak()
-= *MP2I: Inductions & ordres #footnote[Maxime Bridoux, MP2I]*
-== Cours 
-- Définition d'une relation d'équivalence.
-- Définition d'une relation d'ordre, ordre total = bon ordre.
-- Minimum, éléments comparables, incomparables, chaine, antichaine.
-- Les deux définitions d'un ordre bien fondé, et la démonstration de leur équivalence.
-- Préordre, préordre bien fondé = WQO (HP) 
-- Montrer que $(NN, <=)$ est bien fondé.
-- Ordre lexicographique, ordre produit. Démonstration que si $A,B$ sont bien ordonné, alors $A times B$ l'est aussi pour l'ordre produit et l'ordre lexicographique
-- Qu'est-ce qu'un ensemble inductif~?
-
-== Des ordres
-Les ordres suivant sont-ils bien fondés~?
-#columns(3)[
-  1. $<=$ sur $ZZ$
-  2. $<=$ sur $RR^+$
-  #colbreak()
-  3. $<=$ sur $QQ^+$
-  4. $scripts(<=)_"lex"$ sur $NN^2$
-  #colbreak()
-  5. $subset.eq$ sur $cal(P)(NN)$
-  6. $subset.eq$ sur $cal(P)_"finie" (NN)$
-]
-
-== Des ensembles inductifs
-Proposer une définition inductive de chacun des ensemble suivants
-#columns(3)[
-  1. $2NN$
-  2. Les mots sur un alphabet $Sigma$ fixé
-  #colbreak()
-  3. Les puissances de 2
-  4. ${ (x,y) in NN^2 : x < y}$
-  #colbreak()
-  5. ${ (x,y) in NN^2 : 2x = y}$
-  6. Les listes d'entiers contenant un `42` 
-]
-
-== Soustraction entière
-La soustraction entière est la fonction $"sub" : NN^2 --> NN$ définit par:
-$
-cases(
-  "sub"(m, 0) = m,
-  "sub"(0, n) = 0,
-  "sub"(m, n) = "sub"(m − 1, n − 1),
-)
-$
-
-1. Montrer que sub est bien définie.
-2. Montrer que $forall m,n in NN, "sub"(m,n) <= m$
-
-== Ordre sur les mots
-Étant donné un ensemble alphabet $Sigma$, on pose pour $n in NN^*$ l'ensemble
-$ Sigma^n = underbrace(Sigma times ... times Sigma,n "fois") $
-des mots d’exactement n lettres. L’ensemble $Sigma^* = union.big_(n in NN) Sigma^n$ est alors l’ensemble de tous les mots sur Σ.
-
-1. Soit un ensemble ordonné $(Sigma, <=)$ tel que $Sigma = {a,b,c}$ et $a < b < c$. Donner une définition de l’ordre lexicographique $scripts(<=)_"lex"$ sur $Sigma^3$ puis l’utiliser pour ordonner les mots aba, baa, caa, aaa, abc, bbb.
-2. Montrer que l’ordre lexicographique $scripts(<=)_"lex"$ sur $Sigma^n$ est une relation d’ordre bien fondée.
-3. Est-ce que l’ordre lexicographique $scripts(<=)_"lex"$ est une relation d’ordre bien fondée sur $Sigma^*$~?
-4. Montrer que l’ordre $scripts(<=)_m$ sur $Sigma^*$ définit par
-$ u scripts(<=)_m v "si et seulement si" |u| < |v| "ou" (|u| = |v| "et" u scripts(<=)_"lex" v) $
-  est une relation d’ordre totale sur $Sigma^*$. Est-ce que $scripts(<=)_m$ est bien fondé~?
-5. En déduire que l’ensemble $Sigma^*$ est dénombrable.
-
-== Tri aléatoire
-On considère l'algorithme de tri suivant:
-- Tant qu'il existe $i<j$ tel que $T[i]>T[j]$, on échange $T[i]$ et $T[j]$
-1. Montrer que cet algorithme termine toujours
-2. Quel est sa complexité dans le pire des cas~?
-
-== Langage de Dyck
-On se fixe un ensemble fini de lettres $Sigma = {a,b}$. On déifni un _mot_ comme étant une suite finie de lettres de $Sigma$. Le mot vide (la suite vide) sera noté $epsilon$, et la concaténation de deux mots $u,v$ sera noté par la concaténation $u v$. On définit par induction l'ensemble $A$ par:
-- $epsilon in A$
-- Si $u in A$, alors $a u b in A$
-- Si $u,v in A$, alors $u v in A$
-
-1. Montrer que tous les mots dans $A$ ont autant de $a$ que de $b$
-2. Monter que l'ensemble de ces règles sont ambigues. Proposer sans justifier une verison non-ambigue (et faite la vérifier par la colleuse avant de passer à la suite).
-3. Soit $w_1 ... w_n$ un mot de A, montrer qu'il existe un $i<=n$ tel que  pour tout $j < i$, le mot $w_1...w_j$ possède strictement plus de $a$ que de $b$ et que le mot $w_1... w_i$ possède autant de $a$ que de $b$
-4. Montrer que votre définition de la question 2 est équivalente à la définition question 1.
-
-== Système MIU
-
-On pose $Sigma = {M,I,U}$ et on définit inductivement l'ensemble $S subset.eq Sigma^*$ par les règles suivantes:
-- $M I in S$
-- Si $x in Sigma^*$ et $x I in S$ alors $x I U in S$
-- Si $x in Sigma^*$ et $M x in S$ alors $M x x in S$
-- Si $x,y in Sigma^*$ et $x I I I y in S$ alors $x U y in S$
-- Si $x,y in Sigma^*$ et $x U U y in S$ alors $x U y in S$
-
-Ce système est extrait du livre « Gödel, Escher, Bach » de Douglas Hofstadter, sous la forme du puzzle suivant: est-ce que la chaîne MU appartient au système MIU~?
-
-1. Montrer que $M U I U in S$
-2. Donner l'ensemble des chaines de $S$ que l'on peut dériver en appliquant au plus 3 règles.
-3. Démontrer que toute chaine $s in S$ commence par un $M$
-4. Démontrer que pour toute chaine $s in S$, son nombre de $|s|_M$ de $M$ est exactement 1
-5. Démontrer que pour tout chaine $s in S$, son nombre de $|s|_I$ de $I$ n'est jamais un multiple de $3$. Conclure.
-
-== Sous-ordres indénombrable de $(cal(P)(NN), subset.eq)$
-1. Est-ce qu'il existe $A subset.eq cal(P)(NN)$ indénombrable tel que tous les éléments de $A$ sont incomparable deux à deux pour $subset.eq$~?
-2. *($*$)* Est-ce qu'il existe $T subset.eq cal(P)(NN)$ indénombrable tel que $(T, subset.eq)$ soit une relation d'ordre totale~?
-3. Montrer qu'il existe une infinité indénombrable d'ordre totaux sur $NN$ non isomorphes les uns aux autres.
-
-
-// TODO: https://mail.google.com/mail/u/1/#search/Induction/FMfcgzQfBZcMLdpQzDCxddxpTcPwfwph

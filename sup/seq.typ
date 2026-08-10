@@ -75,6 +75,21 @@ Dans ce cas, la suite fini $a_0,...,a_m$ sera appellée la _représentation_ de 
 2. Proposer un code qui prend en entrée une liste représentant un entier en base -2 et qui renvoie ça valeure.
 3. Proposer un algorithme qui prend un entier relatif $k in ZZ$ et qui renvoie une liste le représentant si cela existe.
 
+== Complexité de l'incrémentation itérée
+
+On représente un entier $n in NN$ par un tableaux de booléens, tel que $T[i]$ soit ```c true``` ssi le $i$-ème bit de $n$ est un 1 en binaire (en commençant par le bit de poid faible). Par example 7=1+2+4 donne $["true","true","false","true"]$
+
+1. Donner le code d'une fonction ```c void incremente(int* t, int N);``` qui prend en entrée un tableau `t` de longeur `N` et qui lui ajoute 1. Dans le cas ou l'entrée vaux $2^n-1$, on renverra $0$ (ie. on ajoute 1 avec overflow). Quel est la complexité de la fonction en fonction de l'entier représenté ?
+2. Quel est la complexité de la fonction suivante en fonction de l'entier représenté par `t` et de `k` ?
+#align(center)[#rect[
+```c
+void add(int t, int N, int k) {
+  for (int i=0; i < k; i++) {
+    incremente(t,N);
+  }
+}
+```]]
+
 == Permutation suivante
 On représente une permutation $sigma$ comme un tableau $T$ de longueur $n$ tel que $forall i<N, T[i] = sigma(i)$
 

@@ -56,6 +56,14 @@ On dit que $n in NN$ est un _nombre d'amstrong de première espèce_ si, pour $p
 
 Proposer un code C qui prend un $n$ et qui calcule tout les nombres d'amstrong $<= n$. Quel est sa complexité?
 
+== Sérialisation de structure
+
+On rapelle qu'un type `t` est _sérialisable_ s'il existe une fonction pour encoder l'objet dans un flux binaire, c'est-à-dire qu'il existe 2 fonctions ```c char *to_bytes(t obj);``` et ```c t from_bytes(char *flux);``` tel que ```c from_bytes(to_bytes(t))``` vaux la meme chose que `t`.
+
+1. Proposer une fonction de sérialisation pour les types ```c int```, ```c float``` et ```c char[45]```
+2. Est-ce possible de sérialiser un ```c char*``` ? et si l'on sait qu'il encode un string ?
+3. Proposer un moyen de sérialiser une pile d'objets sérialisable.
+
 == Merge de liste
 Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule la liste trié des éléments contenue dans $L_1$ et $L_2$.
 

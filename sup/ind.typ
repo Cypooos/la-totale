@@ -143,7 +143,7 @@ On pose $Sigma = {M,I,U}$ et on définit inductivement l'ensemble $S subset.eq S
 - Si $x in Sigma^*$ et $x I in S$ alors $x I U in S$
 - Si $x in Sigma^*$ et $M x in S$ alors $M x x in S$
 - Si $x,y in Sigma^*$ et $x I I I y in S$ alors $x U y in S$
-- Si $x,y in Sigma^*$ et $x U U y in S$ alors $x U y in S$
+- Si $x,y in Sigma^*$ et $x U U y in S$ alors $x y in S$
 
 Ce système est extrait du livre « Gödel, Escher, Bach » de Douglas Hofstadter, sous la forme du puzzle suivant: est-ce que la chaîne MU appartient au système MIU~?
 

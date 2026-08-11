@@ -146,6 +146,13 @@ On cherche à faire un algorithme efficace aussi dans le cadre de matrice trié.
 
 *Question 5* Donner le code d'une fonction $C$ qui en $O(n)$ trouve un minimum local dans une matrice $n times n$
 
+== Exponentiation rapide
+
+Soit $x in RR$ et $n in NN$. Si $n$ est pair, on peut écrire $n = 2k$ et on a $x^n = x^k times x^k$. Si $n$ est impair, on peut écrire $n = 2k +1$ et on a $x^n = x^(k) times x^(k) times x$.
+
+1. En déduire un algorithme récurisf en $C$ pour calculer $x^n$ qui n'effectue que $O(log n)$ multiplications.
+2. Quel est le nombre minimal de multiplications nécéssaire pour calculer $x^n$ en fonction de $n$ ? Proposer un algorithme qui calcule le nombre minimal de multiplication nécéssaire en fonction de $n$.
+
 == Tableau cumulatif
 
 

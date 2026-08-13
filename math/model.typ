@@ -106,3 +106,19 @@ Un ensemble est dit calculable lorsque sa fonction caractéristique est calculab
 2. Montrer que si $alpha$ est calculable, alors $alpha+1$ est calculable. En déduire que $omega_1^"CK"$ n'est pas un ordinal successeur.
 3. Montrer que si $beta$ est un ordinal calculable et $alpha<beta$, alors $alpha$ est calculable.
 4. Montrer que $omega_1^"CK"$ est un ordinal dénombrable, mais qu'il n'est pas calculable.
+
+== Forcing pt 1, algèbre de Boole complète
+
+Soit $(PP,<=)$ une relation d'ordre. On appelera les éléments de $PP$ les _conditions de forcing_, et on dira que $q$ est une condition _plus forte_ que $p$ si $q <= p$. On dira que $p$ est _compatible_ avec $q$ (noté $p || q$) s'il existe $r <= p,q$. Sinon, on dira que $p$ est incompatible avec $q$ (que l'on notera $p bot q$).
+
+On suppose que $(PP,<=)$ respecte :
+- Il existe $bold(1) in PP$ tel que $bold(1)$ soit une _condition maximale_ (i.e. $forall x, x <= bold(1)$)
+- $PP$ est _séparatif_, c'est à dire que pour tout $p lt.eq.not q$ il existe $r <= p$ tel que $r bot q$. 
+
+Poyur $U subset.eq PP$, on pose $arrow.b U = {p in PP | exists u in U, p <= u}$. On défini l'ensemble des ouverts $ cal(O)(PP) := { U subset.eq PP | arrow.b U = U } = {U subset.eq PP | forall p in U, forall q <= p, q in U} $
+
+1. Montrer que $(cal(O)(U),subset.eq)$ forme un lattice complet (i.e. possèdes des sup et inf de taille arbitraire)
+2. Pour $U, V in cal(O)(U)$, on pose 
+
+== Forcing pt 2, $PP$-noms
+

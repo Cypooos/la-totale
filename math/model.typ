@@ -37,6 +37,20 @@ Soit $A$ un ensemble. Montrer qu'il existe un unique ensemble $B$ tel que $B = {
   - On peut montrer que $B$ est transitif et inclus dans $A$
   - $B$ est en réalité le plus grand ensemble transitif inclus dans $A$
 */
+
+== Fonctions à valeurs partout
+
+1. Montrer qu'il existe une fonction $f : RR --> RR$ telle que $f$ prends toutes les valeurs sur tout les intervalles (i.e. $forall a < b, f([a;b]) = RR$) 
+
+2. Montrer qu'il existe une fonction $f : QQ --> QQ$ telle que $f$ prends toutes les valeurs sur tout les intervalles (i.e. $forall a < b, f([a;b] inter QQ) = QQ$) 
+
+== Fonctions périodiques bizarres
+
+1. Montrer qu'il existe $f,g : RR --> RR$ tout deux périodiques telle que $forall x in RR, f(x) + g(x) = x$. _On pourra considérer une base de $RR$ comme $QQ$-espace vectoriel._
+2. Montrer que pour tout polynome $P in RR[X]$ de degrée $n$ il existe $f_1,...,f_n : RR --> RR$ toutes périodiques telles que $forall x in RR, sum_i f_i(x) = P(x)$.
+3. On pose $Delta_a (f) := x |-> f(x) - f(x-a)$. Montrer que $exp$ ne peut pas etre écrite comme somme finie de fonctions périodiques.
+
+
 == ZF intuitioniste et le tiers exclu
 
 On considère les axiomes de ZF en logique intuitioniste. Les axiomes de ZF ne permettent pas de prouver le tiers exclu.

@@ -90,14 +90,14 @@ On définit l'ordre $prec.eq$ comme étant l'ordre lexicographique concu à part
 2. Montrer que l'ordre $subset.eq.sq$ est bien fondé.
 3. Est-ce que l'ordre $prec.eq$ est toujours bien fondé?
 
-Pour $L$ un langage sur $Sigma$, on définit $min L = {u in L | forall v in L, not v prec.eq u}$
+Pour $L$ un langage sur $Sigma$, on définit $min L = {u in L | not space exists v in L, v != u and v prec.eq u}$
 
-4. On pose $Sigma = {a,b,c}$ avec $a <= b$ et $c$ incomparable à $b$ et $c$. Donner $min { "abb", "ba", "ca", "cba", "ac" }$
+4. On pose $Sigma = {a,b,c}$ avec $a <= b$ et $c$ incomparable à $a$ et $b$. Donner $min { "abb", "ba", "ca", "cba", "ac" }$
 5. Montrer que si $L$  est un langage régulier, alors $min L$ l'est aussi.
 
 == Automates à sauts#footnote[Oral Mines-Télécom 2024, https://beos.prepas.org/sujet.php~?id=8151]
 
-Soit $cal(A)$ un automate à un seul éta initial $q_"init"$. On note $Q$ l'ensemble des sommets $R = Q times Sigma^* times Q$ les transitions, $F$ les états finaux.
+Soit $cal(A)$ un automate à un seul éta initial $q_"init"$. On note $Q$ l'ensemble des sommets, $R subset.eq Q times (Sigma union {epsilon}) times Q$ les transitions, $F$ les états finaux.
 
 Soient $u,v,u',v' in Sigma^*$, $a in Sigma union {epsilon}$ et $(q_1, q_2) in Q^2$. On pose la relation $(u, q_1, a v) arrow.cw.half (u', q_2, v')$ valable uniquement si $(q_1, a, q_2) in R and u v = u' v'$
 
@@ -118,9 +118,9 @@ On note $"Perm"(L) = {u in Sigma^* | exists v in L, u "est une permutation des l
 
 On considère un automate $cal(A)$ pas forcément déterministe muni d'une fonction de cout $c : delta --> RR$ sur les transitions. Le cout d'un chemin est la somme des couts de chaque transition. Soit $u$ un mot accepté par l'automate, on définit son cout $c(u)$ comme le cout minimal d'un chemin acceptant $u$, si c'est bien définit.
 
-Soit $C in RR$, on pose $L(cal(A))_C = {u in L | c(u) = C }$
+Soit $C in RR$, on pose $L(cal(A))_C = {u in L(cal(A)) | c(u) = C }$
 
-1. Montrer que $c(u)$ est bien définit dans un automate sans $epsilon$-transition. On se place maintenant dans ce contexte.
+1. Montrer que $c(u)$ est bien défini dans un automate sans $epsilon$-transition. On se place maintenant dans ce contexte.
 2. Donner un automate pondéré $cal(A)$ tel que $L(cal(A))_C = {a^n b^n : n in NN}$ pour un certain $C$
 3. Montrer que si $c : delta --> RR^+$ est positive, alors pour tout $C$, $L(cal(A))_C$ est un langage régulier.
 4. Toujours si $c : delta --> RR^+$, proposer un algorithme qui renvoie un des plus petits mots en longueur $u in L(cal(A))_C$. Pouvez-vous trouver une heuristique admissible et utiliser l'algorithme $A^*$~?
@@ -184,14 +184,14 @@ Soit $L$ un langage sur un alphabet $Sigma$. On définit $R(L) = { x y : y x in 
 
 1.  Montrer que $R(R(L)) = R(L)$
 
-Soit $cal(A) = (Sigma, Q, q_"init", delta, F)$ un automate déterministe complet, pour $q_1,q_2 in Q$, on pose $L_(q_1,q_2) = {w : delta^*(q_1,w) = q_f}$ (autrement dit, l'ensemble des mots étiquetant un chemin de $q_1$ à $q_2$).
+Soit $cal(A) = (Sigma, Q, q_"init", delta, F)$ un automate déterministe complet, pour $q_1,q_2 in Q$, on pose $L_(q_1,q_2) = {w : delta^*(q_1,w) = q_2}$ (autrement dit, l'ensemble des mots étiquetant un chemin de $q_1$ à $q_2$).
 
 2. Montrer que pour tout $q_1,q_2 in Q$, on a que $L_(q_1,q_2)$ est régulier.
 3. Montrer que si $L$ est un langage régulier, alors $R(L)$ aussi.
 
 == Langage entrelacé
 
-Soient $Sigma$ un alphabet et $u,v in Sigma^*$ avec $|u| = m_u$ et $|v| = m_v$. Pour $w = w_1...w_n in Sigma^*$ un mot, on dit que c'est un _entrelacement_ de $u$ et $v$ s'il existe $phi_u : [| 1 ; m_u|] --> [|1 ;n|]$ et $phi_v : [| 1 ; m_v|] --> [|1 ;n|]$ strictement croissantes telles que $phi_u, phi_v$ sont à image disjointes avec $u = w_(phi_u (1)) ... w_(phi_u (m_u))$ et $v = w_(phi_v (1)) ... w_(phi_v (m_v))$. Intuitivement, $u,v$ sont deux sous-mots disjoints de $w$. On note l'ensemble des mots qui sont des entrelacements de $u$ et $v$ par $u harpoons.lbrb v$.
+Soient $Sigma$ un alphabet et $u,v in Sigma^*$ avec $|u| = m_u$ et $|v| = m_v$. Pour $w = w_1...w_n in Sigma^*$ un mot, on dit que c'est un _entrelacement_ de $u$ et $v$ s'il existe $phi_u : [| 1 ; m_u|] --> [|1 ;n|]$ et $phi_v : [| 1 ; m_v|] --> [|1 ;n|]$ strictement croissantes telles que $phi_u, phi_v$ sont à image disjointes avec $u = w_(phi_u (1)) ... w_(phi_u (m_u))$ et $v = w_(phi_v (1)) ... w_(phi_v (m_v))$, et telles que leurs images forment une partition de $[|1 ; n|]$. Intuitivement, $w$ est obtenu en entrelaçant toutes les lettres de $u$ et $v$. On note l'ensemble des mots qui sont des entrelacements de $u$ et $v$ par $u harpoons.lbrb v$.
 
 Pour $L,L'$ deux langages on pose $ L harpoons.lbrb L' = union.big_(u in L\ v in L') u harpoons.lbrb v. $
 
@@ -213,7 +213,7 @@ On dit qu'un mot $w in Sigma^*$ est $n$-univers si tous les mots de $Sigma^n$ so
 1. Pour $Sigma = {a,b,c}$, donner un mot $2$-univers.
 2. Montrer qu'un mot $n$-univers sur un alphabet à $k$ lettres à au moins une longueur de $k^n+n-1$
 
-Soit $n >=2$ et $Sigma$ un alphabet, on pose l'automate (vu comme un graphe) dont les états sont $Q = Sigma^(n-1)$ et les transitions de la forme $alpha w -->_alpha' w alpha'$ pour tout $alpha, alpha' in Sigma, w,w' in Sigma^(n-2)$, avec quelquonques états initial et finaux (ils ne vont pas avoir d'importance).
+Soit $n >=2$ et $Sigma$ un alphabet, on pose l'automate (vu comme un graphe) dont les états sont $Q = Sigma^(n-1)$ et les transitions de la forme $alpha w -->^(alpha') w alpha'$ pour tout $alpha, alpha' in Sigma, w in Sigma^(n-2)$, avec quelquonques états initial et finaux (ils ne vont pas avoir d'importance).
 
 3. Montrer que tout graphe fortement connexe orienté tel que tout sommet possède autant d'arêtes entrante que d'arêtes sortante possède un chemin  eulérien (qui passe par toutes les aretes une et une seule fois)
 4. Montrer qu'il existe un mot $n$-univers de longueur $|Sigma|^n + n -1$
@@ -225,7 +225,7 @@ Soit $Sigma = {a,b}$
 2. Montrer que le langage des mots ayant autant de $a b$ que de $b a$ sur $Sigma$ est régulier
 
 == Régulier à une lettre
-On dit que $S subset.eq NN$ est _ultimement périodique_ si $exists N,T in NN, forall n > N, n in S <=> n + T in S$. Pour $L$ un langage régulier sur $Sigma = {a}$, on pose $S(L) := {n in NN : a^n in L }$. Réciproquement, pour $S subset.eq NN$, on pose $L(S) = {a^n : n in S}$ 
+On dit que $S subset.eq NN$ est _ultimement périodique_ si $exists N in NN, T in NN^*, forall n >= N, n in S <=> n + T in S$. Pour $L$ un langage régulier sur $Sigma = {a}$, on pose $S(L) := {n in NN : a^n in L }$. Réciproquement, pour $S subset.eq NN$, on pose $L(S) = {a^n : n in S}$ 
 
 Montrer que $L$ sur $Sigma = {a}$ est régulier si et seulement si $S(L)$ est ultimement périodique.
 
@@ -305,9 +305,9 @@ Soit $u in Sigma^*$ un mot, on pose $"Comm"(u) = {v in Sigma^* | u v = v u}$
 
 On souhaite généraliser à un langage. Pour $L$ un langage, on pose 
 $ "Comm"(L) = inter.big_(u in L) "Comm"(u) $
-Soit $L$ tel que $"Comm"(L) != emptyset$
+Soit $L$ tel que $"Comm"(L) != {epsilon}$
 
-4. Montrer que pour tout $x,y in Sigma^*$ tels que $x^k = y^s$ avec $r,s >= 1$, il existe un mot $w$ tel que $x$ et $y$ soient des puissances de $w$. _On pourra utiliser la question 2 _
+4. Montrer que pour tout $x,y in Sigma^*$ tels que $x^r = y^s$ avec $r,s >= 1$, il existe un mot $w$ tel que $x$ et $y$ soient des puissances de $w$. _On pourra utiliser la question 2 _
 // pour x^k qui commute avec y^s on a w^r = x^k et w^p = y^s. Ducoup les deux sont des puissances de w
 5. Montrer qu'il existe un mot $w$ tel que tout mot de $L$ soit une puissance de $w$
 6. En déduire que $"Comm"(L)$ est régulier.
@@ -335,21 +335,21 @@ Soit $L$ un langage, on définit sa fonction de densité $delta_L : NN --> NN $ 
 On cherche à charactériser les langages fins.
 
 1. Montrer que pour tout $k in NN, u_1, ... u_k, v_1,..., v_k, w_1,..., w_k in Sigma^*$, le langage suivant est fin:
-$ L = union.big_(i = 1)^k L( u_i v_i^* w_i) $
+$ L = union.big_(i = 1)^k {u_i v_i^n w_i : n in NN} $
 2. Soit $cal(A)$ un automate émondé reconnaissant un langage fin, soit $q_"init" -->^(a_1) .... -->^(a_n) q_f in F$ un chemin acceptant acyclique dans $cal(A)$. Montrer qu'il intersecte au plus un cycle.
-3. En déduire la réciproque de la question 3, c'est à dire que pour tout langage fin il existe des mots $u_1,...,w_k$ tel que $L$ à la forme attendue.
+3. En déduire la réciproque de la question 1, c'est à dire que pour tout langage régulier fin il existe des mots $u_1,...,u_k, v_1,...,v_k, w_1,...,w_k$ tels que $L = union.big_(i = 1)^k {u_i v_i^n w_i : n in NN}$.
 4. Proposer un algorithme qui prend en entré un automate et qui indique si $cal(A)$ reconnaît un langage fin. Quel est sa complexité~? 
 
 == Langages épars#footnote[ENS Ulm oral d'info, je ne sais plus de quand]
 
-Soit $L$ un langage, on définit sa fonction de densité $delta_L : NN --> NN $ par $delta_L (n) = |Sigma^n inter L|$. On dit qu'un langage est épars si pour tout $k$, ultimement, on a $delta_L (n) > n^k$.
+Soit $L$ un langage, on définit sa fonction de densité $delta_L : NN --> NN $ par $delta_L (n) = |Sigma^n inter L|$. On dit qu'un langage est épars s'il existe $k in NN$ tel que, pour tout $n in NN$, $delta_L(n) <= n^k$.
 
 1. Proposer une condition nécessaire et suffisante sur les automates pour que le langage reconnu soit épars
 2. Donner un algorithme testant si un automate reconnaît un langages épars ou non.
 
 == Langages rationel infinis 
 
-Un langage est dit infini s'il contient une infinité de mot. 
+Un langage est dit infini s'il contient une infinité de mots. 
 
 1. Montrer que tout langage rationnel infini est la réunion disjointe de deux langages rationnels infinis.
 2. Montrer que tout langage rationnel infini sur un alphabet $Sigma^*$ contient un sous-langage non rationnel.
@@ -364,8 +364,8 @@ Soit $A,B$ deux langages, on note $A subset.double B$ si $A subset.eq B$ et que 
 Soit $L$ un language régulier sur $Sigma = {a,b}$
 
 1. Montrer que $sqrt(L) := {u in Sigma^* | u u in L}$ est régulier.
-1. Montrer que pour tout $k in NN$, $sqrt(L)^k := {u in Sigma^* | u^k in L}$ est régulier.
-2. ($*$) Montrer que $W(L) := {u in Sigma^* | u ^(|u|) in L}$ est régulier.
+2. Montrer que pour tout $k in NN$, $sqrt[k](L) := {u in Sigma^* | u^k in L}$ est régulier.
+3. ($*$) Montrer que $W(L) := {u in Sigma^* | u ^(|u|) in L}$ est régulier.
 
 == Arithmétique de Presburger (+ déduction)
 
@@ -378,7 +378,7 @@ On pose $Sigma_n = {0,1}^n$ l'alphabet des vecteurs de taille $n$ à valeurs dan
 Un mot sur $Sigma_n$ peut être lu comme $n$ nombres binaire (un sur chaque ligne) tel que pour $w in Sigma_n^*$ l'on dénote $w[1], w[2],...,w[n]$. Par exemple, pour $w = mat(0 ;1 ;1) mat(1 ;1 ;0) mat(0 ;0 ;0) mat(1 ;0 ;1) in Sigma_3$, on aura $w[1] = 0101_2 = 5, w[2] = 1100_(2) = 12, w[3] = 1001_2=9$
 
 1. Montrer que le language $L = {w in Sigma_2^* | w[1] <= w[2]}$ est régulier.
-2. Est-ce que le langage $L = {w in Sigma_3^* | w[0] = w[1] times w[2]}$ est régulier~?
+2. Est-ce que le langage $L = {w in Sigma_3^* | w[1] = w[2] times w[3]}$ est régulier~?
 
 On définit l'arithmétique de Presburger comme les formules du premier ordre qui peuvent être construite avec le prédicat $R_+$ d'arité 3, représentant moralement $R_+(x,y,z) <=> x=y+z$, et le prédicat d'égalité. Pour cela, pour $phi$ une formule avec ${x_1,...,x_n}$ comme variable libre, on montrer par induction sur $phi$ qu'il existe un automate $cal(A)(phi)$ sur $Sigma_n$ tel que $ L(cal(A)) = {w in Sigma^*_n | phi(x_1 = w[1],...,x_n=w[n]) "est vraie"} $
 
@@ -389,11 +389,11 @@ On définit l'arithmétique de Presburger comme les formules du premier ordre qu
 
 == Cloture par sur-mot #footnote[Oral ENS Ulm, je ne sais plus quand]
 
-Soit $Sigma$ un alphabet avec $|Sigma| > 1$. On dit que $w in Sigma^*$ est un _sous-mot_ de $u in Sigma^*$ (ou que $u$ est un _sur-mot_ de $w$), noté $w prec.eq u$, s'il existe $phi : [|1,...,|w||] --> [|1,...,|u||]$ strictement croissante telle que
+Soit $Sigma$ un alphabet avec $|Sigma| > 1$. On dit que $w in Sigma^*$ est un _sous-mot_ de $u in Sigma^*$ (ou que $u$ est un _sur-mot_ de $w$), noté $w prec.eq u$, s'il existe $phi : [|1 ; |w||] --> [|1 ; |u||]$ strictement croissante telle que
   
 $ forall 0<i <= |w|, w_i = u_(phi(i)) $
 
-Pour $L$ un language, on note $hat(L) = {w in Sigma^* | exists u in L, u lt.eq w}$
+Pour $L$ un language, on note $hat(L) = {w in Sigma^* | exists u in L, u prec.eq w}$
 
 1. Montrer que si $L$ est régulier, alors $hat(L)$ aussi.
 

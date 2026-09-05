@@ -20,7 +20,7 @@
 
 *Petites questions*
 1. Donner le plus petit langage clot par préfixe contenant tous les mots qui peuvent s'écrire de la forme ${a^n b^n : n in NN}$
-2. Soient $u,v in Sigma^*$ et $a,b in NN$ tel que $u ^a = v^b$. Montrer qu'il existe $w in Sigma^*$ et $p,q in NN$ tel que $u=w^p$ et $v = w^q$
+2. Soient $u,v in Sigma^*$ et $a,b in NN^*$ tel que $u ^a = v^b$. Montrer qu'il existe $w in Sigma^*$ et $p,q in NN$ tel que $u=w^p$ et $v = w^q$
 3. Soient $x,y,z in Sigma^*$ tel que $x y = y z$ avec $x != epsilon$. Montrer qu'il existe $k in NN$ et $u, v in Sigma^*$ tels que $x = u v$, $z = v u$ et $y = (u v)^k u$. 
 4. Un mot est dit _primitif_ s’il n’est puissance d’aucun autre mot que lui-même. Montrer que pour tout mot non vide, il existe un unique mot primitif dont il est une puissance.
 
@@ -38,14 +38,14 @@ Pour les paires de $L_i, L_i'$ suivantes sur $Sigma = {a,b,c}$, expliciter les v
 6. $L_5 = {a^n b^m : n < m}, L'_5 = {b^n c^m : n < m}$
 
 == Language contenant $epsilon$
-Soit $L$ un langage, montrer que $epsilon in L <=> L subset.eq L^2$
+Soit $L != emptyset$ un langage, montrer que $epsilon in L <=> L subset.eq L^2$
 
 == Cloture de langages
-Pour chacun des langages suivant, indiquer le plus petit langage $L$ clot par étoile de kleene, préfixe, suffixe, sous-mot
+Pour chacun des langages suivants, indiquer le plus petit langage qui contient $L$ et qui est clos par étoile de Kleene, préfixe, suffixe et sous-mot.
 
 1. $L = {a^n : n in NN}$
-1. $L = {a^n b^n : n in NN}$
-1. $L = {a^n b^n : n in NN}$
+2. $L = {a^n b^n : n in NN}$
+3. $L = {a^n b^n a^n : n in NN}$
 
 == Suite de mots par récurrence 
 
@@ -65,7 +65,7 @@ Les indices sont à prendre au sens circulaire (i.e. $w[ |w|+l] = w[l]$, pour to
 
 On définit l'hypercube de dimension $n$ comme étant le graphe non orienté $G = (V,E)$ avec $V = {0,1}^n$ et $E$ l'ensemble des couples $(u,v)$ de mots qui ne diffèrent que d'un bit.
 
-1. Montrer que l’hypercube de dimension $n$ possède un cycle hamiltonien.
+1. Montrer que pour $n >= 2$, l’hypercube de dimension $n$ possède un cycle hamiltonien.
 2. En déduire qu'on peut énumérer les mots de ${0,1}^n$ ne ne modifiant à chaque fois qu'un seul mot (une telle énumération est un _code de Gray_). 
 3. Proposer un algorithme prenant un $n$ et renvoyant un code de Gray des mots de longueur $n$
 4. Proposer un algorithme (de bonne complexité) qui à un mot associe son suivant dans cette liste.
@@ -80,7 +80,7 @@ Soit $G=(V,E)$ un graphe *orienté*, on définit $L(G)$ le _graphe ligne_ de $G$
 
 2. Donner le graphe ligne du cycle à $4$ éléments et d'un arbre binaire parfait de hauteur 2.
 
-On construit alors la famille des graphes de Bruijn $("DB"(n))_(n in NN^*)$ par $"DB"(1) = ({0,1},{0,1}^2)$ et $"DB"(n+1) = L("DB"(n))$.
+On construit alors la famille des graphes de Bruijn $("DB"(n))_(n in NN^*)$ par $"DB"(1) = ({epsilon},{(epsilon, epsilon)_0, (epsilon, epsilon)_1})$ et $"DB"(n+1) = L("DB"(n))$.
 
 3. Construire $"DB"(2)$
 4. Montrer que pour tout $n in NN^*$, chaque sommet de $"DB"(n)$ à autant d’arêtes sortantes que entrantes. Combien de sommets et d'arêtes $"DB"(n)$ possède t'il~?
@@ -113,7 +113,7 @@ On dit qu'un mot $w$ est sans carré s'il n'a pas de facteur de la forme $u^2$ p
 
 1. Donner tous les mots sans carré sur $Sigma = {a,b}$
 
-On définit $overline(h) : Sigma --> Sigma^*$ par $overline(h)("a") = "ab"$ et $overline(h)("b") = "ba"$ que l'on étend en $h : Sigma^* union Sigma^NN --> Sigma^*$ par $h(w_1...w_(|w|)) = overline(h)(w_1)...overline(h)(w_(|w|))$ et $h(w_1 ... w_n ...) = overline(h)(w_1)...overline(h)(w_n)) ...$
+On définit $overline(h) : Sigma --> Sigma^*$ par $overline(h)("a") = "ab"$ et $overline(h)("b") = "ba"$ que l'on étend en $h : Sigma^* union Sigma^NN --> Sigma^* union Sigma^NN$ par $h(w_1...w_(|w|)) = overline(h)(w_1)...overline(h)(w_(|w|))$ et $h(w_1 ... w_n ...) = overline(h)(w_1)...overline(h)(w_n) ...$
 
 2. Montrer que $h^i (a)$ est un préfixe de $h^(i+1) (a)$. 
 3. Montrer que pour tout $i$, $h^i (a)$ est sans cube
@@ -130,8 +130,8 @@ Dans ce cas, on définit $lim_(n->oo) h^n (alpha)$ l'unique mot infini qui soit 
 Soit $f$ une substition primitive sur un alphabet $Sigma$ à au moins 2 lettres.
 
 3. Montrer qu'il existe $k in NN$ et $alpha in Sigma$ tel que $f^k$ soit $alpha$-prolongeable.
-  // Il existe $k in NN$ et $alpha in Sigma$ tel que $f^k$ soit $alpha$-prolongeable., car phi: alpha -> la première lettre de f(alpha) est une permutation de Sigma -> Sigma, donc existe puissance ou phi^2k = phi^k (monoide fini). 
-3. On définit $F(w)$ l'ensemble des facteurs de $w$ pour $w in Sigma^*$. Soient $L = union.big_(n in NN) F(f^(n k) (alpha))$ et $w in L$, montrer qu'il existe $B in NN^*$ tel que tout $u in L$ de longueur $>= B$ contient $w$ en facteur.
+  // Soit $phi : alpha -> $ la première lettre de $f(alpha)$. Comme $Sigma$ est fini, le graphe fonctionnel de $phi$ contient un cycle. Il existe donc $alpha$ et $k >= 1$ tels que $phi^k(alpha) = alpha$. Par primitivité, $|f^k(alpha)| >= 2$ quitte à remplacer $k$ par un multiple, donc $f^k$ est $alpha$-prolongeable. 
+4. On définit $F(w)$ l'ensemble des facteurs de $w$ pour $w in Sigma^*$. Soient $L = union.big_(n in NN) F(f^(n k) (alpha))$ et $w in L$, montrer qu'il existe $B in NN^*$ tel que tout $u in L$ de longueur $>= B$ contient $w$ en facteur.
   // la distance entre deux lettres alpha et beta dans u est bornée par un B
 // Puis chaque préfixe de longueur > B contient les deux lettres, donc si w un facteur de u de longueur <p, existe n tq w dans f^kn (a). On prend n = max pour tout w. En posant T = max f^kn (a) pour tout alpha, on a TB une borne qui marche.
 
@@ -148,10 +148,10 @@ Soit $Sigma$ un alphabet, on définit par induction la classe des langages sans 
 
 == $(*)$ Egalité pour les résiduels
 
-Soit $Sigma$ un alphabet. Donner $L$ un langage sur $Sigma$ tel que $forall t in Sigma^*, u t in L <=> v t in L$ ssi $u = v$
+Soit $Sigma$ un alphabet. Donner $L$ un langage sur $Sigma$ tel que pour tous $u,v in Sigma^*$, $(forall t in Sigma^*, u t in L <=> v t in L)$ ssi $u = v$
 
 == $(*)$ Lemme d'Higman
 
 Soit $Sigma$ un alphabet fini à $n$ lettres. On note le fait que $u$ soit un sous-mot de $v$ par $v eq.succ u$.
 
-Montrer que pour toute suite de mot infinie $(v_i)_(i in NN)$, on a l'existence de $i< j$ tel que $v_i eq.succ v_j$.
+Montrer que pour toute suite de mot infinie $(v_i)_(i in NN)$, on a l'existence de $i< j$ tel que $v_j eq.succ v_i$.

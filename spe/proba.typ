@@ -53,9 +53,9 @@ On cherche un circuit passant par tous les sommets au moins une fois et pouvant 
 
 *Question 1* On suppose que tous les aretes du graphe sont de poids différents. Montrer que le plus petit arbre couvrant est unique.
 
-*Question 2* Montrer que si $T$ est arbre couvrant de poids minimal, alors $w(T) < w^*$
+*Question 2* Montrer que si $T$ est arbre couvrant de poids minimal, alors $w(T) <= w^*$
 
-*Question 3* En déduire via un parcours de cet arbre un circuit repassant sur lui-même $c$ de poids $w(c) < 2 w^*$
+*Question 3* En déduire via un parcours de cet arbre un circuit repassant sur lui-même $c$ de poids $w(c) <= 2 w^*$
 
 *Question 4* Proposer un algorithme pour calculer un tel arbre. Quel est sa complexité~?
 
@@ -64,11 +64,11 @@ On considère le problème du voyageur de commerce (TSP)~:
 - *Entrée* Un graphe $G = (V,E)$ avec $d : V^2 --> RR_+$ une distance (respecte les axiomes de la distance).
 - *Sortie* Le poids minimum d'un cycle passant par tous les sommets. 
 
-On note $w(C)$ pour $C$ un chemin (ou arbre) son poids. On pose $T^*$ un arbre couvrant de $G'$ de poids minimal et $I$ l'ensemble des sommets impair de $T^*$. On note $w^"OPT"$ le poids optimal d'une instance du problème.
+On note $w(C)$ pour $C$ un chemin (ou arbre) son poids. On pose $T^*$ un arbre couvrant du graphe complet sur $V$ pondéré par $d$ de poids minimal et $I$ l'ensemble des sommets de degré impair de $T^*$. On note $w^"OPT"$ le poids optimal d'une instance du problème.
 
-*Question 1* Montrer que $w(T^*) < w^"OPT"$. En déduire une 2-approximation du problème en utilisant un parcours de $T^*$
+*Question 1* Montrer que $w(T^*) <= w^"OPT"$. En déduire une 2-approximation du problème en utilisant un parcours de $T^*$
 
-*Question 2* Montrer que $|I|$ est pair et en déduire que $G'$ restraint à $I$ possède un couplage de poids minimal que l'on notera $M$.
+*Question 2* Montrer que $|I|$ est pair et en déduire que le graphe complet restreint à $I$ possède un couplage parfait de poids minimal que l'on notera $M$.
 
 *Question 3* Montrer que si $G$ est un graphe connexe tel que $forall v in V, deg v in 2 NN$, alors $G$ possède un cycle eulérien (passant par toutes les aretes). En déduire que le multigraphe $T^* + M$ possède un cycle eulérien que l'on notera $h$.
 
@@ -90,7 +90,7 @@ On considère l'algorithme suivant:
 
 1. Quelle est la complexité de l'algorithme~?
 2. Montrer que l'algorithme est une $C$-approx du couplage maximum pour un certain $C$ que l'on déterminera.
-On change la boucle pour chercher un chemin alternant $P$ de longueur $2t+1$, et si on en trouve un on effectue $M <-- (M\\P) union (P\\M)$. L'algorithme donné correspond donc au cas $t=1$.
+On change la boucle pour chercher un chemin augmentant $P$ de longueur au plus $2t+1$, et si on en trouve un on effectue $M <-- (M\\P) union (P\\M)$. L'algorithme donné correspond donc au cas $t=1$.
 
 3. Donner le facteur d'approximation en fonction de $t$, et en déduire un _PTAS_, c'est-à-dire que pour tout $epsilon>0$ on a un algorithme polynomial qui renvoie une $(1-epsilon)$-approximation. On déterminera exactement la complexité en fonction de $epsilon$.
 
@@ -104,8 +104,8 @@ Soit $G = (V,E)$ un graphe. On dit que $S subset.eq V$ est _une couverture_ si p
 
 On considère un algorithme glouton qui, tant qu'il reste des arêtes au graphe, en choisit une et retire les deux sommets du graphe. On note $C$ les arêtes choisies la fin.
 
-2. Montrer que si $S$ est une couverture, alors $|S| <= 2|C|$
-3. En déduire une 2 approximation de VERTEX-COVER
+2. Montrer que si $S$ est une couverture, alors $|C| <= |S|$
+3. En déduire, en prenant comme couverture les extrémités des arêtes de $C$, une 2 approximation de VERTEX-COVER
 
 On considère l'algorithme qui, tant que le graphe possède encore des arêtes, prend un sommet de degré non nul au hasard uniformément, le choisi et retire toutes les arêtes relié à ce sommet.
 
@@ -125,7 +125,7 @@ Dans toute cette colle on supposera que toutes les entrées sont telles que $uni
 
 *Question 1* Résoudre le problème pour les instances de la forme $n in NN ;m :=n+1 ;U_i = {i,i+1}$
 
-*Question 2* Donner une $log(m)$-approximation de SET-COVER. _Ind: On fera un algorithme glouton et on pourra utiliser le fait que $1/2 + ... + 1/n <= log n$_
+*Question 2* Donner une $(1+ln(m))$-approximation de SET-COVER. _Ind: On fera un algorithme glouton et on pourra utiliser le fait que $1/2 + ... + 1/n <= ln n$_
 
 On considère maintenant que la sortie doit être un $I$ qui maximise le nombre de $x in [|1 ;m|]$ tel que $x$ appartienne à un nombre impair d'ensembles de $(U_i)_(i in I)$
 
@@ -145,7 +145,7 @@ On note $"OPT"$ le nombre minimal de boîtes nécessaires.
 
 On étudie l’algorithme `Next-Fit` suivant :
 #align(center)[#rect[#align(left)[
-  $N, T <-- 0$\
+  $N, T <-- 1, 0$\
   *Pour* $i$ allant de $1$ à $n$:\
   #h(30pt) *Si* $T + t_i <= 1$ *alors:*\
   #h(60pt) $T <-- T + t_i$\
@@ -184,7 +184,7 @@ On note $q$ le nombre de couleurs de la solution optimale et $p_i$ le nombre de 
 
 6. Montrer que
 $ p_(i+1) -1<= (1-1/q) (p_i-1) $
-7. En déduire une $log(n)$-approximation.
+7. En déduire une $(1+ln(n-1))$-approximation.
 
 == Arbres ternaires complets (+Jeux)#footnote[Exercice 100% recopié de Florian Bourse : https://www.di.ens.fr/~fbourse/enseignement/Proba.pdf]
 
@@ -197,19 +197,19 @@ On dispose d'une valuation $sigma : cal(F)(T) --> {V,F}$ qui associe à chaque f
 On considère l'algorithme probabiliste récursif qui consiste à tirer aléatoirement deux enfants $u_1$ et $u_2$, et n'évaluer $sigma$ sur $u_3$ l'enfant non choisi seulement si $sigma(u_1) != sigma(u_2)$.
 
 2. Quel type d'algorithme s'agit t'il? Montrer que l'éspérence du nombre de feuilles que l'algorithme visite et inférieure à $(8/3)^h$ pour $h$ la hauteur de $T$.
-3. En déduire un algorithme probabiliste qui, en espérance, est de complexité $O(|cal(N)(T)|^(0.9))$ (donc sous-linéaire). _On indique que $log_3 (8) approx 1,893$_
+3. En déduire un algorithme probabiliste qui, en espérance, est de complexité $O(|cal(N)(T)|^(0.9))$ (donc sous-linéaire). _On indique que $log_3 (8/3) approx 0,893$_
 
 On cherche maintenant à montrer qu'un algorithme déterministe correct doit forcément inspecter toutes les feuilles. On pose $n = |cal(F)(T)|$. Soit $F subset.eq cal(F)(T)$, on dit que $F$ _détermine_ un noeud $u in cal(N)(T)$ soit si $u in F$ ou s'il a deux fils $u_1$ et $u_2$ déterminés par $F$ tels que $sigma(u_1) = sigma(u_2)$
 
 4. Montrer que pour tout $u in cal(N)(T)$ non déterminé par $F$, on peut modifier les valeurs de $sigma$ sur $cal(F)\\ F$ de manière à changer la valeur de $sigma(u)$.
 5. On considère le jeu à deux joueurs suivant : à chacun des $n-1$ tours, Alice choisi une feuille $x in cal(F)(T)$ non déjà choisit et Bob décide si $sigma(x) = V$ ou $sigma(x) = F$. Alice gagne si l'ensemble des $n-1$ feuilles détermine la racine, et Bob gagne dans le cas contraire. Montrer que Bob dispose d'une stratégie gagnante.
-6. En déduire qu'un algorithme déterministe ne peut pas faire mieux que du $O(|cal(N)(T)|)$.
+6. En déduire qu'un algorithme déterministe correct a une complexité $Omega(|cal(N)(T)|)$ dans le pire cas.
 
 == Unique graphe infini aléatoire
 
 On dit que deux graphe $G = (V,E)$ et $G' = (V', E')$ sont isomorphe s'il existe $phi : V --> V'$ bijective tel que $(u,v) in E <=> (phi(u), phi(v)) in E'$
 
-On cherche à montré que les graphes aléatoire infinis dénombrable sont isomorphes avec probabilité 1. On considère pour cela les variables aléatoire de bernoulli $(X_(u,v))_(u,v in NN)$ indépendantes de probabilité $p$ qui représente s'il existe une arête entre $u$ et $v$. On note $G_p$ cette famille de variables aléatoire.
+On cherche à montré que les graphes aléatoire infinis dénombrable sont isomorphes avec probabilité 1. On considère pour cela les variables aléatoire de bernoulli $(X_({u,v}))_({u,v} subset.eq NN, u != v)$ indépendantes de probabilité $p$ qui représentent s'il existe une arête entre $u$ et $v$. On note $G_p$ le graphe aléatoire ainsi obtenu.
 
 *Question 1* Quelle est la probabilité que le graphe possède le chemin $(0,1,2,...,k)$~?
 
@@ -240,12 +240,14 @@ Pour $G=(V,E)$ un graphe, on note $Delta(G) = max_(v in V) deg(v)$.
 
 *Question 3* Donner un $(Delta(G)+1)$-approximation de MIS qui tourne en $O(|S|^2)$
 
-On considère l'algorithme qui, tant que le graphe possède encore des arêtes, prend un sommet de degré non nul au hasard uniformément, le choisi et retire toutes les arêtes relié à ce sommet.
+On choisit uniformément au hasard une permutation $pi$ de $V$ et on pose
+$ I_pi = {v in V : pi(v) < pi(u) " pour tout " u in N(v)}. $
 
-*Question 4* Quel est ce type d'algorithme~? Soit $G=(V,E)$ un graphe, on note $V_f$ la variable aléatoire de l'ensemble choisi à la fin de l'exécution de l'algorithme sur $G$. Montrer que
-  
-$ EE[ |V_f| ] = sum_(v in V) (deg v)/(deg v +1) $
+*Question 4* Montrer que $I_pi$ est un ensemble indépendant et que
 
+$ EE[ |I_pi| ] = sum_(v in V) 1/(deg v +1). $
+
+En déduire une $(Delta(G)+1)$-approximation en espérance de MIS.
 
 
 == Coloration aléatoire
@@ -255,7 +257,7 @@ $ EE[ |V_f| ] = sum_(v in V) (deg v)/(deg v +1) $
 Soit $k in NN$ fixé. On regarde le problème du $k$-PATH:
 #rect[
   *Entrée:* Un graphe $G=(V,E)$ non orienté\
-  *Sortie:* Est-ce qu'il existe un chemin de longueur $k$~?
+  *Sortie:* Est-ce qu'il existe un chemin à $k$ sommets, c'est-à-dire de longueur $k-1$~?
 ]
 
 On définit une $k$-coloration comme une fonction  $mu : V --> {1,..,k}$. On dit qu'un chemin est arc-en-ciel si tous les sommets sont de couleur différente.
@@ -270,17 +272,17 @@ On définit une $k$-coloration comme une fonction  $mu : V --> {1,..,k}$. On dit
 
 == K-Centres
 
-On fixe $V subset.eq RR^d$ un jeu de donnée. Pour $arrow(y) in RR^d$ on définit $d(arrow(y),V) = max_(arrow(x) in V) ||arrow(y) - arrow(x)||$. On cherche à choisir $k$ points de $V$ tel qu'ils minimise 
+On fixe $V subset.eq RR^d$ un jeu de donnée. Pour $arrow(y) in RR^d$ et $X subset.eq RR^d$ non vide on définit $d(arrow(y),X) = min_(arrow(x) in X) ||arrow(y) - arrow(x)||$. On cherche à choisir $k$ points de $V$ tel qu'ils minimise 
 $max_(v in V) d(v,X)$. On regarde donc le $k$-CENTRES suivant:
-- *Entrée:* $v_1,..., v_n subset.eq RR^d$ une liste de points finis
+- *Entrée:* $v_1,..., v_n in RR^d$ une liste finie de points
 - *Sortie*~: un $X := {x_1,...,x_k} subset.eq V$ qui minimise $max_(v in V) d(v,X) $
 
-*Question 1* On cherche à montrer que l'algorithme du cours de la question ne donne pas de bonne approximation du problème des $k$-centres. Pour cela on pose $k=2$, $d=1$ et on pose $N$ points en 0, $N$ points en 1 et un point en $D$. Montrer que pour des bonnes valeurs de $N$ et $D$ on peut avoir le ratio $"opt-k-moyennes"/"opt-k-centre"$ arbitrairement large.
+*Question 1* On cherche à montrer qu'une solution optimale pour le problème des $k$-moyennes ne donne pas forcément une bonne approximation du problème des $k$-centres. Pour cela on pose $k=2$, $d=1$ et on pose $N$ points en 0, $N$ points en 1 et un point en $D$. Montrer que pour de bonnes valeurs de $N$ et $D$, une solution optimale pour $k$-moyennes peut avoir un ratio d'approximation arbitrairement grand pour $k$-centres.
 
 *Question 2* Proposer un algorithme glouton pour le problème des $k$-centres.
 
-*Question 3* On note $p_1,..., p_k$ les $k$ points retrourné par notre algorithme et $p^*_1,...,p^*_k$ la solution optimale. On partitionne $V = union.sq.big_(i in NN) V_i$ avec $V_i$ l'ensemble des points les plus proches de $p^*_i$. Montrer que
-- Si $forall i, V_i inter {p_1,...,p_n} != emptyset$ alors on a une 2-approximation
+*Question 3* On note $p_1,..., p_k$ les $k$ points retrourné par notre algorithme et $p^*_1,...,p^*_k$ la solution optimale. On partitionne $V = union.sq.big_(1 <= i <= k) V_i$ avec $V_i$ l'ensemble des points les plus proches de $p^*_i$. Montrer que
+- Si $forall i, V_i inter {p_1,...,p_k} != emptyset$ alors on a une 2-approximation
 - Sinon, on a aussi une 2-approximation
 
 == Paire de points

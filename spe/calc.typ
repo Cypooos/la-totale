@@ -47,7 +47,7 @@ On considère $L_"bool" = L(G)$ et $L_"bool bool"$ le langage engendrée par $G$
     if (x[0] == x[1]) {return false;}
     else {return true;}
   } else {
-    return {x[1] == x[2];}
+    return x[1] == x[2];
   }
   ```
 4. Est-ce que le problème suivant est décidable~?
@@ -65,7 +65,7 @@ Montrer que le problème suivant est indécidable:
 == L'indécidable est partout
 Soit $S$ un ensemble de string, on considère le problème $P_S$ suivant:
 - *Entrée:* $s$ une chaine de caractères
-- *Sortie:* Est-ce que $n in S$~?
+- *Sortie:* Est-ce que $s in S$~?
 
 1. Montrer qu'il existe des $S$ tel que $P_S$ est indécidable.
 2. Montrer que si $C$ est infini, alors il existe $K subset.eq C$ tel que $P_K$ est indécidable. Est-ce vrai si $C$ est fini~?
@@ -77,7 +77,7 @@ Montrer que pour toute fonction calculable $g : "String" -> NN$, il existe une f
 
 /*
 Soit la fonction f qui, pour son entrée u, exécute exec(u, u, g(u)).
-Si exec(u, u, g(u)) ∈ {0, 1}, c’est-à-dire si exec(u, u, g(u)) ∈ {⊥} ∪ N \ {0, 1}, f (u) peut être n’importe
+Si exec(u, u, g(u)) ∈ {bot} ∪ N \ {0, 1}, f (u) peut être n’importe
 quelle valeur, et on fixe f (u) = 0. Si exec(u, u, g(u)) = i pour un i ∈ {0, 1}, on fixe f (u) = 1 − i.
 Montrons que f satisfait la propriété désirée. Soit P un programme tel que P (u) renvoie la valeur
 de f (u) en au plus g(u) étapes. Soit w la représentation du programme par un mot binaire. On a alors
@@ -134,7 +134,7 @@ type 'a set = 'a -> bool;;
 1. Donner un ensemble $A subset.eq NN$ que l’on ne pourra pas représenter avec notre structure. Le nombre d’ensembles non représentable est-t’il fini~? Dénombrable~? Indénombrable~?
 2. Montrer que la fonction ```ml val is_empty: int set -> bool``` qui à un ensemble donné indique s'il est vide ou non n'est pas calculable.
 3. Soit ```ml val P: int set set```, montrer qu’il existe un $N in NN$ tel que pour tout ```ml val x: int set```, dans le calcul de `P x`, `P` n'évalue `x` que sur entrées inférieure à $N$. Est-ce vrai avec ```ml val P: (int -> int) set```~?
-4. ($*$) Montrer que la fonction ```ml val is_empty: (int set set) -> int set``` qui à un ```ml int set set``` donné indique s'il est vide ou non est calculable.
+4. ($*$) Montrer que la fonction ```ml val is_empty: int set set -> bool``` qui à un ```ml int set set``` donné indique s'il est vide ou non est calculable.
 /*
 == Degrés de Turing
 */

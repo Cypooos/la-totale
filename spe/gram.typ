@@ -51,9 +51,8 @@ On cherche à trouver une grammaire non-ambigue pour $L$ (les mots avec autant d
 
 1. Est-ce que la grammaire définissant $L_+$ est ambigue~? Donner une grammaire pour $L$ (sans preuve)
 2. Montrer que $L_+$ est l'ensemble des mots $w$ tel que $f(w)=0$ et que pour tout $w'$ préfixe de $w$ on a $f(w') >=0$
-3. En remarquant qu'un mot de $L_+$ commence forcément par un $a$, donner une grammaire non-ambigue pour $L_+$.
+3. En remarquant qu'un mot non vide de $L_+$ commence forcément par un $a$, donner une grammaire non-ambigue pour $L_+$.
 4. Donner une grammaire non-ambigue pour $L$
- est hors-contexte
 
 == Forme normale de Chompsky
 
@@ -67,12 +66,12 @@ On dit que $phi : Sigma_1^* --> Sigma_2^*$ est un morphisme si pour tout $u,v in
 
 On veut montrer que $L_3 = {a^n b^n c^n : n in NN}$ n'est pas hors contexte. Pour cela on montre un lemme analogue au lemme de l'étoile mais pour les langages hors-contexte.
 
-Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte reconnaissant le langage $L$. On définit $||R||_oo = max {|w| : (X -> w) in R }$
+Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte sous forme normale de Chomsky reconnaissant le langage $L$.
 
-1. Montrer que si $w in L$ est un mot tel que $|w| >|Gamma| times ||R||_oo$, alors il existe $A in Gamma$ et $u,v,x,y,z in Sigma^*$ avec $x z != epsilon$ tel que $S scripts(=>)^* u A v$ et $A scripts(=>)^* x A z$ et $A scripts(=>)^* y$.
+1. Montrer que si $w in L$ est un mot tel que $|w| > 2^(|Gamma|)$, alors il existe $A in Gamma$ et $u,v,x,y,z in Sigma^*$ avec $x z != epsilon$ tel que $S scripts(=>)^* u A v$ et $A scripts(=>)^* x A z$ et $A scripts(=>)^* y$.
 2. En déduire le lemme _d'itération pour les langages hors-contexte_: pour tout $L$ un langage hors contexte, il existe $N > 0$ tel que pour tout $w in L$ tel que $|w|>N$ il existe $u,x,y,z,v in Sigma^*$ tel que 
   - $u x y z v = w$ 
-  - $u x y z v = w$  
+  - $|x y z| <= N$ et $x z != epsilon$  
   - $forall n in NN, u x^n y z^n v in L$  
 3. En déduire que ${a^n b^n c^n : n in NN}$ n'est pas hors-contexte.
 4. Montrer que l'ensemble des langages hors-contexte n'est pas stable par intersection.
@@ -87,20 +86,20 @@ où~:
 - $F subset.eq Q$ est l'ensemble des états finaux,
 - $delta : Q times (Sigma union {epsilon}) times Gamma  --> cal(P)(Q times Gamma^*)$ est une relation finie de transition.
 
-Une _configuration_ est un couple $(q,p) in Q times Gamma^*$. Pour $alpha in Sigma union {epsilon}$ et $beta in Z$, on dit qu'il y a _une transition_ de la configuration $(q, beta p)$ vers $(q',p' p)$ si $(q',p') in delta(q,alpha,beta)$. On note cela $ (q, beta p) -->^alpha (q', p' p). $ 
+Une _configuration_ est un couple $(q,p) in Q times Gamma^*$. Pour $alpha in Sigma union {epsilon}$ et $beta in Gamma$, on dit qu'il y a _une transition_ de la configuration $(q, beta p)$ vers $(q',p' p)$ si $(q',p') in delta(q,alpha,beta)$. On note cela $ (q, beta p) -->^alpha (q', p' p). $ 
 
-S'il existe une suite de transition $(q,p) ->^(a_1) ... ->^(a_n) (q',p')$ avec $u = a_1 ... a_n$, on note cela $(q,p) ->^u (q',p')$. Remarquer que l'on n'a pas forcément $|u| = n$. On dit qu'un mot $u$ est reconnu par $cal(A)$ si $(q_0,Z_0) -->^u (q_f,epsilon)$ avec $q_f in F$. On note par $L(cal(A))$ le langage des mots reconnu par $cal(A)$ un automate à pile. Ces automates sont connu pour être "acceptant par pile vide" dans la littérature.
+S'il existe une suite de transition $(q,p) ->^(a_1) ... ->^(a_n) (q',p')$ avec $u = a_1 ... a_n$, on note cela $(q,p) ->^u (q',p')$. Remarquer que l'on n'a pas forcément $|u| = n$. On dit qu'un mot $u$ est reconnu par $cal(A)$ si $(q_0,Z_0) -->^u (q_f,epsilon)$ avec $q_f in F$. On note par $L(cal(A))$ le langage des mots reconnu par $cal(A)$ un automate à pile. On utilise ici une acceptation par état final et pile vide.
 
 1. Montrer que ${a^n b^n : n in NN}$ est un langage reconnu par un automate à pile.
 2. Montrer que si un langage est régulier alors il est reconnu par un automate à pile.
 
 On va montrer que tout langage hors-contexte est reconnu par un automate à pile. Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte. On construit un automate à pile $cal(A)_G = (Q, Sigma, Gamma', delta, q, Z_0, F)$ de la manière suivante:
-- On pose $Gamma' = Gamma union Sigma$, $Q = {q_0}$, $F = {q}$ et $Z_0 = S$,
+- On pose $Gamma' = Gamma union Sigma$, $Q = {q}$, $F = {q}$ et $Z_0 = S$,
 - Pour chaque règle $(A -> w) in R$, on ajoute $(q, w)$ à $delta(q, epsilon, A)$,
 - Pour chaque lettre terminale $a in Sigma$, on ajoute $(q, epsilon)$ à $delta(q, a, a)$.
 
 3. Dessiner l'automate à pile associé à la grammaire $S -> a S b S | epsilon$.
-4. Soient $u in Sigma^*$ et $p in (Gamma union Sigma)^*$. Montrer que $(q,S)-->^u (q',p')$ si et seulement si $S scripts(=>)^* u p$
+4. Soient $u in Sigma^*$ et $p in (Gamma union Sigma)^*$. Montrer que $(q,S)-->^u (q,p)$ si et seulement si $S scripts(=>)^* u p$
 5. Montrer que $L(cal(A)_G) = L(G)$, et en déduire que tout langage hors-contexte est reconnu par un automate à pile.
 
 On va maintenant montrer la réciproque par la méthode des triplets de Ginsburg. Soit $cal(A) = (Q, Sigma, Gamma, delta, q, Z_0, F)$ un automate à pile. Pour tout $q,q' in Q$ et $gamma in Gamma$, on pose
@@ -119,16 +118,16 @@ union.big_(
   (q,gamma) -->^alpha (q_1,gamma_1 ... gamma_k)
 )
 quad
-union.big_(q_2,...,q_(k-1) in Q)
+union.big_(q_2,...,q_k in Q)
 quad
 alpha
 L_([q_1,gamma_1,q_2])
 L_([q_2,gamma_2,q_3])
 ...
-L_([q_(k-1),gamma_k,q'])
+L_([q_k,gamma_k,q'])
 $
 
-8. En déduire qu'il existe une grammaire $G = (Sigma, Gamma', R, S)$ avec $Gamma' = Q times Gamma times Q$ tel que $L(G) = L(cal(A))$
+8. En déduire qu'il existe une grammaire $G = (Sigma, Gamma', R, S)$ avec $Gamma' = (Q times Gamma times Q) union {S}$ et des règles $S -> [q_0,Z_0,q_f]$ pour $q_f in F$, telle que $L(G) = L(cal(A))$
 
 
 == Mélange et grammaires
@@ -171,13 +170,13 @@ Soit $A -> w_1... w_n$ une règle de $G$, pour tout $0<= i <= n$, on pose $L_A^(
 
 *Question 4* En considérant le langage suivant, montrer que $"Circ"(L)$ est hors-contexte:
 $
-E union union.big_((A -> w_1... w_n) in R) union.big_(0<=i <= n) L_A^(i-) C_(A) L_A^(i+)
+E union union.big_((A -> w_1... w_n) in R) union.big_(0<=i <= n) L_A^(i+) C_(A) L_A^(i-)
 $
 où $E = {epsilon}$ si $epsilon in L$, et $E = emptyset$ sinon.
 
 == Algorithme CYK
 
-Une grammaire non-contextuelle $G$ pondéré est un n-uplet $(Gamma,Sigma,S,R, rho)$ tel que $(Gamma,Sigma,S,R)$ soit une grammaire non-conextuelle, et $rho : R --> RR_+$ soit une pondération qui a chaque règle $X -> w$ associe un poids $rho(X -> w)$.
+Une grammaire non-contextuelle $G$ pondéré est un n-uplet $(Sigma,Gamma,R,S, rho)$ tel que $(Sigma,Gamma,R,S)$ soit une grammaire non-conextuelle, et $rho : R --> RR_+$ soit une pondération qui a chaque règle $X -> w$ associe un poids $rho(X -> w)$.
 
 Pour $w => w'$ une dérivation avec $w = u A v$ et $w' = u z v$, on défini le poids de la dérivation $rho(w => w') = rho(A -> z)$. Pour $D = (S => w_1 => ... => w_n)$ une séquence de dérivation, on définit son poids $rho(D)$ comme la somme des poids des $n$ dérivations. 
 
@@ -185,9 +184,9 @@ Pour $w in Sigma^*$, on définit $rho(u)$ le poid de $u$ pour $G$ comme le poid 
 
 1. Est-ce que le poid minimal existe toujours? Est-ce que le poid maximal existe toujours?
 
-On admet qu'un grammaire peut etre ramené à une grammaire ou la seule règle de la forme $X --> epsilon$ est pour $X = S$.
+On admet qu'une grammaire pondérée peut etre ramenée en forme normale de Chomsky, en préservant les poids minimaux, où la seule règle de la forme $X --> epsilon$ est pour $X = S$.
 
-Soit $u in Sigma^*$, $1 <= i <= j < |u|$ et $X in Gamma$, on pose $ P[i,j,X] = min {rho(D) | D "une dérivation" X scripts(=>)^* m_i...m_j } $
+Soit $u = u_1...u_n in Sigma^*$, $1 <= i <= j <= n$ et $X in Gamma$, on pose $ P[i,j,X] = min {rho(D) | D "une dérivation" X scripts(=>)^* u_i...u_j } $
 
 2. Proposer une relation de récurrence pour les $P[i,j,X]$
 3. En déduire un algorithme de programmation dynamique pour résoudre le problème. Quelle est la complexité?
@@ -220,15 +219,16 @@ On s'intéresse à montrer le théorème de Chomsky-Schützenberger:
 
 On admet que tout grammaire peut être mise en forme normale de Chompsky, c'est à dire que toutes les règles de la grammaire sont soit $X -> Y Z$, soit $X -> alpha$ ou soit $S -> epsilon$ avec $Y,Z in Gamma$ et $alpha in Sigma$ et $S$ le symbole initial.
 
-Soit $G = (Sigma, Gamma, S, R)$ une grammaire hors-contexte sous forme normale de chompsy. On ordonne les $k := |R|$ règles $r_1,...,r_k$. On pose $G' = (Sigma', Gamma', S, R')$ avec:
+Soit $G = (Sigma, Gamma, R, S)$ une grammaire hors-contexte sous forme normale de chompsy. On ordonne les $k := |R|$ règles $r_1,...,r_k$. On pose $G' = (Sigma', Gamma', R', S)$ avec:
 $ Sigma' = Sigma union {overline(alpha) : alpha in Sigma} union union.big_(i in [k]) { a_i, overline(a_i), b_i, overline(b_i), c_i, overline(c_i) } $
 
 Et les règles $R'$ sont: 
 - $X -> a_i b_i Y overline(b_i) c_i Z overline(c_i) overline(a_i) $ pour chaque $r_i = X -> Y Z$
 - $X -> alpha overline(alpha)$ pour toute règle de la forme $X -> alpha$
+- $S -> epsilon$ si $S -> epsilon$ est une règle de $G$
 
 5. Donner un morphisme de mot $phi$ tel que $L(G) = phi(L(G'))$
-6. Proposer un langage régulier $K$ tel que $K inter D_n = L(G)$. Conclure la preuve du théorème.
+6. Proposer un langage régulier $K$ tel que $K inter D_(|Sigma| + 3k) = L(G')$. Conclure la preuve du théorème.
 
 
 == Grammaire sur une lettre
@@ -256,11 +256,11 @@ quad
 n = k_1 q_1 + dots + k_s q_s.
 $
 
-5. En déduire qu'il existe $N in NN^*$ tel que pour tout $w = a^p in L$ il existe $0 <= q_w,r_w <= N$ tel que $p = m q_w + r_w$ pour un certain $m in NN$ et que pour tout $k in NN, a^(k q_w + r_w) in L \\ {epsilon}$.
+5. En déduire qu'il existe $N in NN^*$ tel que pour tout $w = a^p in L$ il existe $0 <= q_w <= N$ et $1 <= r_w <= N$ tels que $p = m q_w + r_w$ pour un certain $m in NN$ et que pour tout $k in NN, a^(k q_w + r_w) in L \\ {epsilon}$.
 6. On pose $M = {(q_w,r_w) : w in L}$. Montrer que $M$ est fini et que $ union.big_((q,r) in M) { a^(k q + r) : k in NN} = L \\ {epsilon} $
 7. En déduire que sur $Sigma = {a}$, $L$ est régulier ssi $L$ est hors-contexte.
 
-Le _théorème de Parikh_ permet de généraliser ces résultats pour $Sigma$ de taille arbitraire, on montrant que si pour $w in Sigma = {a_1,...,a_k}$, si on note $Psi(w) = (|w|_(a_1),...,|w|_(a_k)) in NN^k$, on a que l'image d'un langage régulier ou hors-conexte est la meme par $Psi(L)$.
+Le _théorème de Parikh_ permet de généraliser ce résultat pour $Sigma$ de taille arbitraire : si pour $w in Sigma^*$, avec $Sigma = {a_1,...,a_k}$, on note $Psi(w) = (|w|_(a_1),...,|w|_(a_k)) in NN^k$, alors l'image de Parikh de tout langage hors-contexte est semi-linéaire. En particulier, pour tout langage hors-contexte $L$, il existe un langage régulier $R$ tel que $Psi(L) = Psi(R)$.
 
 == Sens réciproque de Ginsburg-Spanier
 
@@ -287,11 +287,11 @@ E(L) " est semi-linéaire stratifié".
 $
 
 
-Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) stratifié via $b, p_1, ..., p_m in NN^k$. Pour chaque $0 < i <= j <= k$, on ajoute un symbole non terminal $H_(i,j)$ tel que $H_(i,j)$ engendre les $L inter L(u_1^* ... u_j^*)$.
-1. Pour $"Supp"(p) = {i}$, proposer des règles de grammaire pour $H_(i,i)$. Attention à ne pas oublier l'impact du vecteur $b$.
-2. Pour $"Supp"(p) = {i,j}$ avec $i< j$, proposer des règles de grammaire pour $H_(i,j)$ en fonction de $H_(i+1,j-1)$
-3. En déduire une grammaire $G$ tel que $E(L(G)) = E(L)$.
-4. Conclure sur le sens réciproque
+Soit $L$ un langage bornée tel que $E(L)$ est *linéaire* (pas semi-linéaire) stratifié via $b, p_1, ..., p_m in NN^k$.
+1. Pour une période $p$ telle que $"Supp"(p) = {i}$, proposer des règles de grammaire permettant d'ajouter arbitrairement la contribution $lambda p$ au bloc $u_i^*$, pour $lambda in NN$.
+2. Pour une période $p$ telle que $"Supp"(p) = {i,j}$ avec $i<j$, montrer que sa contribution peut être engendrée en ajoutant simultanément $u_i^(p_i)$ à gauche et $u_j^(p_j)$ à droite d'un facteur engendrant les blocs d'indices strictement compris entre $i$ et $j$.
+3. En utilisant la condition de stratification pour imbriquer ces constructions sans croisement, et en ajoutant le vecteur de base $b$, en déduire une grammaire $G$ telle que $E(L(G)) = E(L)$.
+4. En utilisant la stabilité des langages hors-contexte par union finie, conclure sur le sens réciproque.
 
 
 // 

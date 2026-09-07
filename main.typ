@@ -1,4 +1,4 @@
-//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, all
+//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, g-alg, model, all
 
 
 // Ceci permet de compiler le fichier avec chap=<chapitre> pour avoir un pdf avec 1 exos par page et que les exos du chapitre. 
@@ -6,6 +6,7 @@
 #let orga = (
   "sup": (  "seq", "func", "ind", "tree", "graph", "prop", "db", "algo" ),
   "spe": ( "lang", "reg", "gram", "graph2", "game", "data", "system", "proba", "deduc", "class", "calc"),
+  "plus": ( "g-alg", "model"),
 )
 #let template(body) = {
   let chapter = sys.inputs.at("chap",default:"all");
@@ -89,5 +90,5 @@ Dans le futur, je bougerai en dehors de github pour des raisons étique. N'hési
 #include "spe/class.typ"
 #include "spe/calc.typ"
 
-#include "math/g-alg.typ"
-#include "math/model.typ"
+#include "plus/g-alg.typ"
+#include "plus/model.typ"

@@ -21,7 +21,7 @@ Pour chacune des fonctions suivantes, donne le code en OCaml et en C. Les signat
 - Coder la fonction ```ml let infixe (t: 'a tree): 'a list``` qui prend un arbre en entrée et qui renvoie son parcours infixe. _Le code $C$ renverra un tableau au lieu d'une liste_
 - Coder la fonction ```ml let suffixe (t: 'a tree): 'a list``` qui prend un arbre en entrée et qui renvoie son parcours suffixe. _Le code $C$ renverra un tableau au lieu d'une liste_
 - Coder la fonction ```ml let add (t: int tree) (x:int): int tree``` qui ajoute à un arbre binaire de recherche `t` un élément `x`.
-- Coder la fonction ```ml let remove (t: int tree) (x:int): bool``` qui retire à un arbre binaire de recherche `t` un élément `x`, et renvoie s'il existait.
+- Coder la fonction ```ml let remove (t: int tree) (x:int): int tree * bool``` qui retire à un arbre binaire de recherche `t` un élément `x`, et renvoie le nouvel arbre ainsi qu'un booléen indiquant si `x` existait.
 - Coder la fonction ```ml let push (t: tas) (x:int): tas``` qui ajoute à un tas min `t` un élément `x`.
 - Coder la fonction ```ml let pop (t: tas): int``` qui retire d'un tas min `t` son minimum et le renvoie.
 
@@ -65,7 +65,7 @@ type arbre_int = F | N of intervalle * arbre_int * arbre_int;;
 
 *Question 3* Dessiner puis donnez en OCaml un arbre complet contenant les intervalles ${[0 ;2] ;[0 ;1] ;[1 ;3] ;[4 ;5] ;[3 ;5] ;[3 ;3]}$
 
-*Question 4* Donner ```ml val trouver: arbre_int -> intervalle -> intervalle``` tel que ```ml trouver a i``` retourne un intervalle de l’arbre `a` intersectant `i` en $O(h)$ avec $h$ la hauteur de `a`.
+*Question 4* Donner ```ml val trouver: arbre_int -> intervalle -> intervalle option``` tel que ```ml trouver a i``` retourne un intervalle de l’arbre `a` intersectant `i`, s'il en existe un. Avec la structure donnée, quelle complexité peut-on garantir dans le pire cas~?
 
 *Question 5* Définir les opérations de rotations sur les arbres binaire de recherche. Donnez la fonction ```ml val rotg: arbre_int -> arbre_int``` effectuant l’opération de rotation gauche.
 On supposera écrite la fonction ```ml val rotd: arbre_int -> arbre_int``` l’opération de rotation droite.
@@ -103,11 +103,12 @@ On cherche à créer une structure de données similaire à un arbre binaire de 
 type tree = F | N of tree * int * int * tree
 ```
 
-On pose sur $NN^2$ la relation d'ordre $(x,y) scripts(<=)_2 (x', y') <=> x+y <= x' + y'$. 
+On pose sur $NN^2$ la relation d'ordre
+$ (x,y) scripts(<=)_2 (x', y') <=> x+y < x'+y' "ou" (x+y=x'+y' "et" x<=x'). $
 
-1. Montrer que $scripts(<=)_2$ est bien une relation d'ordre bien fondé. 
+1. Montrer que $scripts(<=)_2$ est bien une relation d'ordre total bien fondé.
 2. Donner la fonction ```ml add (a:tree) (x: int * int): tree``` qui ajoute  à un arbre binaire de recherche `a` l'élément `x` selon la relation d'ordre $scripts(<=)_2$
-3. On cherche à obtenir tous les éléments dans l'ordre trié selon la première composante. Quelle est la complexité d'un algorithme qui retourne ça avec notre structure, en supposant l'arbre équilibré~? Et si on avait utilisé la relation d'ordre $(x,y) scripts(<=') (x',y) <=> x <= x'$ à la place~?
+3. On cherche à obtenir tous les éléments dans l'ordre trié selon la première composante. Quelle est la complexité d'un algorithme qui retourne ça avec notre structure, en supposant l'arbre équilibré~? Et si on avait utilisé à la place l'ordre lexicographique $(x,y) scripts(<=') (x',y') <=> x < x' "ou" (x=x' "et" y<=y')$~?
 Pour être capable de renvoyer tous les élément dans l'ordre trié selon la première composante (ou la deuxième, au choix), on considère des arbres 2 dimensionels: pour savoir si $(x,y)$ sera fils gauche ou droit de la racine $(x',y')$, on regarde en fonction de la profondeur de $(x', y')$~:
 - Si la profondeur est paire, on compare selon la première composante
 - Si la profondeur est impaire, on compare selon la seconde.
@@ -128,7 +129,7 @@ On cherche ici à reconstruire $T$ à partir de $T_"inf"$ et $T_"post"$
 
 *Question 3* Quelle est la complexité de l'algorithme~?
 
-*Question 4* Donner le code d'une fonction C ```C arb_t *get_arb(int n, int *pref, int *post);``` qui retourne l'arbre $T$ associé à $T_"inf"$ et $T_"post"$
+*Question 4* Donner le code d'une fonction C ```C arb_t *get_arb(int n, int *inf, int *post);``` qui retourne l'arbre $T$ associé à $T_"inf"$ et $T_"post"$
 
 *Question 5* Montrer que si l'arbre est localement complet (chaque nœud à 2 ou 0 enfants) alors on peut reconstruire $T$ à partir de $T_"pref"$ et $T_"post"$
 
@@ -138,7 +139,7 @@ On définit une structure d’arbre:
 ```ml
 type tree = F | N of tree * tree;;
 ```
-Un arbre binaire strict (ou localement complet) est dit canonique si pour $A$ et $B$ deux feuilles, on a $A$ moins profond que $B$ ssi $A$ arrive avant $B$ dans un parcours préfixe.
+Un arbre binaire strict (ou localement complet) est dit canonique si les profondeurs de ses feuilles sont croissantes au sens large dans l'ordre où les feuilles apparaissent dans un parcours préfixe.
 
 Un arbre canonique peut-être représenté par un tableau qui à chaque hauteur associe son nombre de feuilles.
 
@@ -184,11 +185,11 @@ right sibling)_ décrite si dessous. Pour $x$ un noeud, on note $E_x$ la liste d
 2. Donner la transformation de l'arbre suivant (on ordonne les enfant de droite à gauche)~:
 #align(center,image(width:100pt,"arbre_ex.png"))
 3. Programmer la fonction ```OCaml val to_bintree (a:tree): bintree``` 
-4. On note $Delta(A)$ le nombre d'enfants maximal d'un des noeuds de $A$ pour $A$ un arbre général. Montrer que $h("to_bintree"(A)) <= Delta(A) + h(A)$
+4. On note $Delta(A)$ le nombre d'enfants maximal d'un des noeuds de $A$ pour $A$ un arbre général. Montrer que $h("to_bintree"(A)) <= Delta(A) h(A)$, à une constante additive près selon la convention choisie pour la hauteur.
 
 == Tableaux tri-coloré
 
-Soit $T$ un tableau de taille $2N$ dont les valeurs sont dans ${0,1,2}$. On dit que $T$ est _tricoloré_ si $ forall 0<=i<N, T[i] != T[2i+1] != T[2i+2] != T[i] $
+Soit $T$ un tableau de taille $2N+1$ dont les valeurs sont dans ${0,1,2}$. On dit que $T$ est _tricoloré_ si, pour tout $0<=i<N$, les trois valeurs $T[i], T[2i+1], T[2i+2]$ sont deux à deux distinctes.
 
 Dénombrer le nombre de tableau tricoloré de longueur $2^k - 1$
 
@@ -235,21 +236,21 @@ $[7; 6; 5; 4; 3; 2; 1; 0]$ en supposant avoir ajouté en sortie les éléments d
 7. On se propose de montrer que les permutations de$[|0;n-1|]$ triables par une pile sont en bijection avec les arbres binaires non étiqueté à $n$ nœuds.
   - Montrer que la permutation associée à un arbre binaire est triable par pile. On pourra remarquer le lien entre le parcours préfixe et l’opération empiler d’une part et le parcours infixe et l’opération dépiler d’autre part.
   - Montrer qu’une permutation triable par pile est une permutation associée à un arbre binaire.\
-    _Indication : on peut prendre $sigma(0)$ comme racine, puis procéder récursivement avec les $sigma(0)-1$ éléments pour construire le fils gauche et avec le reste pour le fils droit._
+    _Indication : on peut prendre $sigma(0)$ comme racine, puis procéder récursivement avec les $sigma(0)$ éléments d'étiquettes strictement inférieures pour construire le fils gauche et avec le reste pour le fils droit._
 
 == Initialisation d'un Tas
 
-On encode un tas max sous la forme d'un tableau d'entiers tel que les 2 fils de `T[i]` sont en position `T[2*i]` et `T[2*i+1]`
+On encode un tas max sous la forme d'un tableau d'entiers indexé à partir de $0$, tel que les 2 fils de `T[i]`, lorsqu'ils existent, sont en position `T[2*i+1]` et `T[2*i+2]`.
 
-*Question 1* Donner la fonction ```c void add_tas(int* T, int n, int k);``` qui ajoute un entier `k` au tas `T`, représenté par un tableau de longueur `n`.
+*Question 1* Donner la fonction ```c void add_tas(int* T, int n, int k);``` qui ajoute un entier `k` au tas `T` contenant initialement `n` éléments, en supposant qu'une case supplémentaire est disponible.
 
-*Question 2* Quelle est la complexité de cette fonction~? Proposer une meilleure structure que des tableaux pour avoir une complexité en moyenne $O(log n)$
+*Question 2* Quelle est la complexité de cette fonction~? Que devient le coût amorti si le tas est stocké dans un tableau dynamique qui double sa capacité lorsqu'il est plein~?
 
 On cherche maintenant à initialiser un corriger un tableau `T` qui n'est *pas* un tas pour qu'il en devienne un.
 
-*Question 3* On suppose que pour tous les indices $j > i$, $T[j] >= max (T[2j], T[2j+1])$. Donner un algorithme ```c void correct(int* T, int n, int i);``` qui corrige $T[i]$. Quelle est la complexité de cet algorithme~?
+*Question 3* On suppose que pour tous les indices $j > i$, le sous-arbre enraciné en `T[j]` respecte la propriété de tas max. Donner un algorithme ```c void correct(int* T, int n, int i);``` qui corrige le sous-arbre enraciné en `T[i]`. Quelle est la complexité de cet algorithme~?
 
-Pour $i$ un noeud, on note $h(i)$ sa hauteur, donnée comme sa distance maximale aux feuilles, aka $h(T)- p(i)$ avec $p(i)$ la profondeur. On considère le code suivant:
+Pour $i$ un noeud, on note $h(i)$ sa hauteur, donnée comme sa distance maximale à un descendant feuille. On considère le code suivant:
 
 
 #align(center)[
@@ -265,7 +266,7 @@ Pour $i$ un noeud, on note $h(i)$ sa hauteur, donnée comme sa distance maximale
 ]
 
 *Question 4* Montrer que
-$ sum_(0 <= i < N) h(i) = Theta(n) $
+$ sum_(0 <= i < n) h(i) = Theta(n) $
 
 En déduire que `to_tas_2` est en $Theta(n)$
 
@@ -293,7 +294,7 @@ On définit un type d'arbre de recherche de boîtes spécial:
 ```c
 struct box_arb {
   box_t* box;
-  struct box_arb childs[4];
+  struct box_arb *childs[4];
 };
 typedef struct box_arb box_arb_t;
 ```
@@ -343,31 +344,33 @@ typedef struct tree tree;
 On note $F$ l'arbre vide et $N(g,v,d)$ l'arbre ayant $g$ comme fils gauche (respectivement $d$ comme fils droit) et $v$ comme valeur. 
 
 1. Donner un algorithme qui affiche le parcours infixe de l'arbre. Quelle est sa complexité en temps et mémoire?
-2. Pour $x$ un noeud de l'arbre, on dit que $y$ est le précurseur de $x$ si c'est le noeud qui arrive juste avant dans le parcours préfixe. Donner un code ```c tree* get_precurseur(tree* t);``` qui prend un arbre et renvoie un pointeur vers le précurseur de la racine.
+2. Pour $x$ un noeud possédant un fils gauche, on appelle _précurseur infixe_ de $x$ le noeud le plus à droite de son sous-arbre gauche. Donner un code ```c tree* get_precurseur(tree* t);``` qui prend un pointeur vers `x` et renvoie ce précurseur.
 3. Justifier que la fonction de la question précédente est en $O(h(t))$ avec $h(t)$ la hauteur de l'arbre $t$.
-4. Soit $x$ un sommet, on suppose qu'il y a une erreur et que son précurseur $y$ est tel que $y.d = x$. Pourquoi est-ce un problème?
-5. Donner le code d'une fonction ```c void correct_problem(tree* t);``` qui teste si `t` est un précurseur problématique (aka tel que `t.d==x`) et qui corrige ce problème si tel est le cas en mettant `t.d` à `null`.
+4. On va temporairement utiliser le pointeur droit du précurseur pour revenir vers son ancêtre. Expliquer pourquoi il faut distinguer le cas où ce pointeur vaut `NULL` du cas où il pointe déjà vers le noeud courant.
 
-On va chercher à faire de $O(1)$ mémoire et $O(n)$ temporel. Pour cela, on considère l'algorithme suivant :
+On va chercher à faire du $O(1)$ mémoire et $O(n)$ temporel. Pour cela, on considère le parcours de Morris suivant :
 #align(center)[#rect[#align(left)[
-  *Calcul\_Infixe($T$):*\
+  *Calcul_Infixe($T$):*\
   $"current" <-- T$\
   *Tant que* $"current" != F$ :\
   #h(15pt) On écrit $"current" = N(g,v,d)$\
   #h(15pt) *Si* $g = F$ *alors:*\
   #h(30pt) Afficher $v$\
-  #h(30pt) $x <-- d$\
-  #h(30pt) $"CorrectProblem"("current")$\
-  #h(30pt) $"current" <-- x$\
+  #h(30pt) $"current" <-- d$\
   #h(15pt) *Sinon:*\
-  #h(30pt) $x <-- "GetPrecurseur"("current")$ \
-  #h(30pt) $x.d <-- "current"$ \
-  #h(30pt) $"current" <-- g$ \
+  #h(30pt) $p <-- "GetPrecurseur"("current")$ \
+  #h(30pt) *Si* $p.d = F$ *alors:*\
+  #h(45pt) $p.d <-- "current"$\
+  #h(45pt) $"current" <-- g$\
+  #h(30pt) *Sinon:*\
+  #h(45pt) $p.d <-- F$\
+  #h(45pt) Afficher $v$\
+  #h(45pt) $"current" <-- d$\
 ]]]
 
-6. Montrer que l'algorithme est correct et termine.
-7. Montrer que l'arbre à la fin de l'algorithme est le meme que au début.
-8. Montrer que chaque arrete n'est visité que au plus 3 fois. En déduire qu'il est en $O(n)$ de temps et $O(1)$ de mémoire.
+5. Montrer que l'algorithme est correct et termine.
+6. Montrer que l'arbre à la fin de l'algorithme est le meme que au début.
+7. Montrer que chaque arrete est parcourue un nombre constant de fois. En déduire qu'il est en $O(n)$ de temps et $O(1)$ de mémoire.
 
 
 == Arbre et oracle
@@ -388,7 +391,7 @@ type abr = F | N of int * abr * abr;;
 ```
 On dit qu'un ensemble de noeuds $S$ d'un arbre est indépendant si aucun n'est enfant direct d'un autre. Autrement dit, pour tout $p in S$, on a les enfants de $p$ qui ne sont pas dans $S$.
 
-On dit qu'il est fortement indépendant si pour tout $p in S$, on a tout le sous arbre de $p$ qui n'est pas dans $S$.
+On dit qu'il est fortement indépendant si pour tout $p in S$, aucun descendant strict de $p$ n'est dans $S$.
 
 *Question 1* Donner une fonction OCaml ```ml val get_max: abr -> int``` qui trouve le poids maximal et le retourne.
 
@@ -405,7 +408,7 @@ $ |g(x)| >= alpha|d(x)| "et" |d(x)| >= alpha|g(x)| $
 
 Le type `bintree` représente les arbres usuels. On représente cette donnée par le type suivant en OCaml tel que $"EN"(g,x,n,d)$ corresponde à l'arbre $T$ stockant $x$ à la racine avec $|T| = n$, $g = g(T)$ et $d = d(T)$~:
 ```ml
-type 'a bintree = | F | N of 'a bintreee * 'a * 'a bintree
+type 'a bintree = | F | N of 'a bintree * 'a * 'a bintree
 type 'a etree = | EF | EN of 'a etree * 'a * int * 'a etree
 ```
 
@@ -419,7 +422,7 @@ val join: float -> 'a etree -> 'a -> 'a etree -> 'a etree
 ```
 telle que `join alpha t1 x t2` renvoie l'abr $alpha$-équilibré contenant les noeuds de $t_1, t_2$ et $x$, pour $t_1,t_2$ deux abr $alpha$-équilibré et $x$ plus petit que tous les élements de $t_2$ et plus grand que tous les éléments de $t_1$.
 
-*Question 3* Donner le code d'une fonction ```ml let split (alpha:float) (t:'a etree) (x:'a etree): 'a etree * 'a etree``` telle que pour $alpha in ]0 ;1[$ et $t$ un abr $alpha$-équilibré, ` split alpha t x` renvoie un couple de deux abr $alpha$-équilibré contenant respectivement tous les éléments plus petits que $x$ et tous les éléments plus grand que $x$.
+*Question 3* Donner le code d'une fonction ```ml let split (alpha:float) (t:'a etree) (x:'a): 'a etree * 'a etree``` telle que pour $alpha in ]0 ;1[$ et $t$ un abr $alpha$-équilibré, `split alpha t x` renvoie un couple de deux abr $alpha$-équilibré contenant respectivement tous les éléments plus petits que $x$ et tous les éléments plus grands que $x$.
 
 *Question 4* En supposant que `join` est en $O(log (|t_1| + |t_2|))$, quel est la complexité de `split`~?
 

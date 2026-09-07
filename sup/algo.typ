@@ -6,7 +6,7 @@
 *Technique d'algorithmie :*
 - Algorithme Glouton
 - Diviser pour régner, rencontre au millieu, dichotomie
-- Programmation dynamique : Calcul de bas en haut par mémoisatioon, reconstruction de solution.
+- Programmation dynamique : calcul de bas en haut par tabulation, calcul de haut en bas par mémoïsation, reconstruction de solution.
 - Recherche Brute-force, Retour sur trace
 
 *Algorithme du Cours :*
@@ -37,7 +37,7 @@
 - distance d’édition
 
 == Merge de liste
-Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule la liste trié des éléments contenue dans $L_1$ et $L_2$.
+Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule la fusion triée contenant tous les éléments de $L_1$ et de $L_2$, avec leurs multiplicités.
 
 == Nombre d'inversions dans une liste
 
@@ -69,7 +69,7 @@ _Indication:_ Trier $P$ selon les $(x_i)_i$, puis couper $P$ en deux pour s'apel
 
 == Sous-tableau connexe
 
-Soit $A$ un tableau de $n$ entiers relatifs, on cherche un algorithme en $O(n)$ qui calcule le sous-tableau connexe qui maximise la somme de ses éléments, i.e. le couple $(i,j)$ avec $0<=i<=j<=|T|$ tel que $sum_(k in [|i ;j|]) A[k]$ soit maximal.
+Soit $A$ un tableau de $n$ entiers relatifs, on cherche un algorithme en $O(n)$ qui calcule le sous-tableau connexe qui maximise la somme de ses éléments, i.e. le couple $(i,j)$ avec $0<=i<=j<n$ tel que $sum_(k in [|i ;j|]) A[k]$ soit maximal.
 
 == Le glouton par défault#footnote[Algo 1 ENS Lyon]
 Étant donné un ensemble ${x_1,...,x_n}$ de $n$ points sur une droite, décrire un algorithme qui détermine
@@ -81,7 +81,7 @@ Prouver la correction de votre algorithme et donner sa complexité.
 
 Soit ${x_1,...,x_n} subset.eq NN$ un sous-ensemble d'entiers et $S in NN$. On cherche à savoir s'il existe un $I subset.eq [|1;n|]$ tel que $ sum_(i in I) x_i = S $
 
-Donner un algorithme de programmation dynamique en $O( n S)$ qui répond au problème. On pourra considérer le tableau $T$ de booléens de longeur $S$ tel que $T[k] = "true"$ si et seulement si il existe $I subset.eq [|1;n|]$ dont $sum_(i in I) x_i = k$.
+Donner un algorithme de programmation dynamique en $O( n S)$ qui répond au problème. On pourra considérer le tableau $T$ de booléens de longeur $S+1$ tel que $T[k] = "true"$ si et seulement si il existe $I subset.eq [|1;n|]$ dont $sum_(i in I) x_i = k$.
 
 == Elements Majoritaire
 
@@ -92,7 +92,7 @@ Soit $T$ un tableau d'entier de longeur $N$, on dit qu'un entier $K$ est _majori
 On note $"head"(P)$ l'élement en tete d'une pile $P$, et on considère l'algorithme suivant:
 #align(center)[#rect[#align(left)[
   $P <-- $ pile vide\
-  *Pour* $i$ *allant de* $1$ à $N$:\
+  *Pour* $i$ *allant de* $0$ à $N-1$:
   #h(15pt) *si* $P$ est vide *alors:*\
   #h(30pt) Empiler $T[i]$ à $P$\
   #h(15pt) *sinon si* $"head"(P) = T[i]$ *alors*:\
@@ -109,7 +109,7 @@ On note $"head"(P)$ l'élement en tete d'une pile $P$, et on considère l'algori
 
 On dit qu'un élément est $C$-majoritaire s'il est présent strictement plus de $floor(N/C)$ fois.
 
-5. Pour $C in NN$ est fixé, donner un algorithme linéaire pour calculer les (au plus $C$) éléments majoritaires de $T$.
+5. Pour $C >= 2$ fixé, donner un algorithme linéaire pour calculer les (au plus $C-1$) éléments $C$-majoritaires de $T$.
 6. Quelle est la complexité en fonction de $C$ et $N$ ?
 
 == Disco-world #footnote[Cours de programmation compétitive ENS Lyon]
@@ -123,7 +123,7 @@ Par example, pour $R = {(5,4), (10,4), (5,2)}$, Alice n'aura besoin de que $8€
 
 Donner un algorithme calculant le prix/gain que Alice devrais dépenser/obtiendra en achetant toutes les réduction. On pourra faire par programmation dynamique.
 
-*Version 2* DiscoWorld se rendant compte qu'il commençait à perdre de l'argent, on décider maintenant que une fois une réduction $(c_i,v_i)$ achetée, elle *diviserai* le prix de toutes les futures réductions par $v_i$. On ne peut toujours que acheter les réduction qu'en un seul exemplaire. 
+*Version 2* DiscoWorld se rendant compte qu'il commençait à perdre de l'argent, on décider maintenant que une fois une réduction $(c_i,v_i)$ achetée, avec $v_i >= 1$, elle *diviserai* le prix de toutes les futures réductions par $v_i$. On ne peut toujours que acheter les réduction qu'en un seul exemplaire.
 
 Donner un algorithme polynomial calculant la quantité d'argent que Alice devrais dépenser pour acheter toutes les réductions.
 
@@ -133,7 +133,7 @@ _Indication: Comparer l'achat de la réduction $i$ puis $j$ avec l'achat de $j$ 
 
 *Question 1* Donner le code C d'une fonction ```c int find(int *arr, int n, int key);``` qui prend en argument un tableau `arr` trié de longueur `n` et qui trouve un indice `i` tel que `arr[i] == key`.
 
-On cherche à faire un algorithme efficace aussi dans le cadre de matrice trié. On dit qu'une matrice $M$ de taille $n times m$ est _linéairement trié_ si chaque ligne est trié de haut en bas et que chaque colone est trié de gauche à droite.
+On cherche à faire un algorithme efficace aussi dans le cadre de matrice trié. On dit qu'une matrice $M$ de taille $n times m$ est _linéairement trié_ si chaque ligne est triée de gauche à droite et que chaque colone est triée de haut en bas.
 
 *Question 2* Donner le code d'un fonction $C$ ```c bool is_ordered(int **mat, int n, int m)``` qui à une matrice `mat` de taille $n times m$ teste si elle est linéairement trié.
 
@@ -145,13 +145,13 @@ On cherche à faire un algorithme efficace aussi dans le cadre de matrice trié.
 
 == Multiplication rapide de polynome#footnote[Algo 1 ENS Lyon]
 
-Ici on considère des polynômes d'entiers $ZZ[X]$. Soient $P,Q in ZZ_n [X]$, leur produit $R = P Q in ZZ_(2d) [X]$
+Ici on considère des polynômes d'entiers $ZZ[X]$. Soient $P,Q$ de degré au plus $n$, leur produit $R = P Q$ est de degré au plus $2n$.
 
 On représente un polynome par un tableau d'entiers $T$, tel que pour $P in ZZ_d [X]$, si on écrit $P = sum_(i <= d) a_i X^i$ on a $T[i] = a_i$.
 
-1. Donner une fonction C ```c int* multiply(int* p, int* q, int n)``` qui prend deux polynômes de degré $<= n$ représenter par deux tableaux de longueur $n$ et qui renvoie le polynome produit.
+1. Donner une fonction C ```c int* multiply(int* p, int* q, int n)``` qui prend deux polynômes de degré $<= n$ représentés par deux tableaux de longueur $n+1$ et qui renvoie le polynome produit.
 2. Soit $n=2m$, pour $P in ZZ_n [X]$, montrer que on peut décomposer $P = P_1 + X^m P_2$ avec $P_1,P_2 in ZZ_m [X]$.
-Soient $P,Q in ZZ_n [X]$, on décompose $P = P_1 + X^m P_2$ et $Q = P_1 + X^m P_2$. On définit alors $R_1 = P_1 Q_1$, $R_2 = P_2 Q_2$ et $R_3 = (P_1 + P_2) times (Q_1 + Q_2)$.
+Soient $P,Q in ZZ_n [X]$, on décompose $P = P_1 + X^m P_2$ et $Q = Q_1 + X^m Q_2$. On définit alors $R_1 = P_1 Q_1$, $R_2 = P_2 Q_2$ et $R_3 = (P_1 + P_2) times (Q_1 + Q_2)$.
 3. Exprimer $P times Q$ en fonctions de $R_1, R_2, R_3$.
 4. En déduire un algorithme récursif pour calculer le produit de polynome.
 5. Quelle est la complexité de cet algorithme~?
@@ -181,7 +181,7 @@ On cherche a faire un algorithme de retour sur trace pour trouver le nombre de p
 - Toutes les cases $0,...,i$ ont été remplies (et sont différentes de $0$),
 - Si une valeur existe dans le tableaux, alors elle existe deux fois.
 
-3. Expliquer pourquoi, pour placer l'entier $k$ à la position $i+1$, il faut vérifier les cases $i+1$ et $i+k+1$.
+3. Expliquer pourquoi, pour placer l'entier $k$ à la position $i+1$, il faut vérifier les cases $i+1$ et $i+k+2$.
 4. Proposer un algorithme récursif de retour sur trace. Montrer qu'il termine. Quelle est sa complexité?
 5. Montrer que si l’algorithme renvoie une solution, alors c’est bien une permutation de Langford.
 6. Soit $T$ une permutation de langford. En dénombrant $1+2+...+2n$ de deux manières différentes, montrer qu'il n'existe pas de permutation de langford de longeur $2n$ si $n equiv 1 [4]$ ou $n equiv 2 [4]$. 

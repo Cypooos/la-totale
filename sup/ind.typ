@@ -2,12 +2,12 @@
 = *MP2I: Inductions & ordres*
 == Cours 
 - Définition d'une relation d'équivalence.
-- Définition d'une relation d'ordre, ordre total = bon ordre.
+- Définition d'une relation d'ordre, ordre total, bon ordre.
 - Minimum, éléments comparables, incomparables, chaine, antichaine.
 - Les deux définitions d'un ordre bien fondé, et la démonstration de leur équivalence.
-- Préordre, préordre bien fondé = WQO (HP) 
+- Préordre, WQO : toute suite infinie $(x_n)_n$ possède $i<j$ tels que $x_i <= x_j$ (HP)
 - Montrer que $(NN, <=)$ est bien fondé.
-- Ordre lexicographique, ordre produit. Démonstration que si $A,B$ sont bien ordonné, alors $A times B$ l'est aussi pour l'ordre produit et l'ordre lexicographique
+- Ordre lexicographique, ordre produit. Démonstration que si $A,B$ sont bien ordonnés, alors l'ordre lexicographique sur $A times B$ est un bon ordre et l'ordre produit est bien fondé.
 - Qu'est-ce qu'un ensemble inductif~?
 
 == Des ordres
@@ -42,7 +42,7 @@ $
 cases(
   "sub"(m, 0) = m,
   "sub"(0, n) = 0,
-  "sub"(m, n) = "sub"(m − 1, n − 1),
+  "sub"(m, n) = "sub"(m − 1, n − 1) &"si" m>0 "et" n>0,
 )
 $
 
@@ -50,9 +50,9 @@ $
 2. Montrer que $forall m,n in NN, "sub"(m,n) <= m$
 
 == Ordre sur les mots
-Étant donné un ensemble alphabet $Sigma$, on pose pour $n in NN^*$ l'ensemble
+Étant donné un ensemble alphabet $Sigma$, on pose $Sigma^0 = {epsilon}$ et, pour $n in NN^*$,
 $ Sigma^n = underbrace(Sigma times ... times Sigma,n "fois") $
-des mots d’exactement n lettres. L’ensemble $Sigma^* = union.big_(n in NN) Sigma^n$ est alors l’ensemble de tous les mots sur Σ.
+l'ensemble des mots d’exactement n lettres. L’ensemble $Sigma^* = union.big_(n in NN) Sigma^n$ est alors l’ensemble de tous les mots sur Σ.
 
 1. Soit un ensemble ordonné $(Sigma, <=)$ tel que $Sigma = {a,b,c}$ et $a < b < c$. Donner une définition de l’ordre lexicographique $scripts(<=)_"lex"$ sur $Sigma^3$ puis l’utiliser pour ordonner les mots aba, baa, caa, aaa, abc, bbb.
 2. Montrer que l’ordre lexicographique $scripts(<=)_"lex"$ sur $Sigma^n$ est une relation d’ordre bien fondée.
@@ -66,7 +66,7 @@ $ u scripts(<=)_m v "si et seulement si" |u| < |v| "ou" (|u| = |v| "et" u script
 On considère l'algorithme de tri suivant:
 - Tant qu'il existe $i<j$ tel que $T[i]>T[j]$, on échange $T[i]$ et $T[j]$
 1. Montrer que cet algorithme termine toujours
-2. Quel est sa complexité dans le pire des cas~?
+2. Majorer le nombre d'échanges effectués dans le pire des cas. Quelle complexité obtient-on si la recherche d'une paire $(i,j)$ à échanger est faite naïvement~?
 
 == Langage de Dyck
 On se fixe un ensemble fini de lettres $Sigma = {a,b}$. On déifni un _mot_ comme étant une suite finie de lettres de $Sigma$. Le mot vide (la suite vide) sera noté $epsilon$, et la concaténation de deux mots $u,v$ sera noté par la concaténation $u v$. On définit par induction l'ensemble $A$ par:
@@ -81,12 +81,12 @@ On se fixe un ensemble fini de lettres $Sigma = {a,b}$. On déifni un _mot_ comm
 
 == Fonctions Primitives#footnote[Oraux ENS Ulm 2021]
 
-On définit pour tout $n in NN$ l'ensemble de fonctions $cal(C)_n$ par récurrence. Pour $n = 0$, on pose $cal(C)$ comme l'ensemble contenant les fonctions suivantes :
+On définit pour tout $n in NN$ l'ensemble de fonctions $cal(C)_n$ par récurrence. Pour $n = 0$, on pose $cal(C)_0$ comme l'ensemble contenant les fonctions suivantes :
 - La fonction $Z : NN -> NN$, définie par $Z(x) = 0$
 - La fonction $S : NN -> NN$, définie par $S(x) = x+1$
-- Pour tout  $0 <= i < k in NN$, les fonctions $pi^k_i : NN^k --> NN$ définies par $pi^k_i (x_1,...,x_k) = x_i$
+- Pour tout $1 <= i <= k$ avec $k in NN^*$, les fonctions $pi^k_i : NN^k --> NN$ définies par $pi^k_i (x_1,...,x_k) = x_i$
 Si $cal(C)_n$ est définit, on définit $cal(C)_(n+1)$ comme étant $cal(C)_n$ auquel, pour tout $i, k in NN$, et pour tout $g_1,...,g_i in cal(C)_n$ de type $NN^k --> NN$ et $h in cal(C)_n$ de type $NN^i --> NN$, on ajoute la fonction suivante :
-$ h compose (g_1,...,g_n) : &NN^k --> NN\ &arrow(x) |-> h(g_1(arrow(x)),...,g_i (arrow(x)))  $
+$ h compose (g_1,...,g_i) : &NN^k --> NN\ &arrow(x) |-> h(g_1(arrow(x)),...,g_i (arrow(x)))  $
 
 On définit $cal(C)_oo := union.big(n in NN) cal(C)_n$.
 
@@ -97,7 +97,7 @@ On définit $cal(C)_oo := union.big(n in NN) cal(C)_n$.
 
 On rajoute maintenant à la définition de $cal(C)_0$ la fonction $"add" : NN^2 --> NN$ défine par $"add"(x,y) = x+y$
 
-5. Montrer que la fonction $(x,y) |-> (y+1,2x)$ est alors primitive.
+5. Montrer que la fonction $(x,y) |-> 2x+y+1$ est alors primitive.
 6. Proposer un équivalent similaire à la question 4 pour charactériser les fonctions primitives dans ce cas.
 
 
@@ -106,11 +106,11 @@ On rajoute maintenant à la définition de $cal(C)_0$ la fonction $"add" : NN^2 
 On défini l'ensemble $cal(R)$ des _fonctions primitives récursives_ par induction en partant des fonctions de base :
 - La fonction $Z : NN -> NN$, définie par $Z(x) = 0$
 - La fonction $S : NN -> NN$, définie par $S(x) = x+1$
-- Pour tout  $0 <= i < k in NN$, les fonctions $pi^k_i : NN^k --> NN$ définies par $pi^k_i (x_1,...,x_k) = x_i$
+- Pour tout $1 <= i <= k$ avec $k in NN^*$, les fonctions $pi^k_i : NN^k --> NN$ définies par $pi^k_i (x_1,...,x_k) = x_i$
 
 Et en itérant les deux constructions suivantes :
 - *Composition*: Pour tout $i, k in NN$, et pour tout $g_1,...,g_i in cal(R)$ de type $NN^k --> NN$ et $h in cal(R)$ de type $NN^i --> NN$, on ajoute la fonction suivante :
-$ h compose (g_1,...,g_n) : &NN^k --> NN\ &arrow(x) |-> h(g_1(arrow(x)),...,g_i (arrow(x)))  $
+$ h compose (g_1,...,g_i) : &NN^k --> NN\ &arrow(x) |-> h(g_1(arrow(x)),...,g_i (arrow(x)))  $
 - *Récurrence*: Pour tout $k in NN$, $g in cal(R)$ et $h in cal(R)$ avec $g : NN^k --> NN$ et $h : NN^(k+2) --> NN$, on ajoute la fonction $f : NN^(k+1) --> NN$ définit par, pour tout $n,x_1,...,x_k in NN$ :
 $ 
   f(0,x_1,...,x_k) = g(x_1,...,x_k)\
@@ -128,12 +128,12 @@ $
 
 On défini la fonction d'Ackermann $cal(A) : NN^2 --> NN$ par:
 $
-  cal(A)(0,y) = Y+1, #h(30pt) cal(A)(x+1,0) = cal(A)(x,1) #h(30pt) cal(A)(x+1,y+1) = cal(A)(x,cal(A)(x+1,y)) 
+  cal(A)(0,y) = y+1, #h(30pt) cal(A)(x+1,0) = cal(A)(x,1) #h(30pt) cal(A)(x+1,y+1) = cal(A)(x,cal(A)(x+1,y)) 
 $
 Pour tout $x in NN$, on défini $cal(A)_x : NN --> NN$ la fonction telle que $forall y in NN, cal(A)_x (y) = cal(A)(x,y)$.
 
 4. Montrer que pour tout $x in NN, cal(A)_x in cal(R)$.
-5. Montrer que pout tout $f in cal(R)$, il existe un $x in NN$ tel que $f = o(cal(A)_x)$.
+5. Montrer que pour toute fonction unaire $f : NN --> NN$ appartenant à $cal(R)$, il existe un $x in NN$ tel que $f = o(cal(A)_x)$.
 6. En déduire que $cal(A) in.not cal(R)$.
 
 == Système MIU

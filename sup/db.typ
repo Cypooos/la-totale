@@ -66,7 +66,7 @@ Une matière est difficile si `difficulte >= 4`. Un étudiant a validé une mati
 
 1. Trouver les étudiants à qui il manque au moins une matière difficile.
 2. Trouver les étudiants qui ont validé toutes les matières difficiles.
-3. Trouver tous les étudiants qui ont validé toutes les matières difficiles et aucune matière facile (de note $<= 2$).
+3. Trouver tous les étudiants qui ont validé toutes les matières difficiles et aucune matière facile (de difficulté $<= 2$).
 
 == Ensembles Egaux
 On considère une base de données contenant 2 tables:
@@ -82,9 +82,9 @@ On identifie un document à l’ensemble des mots qu’il contient, sans tenir c
 
 On montre ici qu'il existe des requêtes décidables qui ne sont pas exprimables dans le fragment de SQL vu au programme.
 
-On considère pour cela la base de données composé d'une seule table `Arete(x,y)` représenant un graphe orienté avec potentiellement des boucles. On ne considère que des requêtes dans le fragment utilisant seulement les mots-clefs `SELECT`, `DISTINCT`, `FROM`, `JOIN`, `AS`, `ON`, `WHERE` et des conditions dans le WHERE.
+On considère pour cela la base de données composé d'une seule table `Arete(x,y)` représenant un graphe orienté avec potentiellement des boucles. On suppose que tout sommet apparaît comme extrémité d'au moins une arête, puisqu'avec cette seule table les sommets isolés ne sont pas représentables. Pour la question 1 uniquement, on pourra utiliser `UNION` et `EXCEPT` en plus du fragment positif étudié ensuite.
 
-Soit $G = (S,A)$ un graphe orienté, un sommet est dit _minimal_ s'il n'existe pas de $y in S$ tel que $(y,x) in A$, et il est dit maximal s'il n'existe pas $y in S$ tel que $(x,y) in A$. On considère ici que le graphe donné contient un sommet initial.
+Soit $G = (S,A)$ un graphe orienté, un sommet $x$ est dit _minimal_ s'il n'existe pas de $y in S$ tel que $(y,x) in A$, et il est dit maximal s'il n'existe pas $y in S$ tel que $(x,y) in A$. On considère ici que le graphe donné contient un sommet initial.
 
 1. Écrire une requête SQL qui donne la table des sommets initiaux et finaux.
 2. Écrire une requête SQL qui renvoie les couples $(x,y)$ tel qu'il existe un chemin de longueur exactement $2$ entre $x$ et $y$
@@ -98,9 +98,9 @@ JOIN Arete AS c ON a.x = c.x AND b.y = c.y;
 ```
 ]]
 
-4. Expliquer comment transformer une requête utilisant des `JOIN` en une requête utilisant seulement des `SELECT` et `WHERE`
+4. Expliquer comment transformer une requête utilisant seulement des `INNER JOIN` en une requête équivalente utilisant plusieurs occurrences de tables dans le `FROM` et des conditions d'égalité dans le `WHERE`.
 
-Dans la suite, on se place donc dans ce fragment: les requêtes sont écrites avec plusieurs occurrences de tables dans le `FROM`, puis des conditions d'égalité dans le `WHERE`.
+Dans la suite, on se restreint au fragment positif utilisant `SELECT`, `DISTINCT`, `FROM`, `AS`, `WHERE` et des conditions d'égalité : les requêtes sont écrites avec plusieurs occurrences de tables dans le `FROM`, puis des conditions d'égalité dans le `WHERE`.
 
 Pour une requête $R$, on appelle taille en arêtes de $R$ le nombre d'occurrences de la table `Arete` dans la clause `FROM`. Par exemple, la requête suivante a taille en arêtes $2$~:
 #align(center)[#rect[
@@ -136,15 +136,15 @@ Dans cet exercice, on interdit l'utilisation de GROUP BY, plusieurs fois SELECT 
 2. Écrire une requête qui renvoie le plus grand dénivelé entre deux positions consécutives qui sont toutes deux au dessus du niveau de la mer.
 // SELECT MAX(ABS(a.alt - b.alt)) FROM Altitude AS a JOIN Altitude AS b ON b.x = a.x + 1 WHERE a.alt > 0 AND b.alt > 0;
 3. On dit qu’une position `x` est un _record depuis la gauche_ si aucune position strictement plus à gauche n’a d'altitude supérieure ou égale. Écrire une requête qui renvoies les records depuis la gauche.
-/*SELECT a.x, a.altitude
+/*SELECT a.x, a.alt
 FROM Altitude AS a
 LEFT JOIN Altitude AS b
   ON b.x < a.x
- AND b.altitude >= a.altitude
+ AND b.alt >= a.alt
 WHERE b.x IS NULL~;*/
 4. Pour chaque position `x`, renvoyer la position $y <= x$ où l’altitude est maximale parmi les positions ${1,...,x}$. En cas d’égalité, prendre la position la plus à gauche.
 /*
-SELECT a.x, r.x AS record_x, r.altitude AS record_altitude
+SELECT a.x, r.x AS record_x, r.alt AS record_alt
 FROM Altitude AS a
 
 JOIN Altitude AS r
@@ -153,9 +153,9 @@ JOIN Altitude AS r
 LEFT JOIN Altitude AS meilleur
   ON meilleur.x <= a.x
  AND (
-      meilleur.altitude > r.altitude
+      meilleur.alt > r.alt
       OR (
-        meilleur.altitude = r.altitude
+        meilleur.alt = r.alt
         AND meilleur.x < r.x
       )
  )
@@ -171,20 +171,20 @@ LEFT JOIN Altitude AS p
 
 LEFT JOIN Altitude AS r
   ON r.x > l.x
- AND r.altitude <> l.altitude
+ AND r.alt <> l.alt
 
 LEFT JOIN Altitude AS m
   ON m.x > l.x
  AND m.x < r.x
- AND m.altitude <> l.altitude
+ AND m.alt <> l.alt
 
 WHERE
   -- l est le début d'un plateau
-  (p.x IS NULL OR p.altitude < l.altitude)
+  (p.x IS NULL OR p.alt < l.alt)
 
   -- r est la première case à droite dont l'altitude change
   AND m.x IS NULL
 
   -- le plateau est plus haut que la case juste après, ou touche le bord droit
-  AND (r.x IS NULL OR r.altitude < l.altitude)~;
+  AND (r.x IS NULL OR r.alt < l.alt)~;
 */

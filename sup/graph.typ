@@ -7,7 +7,7 @@
 - Graphe orienté avec $E subset.eq V^2$.
 - Arretes, sommet, degré, degré sortant/entrant, chemin, cycle, connexité, distance, boucle
 - Graphes pondéré sur les sommets, sur les arêtes
-- Graphes simples comme sans boucles connexes (HP)
+- Graphes simples comme graphes sans boucle ni arêtes multiples (HP)
 - Multigraphes et Hypergraphes (HP)
 - Marche et circuit comme chemin/cycle ou l'on peut repasser par le meme sommet (HP)
 - Arbre comme graphes connexes acyclique
@@ -34,8 +34,8 @@
 
 == Autour des degrés
 
-Soit $G = (S,A)$ un graphe sans boucle. Montrer que 
-- $2|A| = sum_(v in V) deg(v)$
+Soit $G = (S,A)$ un graphe simple fini sans boucle, avec $|S|>=2$. Montrer que 
+- $2|A| = sum_(v in S) deg(v)$
 - Le nombre de sommet de degré impair est pair
 - Il existe forcément deux sommets de même degré.
 - Soit $A$ un arbre ou chaque arc est orienté d'un noeud vers ses enfant. On note $N$ l'ensemble des noeuds qui ne sont pas des feuilles et $f$ le nombre de feuilles. Montrer que $ sum_(x in N) (deg^+ (x) -1) = f-1. $En déduire une relation dans le cadre des arbres binaire.
@@ -86,22 +86,22 @@ Soit $T = (V_T, E_T)$ l'arbre d'un DFS d'un graphe $G = (V_G,E)$.
 
 On dit que $(x,y) in E_G$ est une _arête de retour_ si $(x,y) in.not E_T$ avec $x prec.eq y$.
 
-*Question 3* Montrer que $G$ est biconnecté ssi pour tout $x in V_G$~:
-- Si $x$ est la racine alors il existe une arête de retour de la forme $(y,x)$.
-- Sinon, il existe une arête de retour de la forme $(y, x')$ avec $y prec.eq x prec x'$ (strict)
+*Question 3* Montrer que $G$ est biconnecté ssi les deux conditions suivantes sont satisfaites~:
+- La racine du DFS possède au plus un enfant.
+- Pour tout sommet $x$ qui n'est pas la racine et tout enfant $y$ de $x$ dans $T$, il existe une arête de retour $(z,x')$ avec $z in T(y)$ et $x'$ un ancêtre strict de $x$.
 
 *Question 4* En déduire un algorithme en $O(|E| + |V|)$ pour tester si un graphe est biconnecté.
 
 == Algorithme de Johnson#footnote[Mines Télécom 2024]
 
-Soit $G = (S,A)$ un graphe orienté et $w : S times S --> RR$ une pondération des poids potentiellement négative. On va considérer ici un algorithme de calcul des plus courts chemins intitulé _algorithme de Johnson_
+Soit $G = (S,A)$ un graphe orienté et $w : A --> RR$ une pondération des arêtes potentiellement négative. On va considérer ici un algorithme de calcul des plus courts chemins intitulé _algorithme de Johnson_
 
 1. Rapeller la complexité de l'algorithme de Dijkstra
 
 Soit $h : S --> RR$, on pose $w_h (u,v) = w(u,v) + h(u) - h(v)$. 
 
 2. Montrer que tous les plus courts chemins pour $w$ sont les memes que pour $w_h$ et qu'il existe un cycle de poids négatif pour $w$ si et seulement si il en existe un pour $w_h$
-3. On suppose que $G$ ne possède pas de cycle à poids négatifs. Trouver un $h : S --> RR$ tel que $forall a,b in S, w_h (a,b) >=0$. On pourra considerer le fait d'ajouter un sommet $r$ relié à tous les autres sommets par un arc de poid nul.
+3. On suppose que $G$ ne possède pas de cycle à poids négatifs. Trouver un $h : S --> RR$ tel que $forall (a,b) in A, w_h (a,b) >=0$. On pourra considerer le fait d'ajouter un sommet $r$ relié à tous les autres sommets par un arc de poid nul.
 4. En déduire un algorithme permettant de calculer tous les plus courts chemins entre tous les sommets. Comparer sa complexité avec Floyd-Warshall.
 
 
@@ -109,22 +109,22 @@ Soit $h : S --> RR$, on pose $w_h (u,v) = w(u,v) + h(u) - h(v)$.
 
 On se donne $G = (V,E)$ un graphe et $T$ un arbre couvrant de $G$. On cherche à tester en temps linéaire si $T$ est un graphe qui peut être obtenu en faisant un DFS de $G$.
 
-Pour $T$ un arbre enraciné de $G$, on note $x prec.eq_T y$ si $x$ est un enfant de $y$
+Pour $T$ un arbre enraciné de $G$, on note $x prec.eq_T y$ si $x$ est un descendant de $y$ dans $T$, en autorisant $x=y$.
 
 1. Montrer que $prec.eq_T$ est une relation d'ordre
 2. Montrer que si $T$ est un DFS, alors $forall (x,y) in E(G) \\ E(T), x prec.eq_T y or y prec.eq_T x$
 3. Montrer la réciproque de la question précédente
-4. En déduire un algorithme en $O(|V|)$ qui teste si un arbre $T$ est un DFS d'un graphe
+4. En déduire un algorithme en $O(|V|+|E|)$ qui teste si un arbre $T$ est un DFS d'un graphe
 
 
 == Conversions de DAG 
 
-Un graphe orienté $G = (V,E)$ sans boucle est un DAG (directed acyclic graph) si c'est un graphe acyclique simplement connexe.
+Un graphe orienté $G = (V,E)$ est un DAG (directed acyclic graph) s'il ne contient aucun cycle orienté.
 
 On se donne les types suivants en OCaml:
 ```ml
 type 'a dag = ('a * int list) array;
-type 'a tree = N of 'a * tree list;
+type 'a tree = N of 'a * 'a tree list;
 ```
 
 On supposera écrite la fonction ```ml val count: 'a tree -> int``` qui compte le nombre de noeud dans un arbre.
@@ -135,11 +135,11 @@ On supposera écrite la fonction ```ml val count: 'a tree -> int``` qui compte l
 
 Dans un DAG, on appelle un sommet $x$ tel que $deg^-(x) = 0$ _une source_ et un un sommet $x$ tel que $deg^+ (x) = 0$ _un puits_.
 
-*Question 3* Donner une fonction ```ml val get_sources: int dag -> int list``` qui renvoie la liste de tous les puits.
+*Question 3* Donner une fonction ```ml val get_sources: int dag -> int list``` qui renvoie la liste de toutes les sources.
 
 On supposera écrite la même fonction pour les puits.
 
-*Question 4* Proposer un algorithme ```ml val get_shortest: int dag -> int``` qui prend un DAG pondéré par des entiers et qui renvoie le chemin le plus court entre une source et un puits.
+*Question 4* Proposer un algorithme ```ml val get_shortest: int dag -> int``` qui prend un DAG dont l'entier stocké en chaque sommet est son poids, le poids d'un chemin étant la somme des poids de ses sommets, et qui renvoie le poids d'un chemin le plus court entre une source et un puits.
 
 
 == Chemin hamiltonien dans un tournois
@@ -188,16 +188,16 @@ Un graphe est dit _3-connecté_ si quel que soit $u,v in V$, $G - u - v$ le grap
 1. Montrer que si il existe 3 chemins disjoints entre toute paire de sommets alors le graphe est 3-connecté.
 2. En déduire que les graphes de Halin sont 3-connexes
 
-== Graphes d'Halin#footnote[On étudie une classe légèrement différente car on ne demande pas que le cycle soit dans l'ordre permettant la planarité ici.] sont hamiltoniens
-On dit que $G = (V,E)$ est un graphe d'halin si il peut se décomposer comme $E = C union.sq T$ (disjoint) avec $T$ un arbre sans noeuds de degré 2 et $C$ un cycle passant par toutes les feuilles.
+== Graphes d'Halin sont hamiltoniens
+On dit ici que $G = (V,E)$ est un graphe d'Halin au sens usuel s'il est obtenu à partir d'un arbre plan $T$ sans noeuds de degré 2 en ajoutant un cycle $C$ passant par toutes les feuilles dans leur ordre cyclique autour de l'arbre.
 
-On dit qu'un graphe $G$ est hamiltonien si il existe un cycle $chevron v_1,...v_n chevron.r$ passant par tous les sommets une fois
+On dit qu'un graphe $G$ est hamiltonien si il existe un cycle $chevron v_1,...v_n chevron.r$ passant par tous les sommets une fois.
 
-1. Montrer que tout arbre sans noeuds de degré 2 peut être obtenue en itérativement transformant une feuille en un sommet de degré $k$ avec $k-1$ feuilles attaché.
-2. Montrer que les graphes d'Halin sont hamiltonien.
-// On ordonne le tri. Soit x,y in G - u - v, x à un chemin vers y, ou y'a un u ou v dedans. Sinon, x à 2 autres chemin menant à 2 feuilles qui sont disjoint
+1. Montrer que tout arbre sans noeuds de degré 2 peut être obtenu en transformant itérativement une feuille en un sommet de degré $k$ avec $k-1$ feuilles attachées.
+2. Montrer que les graphes d'Halin sont hamiltoniens.
 
 _Dans les vrais graphes d'Halin, si on retire un sommet alors il reste hamiltonien._
+
 
 == Nombre cyclomatiques #footnote[Tiré du TD de la martinière de MPI]
 
@@ -215,7 +215,7 @@ Pour $G = (V,E)$ un graphe avec $V = {1,..., n}$, on dit que ${x,y,z} subset.eq 
 1. Proposer un algorithme en $O(|V|^3)$
 2. Soit $L_1, L_2$ deux listes trié d'entiers de $1$ à $n$, montrer que l'on peut calculer la liste triée des élément appartenant aux deux listes en temps $O(|L_1| + |L_2|)$.
 3. Donner un algorithme en $O(|E| times Delta)$ pour calculer tous les triangles sans doublons d'un graphe $G$ ou $Delta$ est le degré maximal de $G$. On supposera que $G$ est donné sous la forme d'une liste d'adjacence.
-4. Dans quels cas est-ce que l'algorithme de la question 4 est meilleur que celui de la question 2~?
+4. Dans quels cas est-ce que l'algorithme de la question 3 est meilleur que celui de la question 1~?
 
 
 == Graphes orienté semi-connexes #footnote[Tiré du TD de la martinière de MPI]
@@ -264,9 +264,9 @@ Soit $G = (S,A)$ un abre dont les sommets sont numérotés de $1$ à $|S|$, on d
   *renvoyer* $L$
 ]]]
 
-1. Montrer le fait la ligne $s <-- min {s in S | deg(S) = 1}$ ne pose pas de problème et montrer la terminaison de l'algorithme.
+1. Montrer que la ligne $s <-- min {s in S | deg(s) = 1}$ ne pose pas de problème et montrer la terminaison de l'algorithme.
 2. Donner un codage de prufer de l'arbre suivant:
 #align(center)[#image("prufer.png",width:60%)]
-3. L'opération qui à un arbre sans étiquettes associe un arbre de prufer est-elle injective~? Justifier
+3. L'opération qui à un arbre étiqueté associe son codage de Prüfer est-elle injective~? Justifier
 4. Donner un algorithme qui prend un codage de prufer et qui renvoie l'arbre dont c'est le codage 
 5. En déduire le cardinal du nombre d'arbres à $n$ sommets étiqueté de 1 à $n$

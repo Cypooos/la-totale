@@ -11,6 +11,11 @@
 *Question de Cours*
 - Comment transformer un probleme de maximisation en un problème de décision~?
 - Montrer que 3-SAT est NP-Complet
+
+*TODO:*
+- DISJOINT-PATH
+- 
+
 /*
 == SAT-LIKE#footnote[Algo 1 ENS Lyon]
 
@@ -173,10 +178,11 @@ On considère le problème NONEMPTY-REGULAR-INTERSECTION suivant:
   *Sortie* Est-ce que $ inter.big_(i <= n) L(A_i) != emptyset $
 ]
 
-1. Montrer que NONEMPTY-REGULAR-INTERSECTION est NP
-2. Donner une instance du problème tel que le plus petit mot dans l'intersection est de longueur exponentielle en la taille de l'entrée.
-3. Montrer que si $Sigma = {a}$ alors le problème est polynomial.
-4. Montrer que NONEMPTY-REGULAR-INTERSECTION est NP-Complet à partir de 3-SAT
+1. Donner une instance du problème tel que le plus petit mot dans l'intersection est de longueur exponentielle en la taille de l'entrée.
+2. Montrer que si $Sigma = {a}$ alors le problème est polynomial.
+3. Montrer que NONEMPTY-REGULAR-INTERSECTION est NP-dur à partir de 3-SAT.
+
+_Ce problème est PSPACE-Complet! Voir https://en.wikipedia.org/wiki/Intersection_non-emptiness_problem _
 
 == Sheffer
 
@@ -186,4 +192,29 @@ On définit l'opréateur de sheffer $X arrow.t Y := not (X and Y)$ et l'opérate
 - *Entrée:* Une formule $phi$ avec que des $arrow.t$ *Sortie:* Si $phi$ est satisfiable.
 
 Plus dur, essayer de trouver une réduction de SAT (pas 3-SAT) aux formules avec $arrow.t$.
+
+== Requetes sur graphes labelisé#footnote[Tiré d'un séminaire de Vincent Peth de l'équipe MOVE au LIS]
+
+On fixe $Sigma$ un alphabet fini à au moins 2 lettres. Soit $L$ un langage régulier sur $Sigma$. On considère le problème REQUETE suivant#footnote[Connu sous le nom de "Regular Path Queries"]:
+#rect[
+  *Entrée:* $G = (V,E)$ avec $E subset.eq V times Sigma times V$ un graphe ou les arrettes sont labelisées par $Sigma$, et $s,t in V$\ 
+  *Question:* Est-ce qu'il existe un chemin $s = v_1 -->^(a_1) ... -->^(a_k) v_(k+1) = t$ tel que $a_1 ... a_k in L$ ?
+]
+
+1. Montrer que le problème est dans P.
+
+Un chemin simple $angle v_1 ... v_k angle.right$ dans un graphe est tel que $forall i != j, v_i != v_j$.
+2. On modifie maintenant le problème en imposant que le chemin soit simple. Montrer que le problème est NP et est toujours P si $L = L(a^*)$
+
+On introduit le problème DISJOINT-PATH suivant :
+#rect[
+  *Entrée:* Un graphe $G = (V,E)$ et $s,m,t in V$\
+  *Question:* Est-ce qu'il existe un chemin simple $s = v_1 -> ... -> v_k = m -> ... -> v_(k') = t$ ?
+]
+
+3. On admet que le problème DISJOINT-PATH soit NP-Dur. Montrer que le problème REQUETE pour $L = a^* b c^*$ est NP-Complet.
+4. Montrer qu'il l'est aussi pour $L = L((a a)^*)$. Pour $L = L(a^* b^*)$, est-il P ou NP-Complet?
+
+_PS: CF le papier https://arxiv.org/pdf/1212.6857, on a une tricotomie exacte: c'est soit AC0, NL-Complet ou NP-Complet._
+
 

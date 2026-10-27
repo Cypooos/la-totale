@@ -2,7 +2,7 @@
 
 == Cours
 
-Pas besoin de cours!
+Pas besoin de cours, les exercices dans l'ordre suffisent !
 
 == Introduction au lambda calcul
 

@@ -63,7 +63,6 @@ Le _tiers exclu faible_ est la formule $not P or not not P$, et n'est pas prouva
 
 3. Montrer que le tiers exclu faible est équivalent à $forall X subset.eq {*}, X = emptyset or X != emptyset$. (?)
 
-
 == Modèle dénombrable de ZFC et le graphe de Rado
 
 Un graphe infini $G = (S,A)$ est dit comme respectant la _propriété de Rado_ si pour tout $U,V subset.eq S$ des ensemble disjoint fini de $S$,  

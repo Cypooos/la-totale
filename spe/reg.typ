@@ -416,7 +416,7 @@ Attention à ne pas confondre avec la définition d'automate local du cours, qui
 4. Montrer qu'il existe un algorithme polynomial pour tester si un automate fortement connexe dénote un langage local ou non.
 
 == Langages continuables et mots primitifs
-On dit qu'un langage $L$ est continuable si $forall u in L, exists v in Sigma^*$ tel que $u v in L$. 
+On dit qu'un langage $L$ est continuable si $forall u in Sigma^*, exists v in Sigma^*$ tel que $u v in L$. 
 On dit qu'un mot $w in Sigma^*$ est primitif s'il n'existe pas de $p > 1$ et de $x in Sigma^*$ tel que $x^p = w$.
 
 1. Montrer qu'il est possible de tester si un mot $w$ est primitif en $O(|w|^(1.5))$. _C'est possible de le faire en $O(|w|)$_

@@ -47,8 +47,8 @@ Soit $G = (V,E)$ un graphe connexe pondéré par $w : E -> RR_+$, on pose $"Couv
 
 On considère alors l'algorithme qui commence sur un arbre couvrant quelquonque $T$ et qui remplace $T$ par $T[e' <- e]$ tant que c'est possible pour diminuer $w(T)$. C'est ce que on appelle un algorithme de _recherche locale_ car il (localement) change l'arbre de manière à atteindre un arbre couvrant de poids minimum.
 
-*Question 4* Donner la complexité d'un tel algorithme.
-// On regarde pour une arête donné la suite de ses changement qu'elle subit qui décroit. Elle est changé $|E|$ fois. Il y a $|V|-1$ arêtes, donc $O(|V| times |E|)$ itérations.
+*Question 4* Donner une borne sur le nombre d'itérations d'un tel algorithme. Peut-on en déduire une complexité polynomiale~?
+// Le poids diminue strictement, donc aucun arbre couvrant n'est visité deux fois. On a donc au plus $binom(|E|,|V|-1)$ itérations. Cette borne peut être exponentielle: cet argument ne donne pas une complexité polynomiale.
 
 == Graphes $k$-réguliers
 
@@ -83,7 +83,7 @@ Soit $G$ respectant la condition des mariages. Soit $H$ le plus petit ensemble d
 
 == Maille d'un graphe 
 
-Le _diamètre_ de $G$ est la longueur du plus long chemin dans G. On définit la _maille_ d'un graphe $G$ comme étant la plus petite longueur d'un cycle de $G$. On la note, si elle existe, par $cal(M)(G)$. Si la maille existe on dit que le graphe est _maillé_.
+Le _diamètre_ de $G$ est le maximum des distances entre deux sommets de $G$. On définit la _maille_ d'un graphe $G$ comme étant la plus petite longueur d'un cycle de $G$. On la note, si elle existe, par $cal(M)(G)$. Si la maille existe on dit que le graphe est _maillé_.
 
 *Question 1* Soit $d$ le diamètre d'un graphe maillé. Montrer que $cal(M)(G) <= 2d+1$
 
@@ -93,7 +93,7 @@ Le _diamètre_ de $G$ est la longueur du plus long chemin dans G. On définit la
 
 *Question 4* Montrer que la maille d’un graphe à $n$ sommets et au moins $n + 1$ arêtes est majorée par $floor((2n+2)/(3))$
 
-*Question 5* Soit $G = (V,E)$ un graphe maillé, on note $m = cal(M)(G)$ et $delta$ le plus petit degré de $G$. Montrer que$ |V| <= 2/(delta -2) ((delta - 1)^(m/2) -1) $
+*Question 5* Soit $G = (V,E)$ un graphe maillé, on note $m = cal(M)(G)$ et $delta > 2$ le plus petit degré de $G$. Si $m$ est pair, montrer que $|V| >= 2/(delta -2) ((delta - 1)^(m/2) -1)$.
 
 == Largeur de bande
 
@@ -110,21 +110,21 @@ La _largeur de bande de G_, notée $psi(G)$, est la plus petite largeur d'une fo
 
 *Question 6* Montrer que
 
-$  (|S|-1)/(d(G)) <= psi(G) <= |S|-d(G) $
+$  (|V|-1)/(d(G)) <= psi(G) <= |V|-d(G) $
 
 == Graphes planaires
 
-Un graphe $G = (V,E)$ est _planaire_ s'il existe $p : V --> RR^2$ tel que pour tout $(a,b),(a',b') in E$, les segments ouverts $]p(a),p(b)[$ et $]p(a'),p(b')[$ ne se croisent pas. Soit $n in NN$, on dénote par $K_n$ le graphe complet à $n$ sommets. On dénote par $K_(a,b)$ le _graphe biparti complet_ contenant $a+b$ sommets, tel que tous les sommets de $1$ à $a$ soient relié à tous les sommets de $a+1$ à $b$ (sans aucune autre aretes).
+Un graphe $G = (V,E)$ est _planaire_ s'il existe une application injective $p : V --> RR^2$ et une représentation de chaque arête par un arc simple entre ses extrémités, telle que deux arêtes ne se croisent qu'éventuellement en une extrémité commune. Soit $n in NN$, on dénote par $K_n$ le graphe complet à $n$ sommets. On dénote par $K_(a,b)$ le _graphe biparti complet_ contenant $a+b$ sommets, tel que tous les sommets de $1$ à $a$ soient relié à tous les sommets de $a+1$ à $a+b$ (sans aucune autre aretes).
 
-Une _face_ d'un graphe planaire est un cycle délimitant une zone de la représentation (aka une des parties connexe de $RR^2$ auquel on a retiré tous les points dans un segment de $G$).
+Une _face_ d'une représentation planaire est une composante connexe de $RR^2$ privé de la représentation du graphe.
 
 *Question 1* Montrer que $K_4$ et $K_(3,2)$ sont planaire
 
 *Question 2* Soit $G=(V,E)$ un graphe planaire, on note $c$ le nombre de composante connexes et $f$ le nombre de faces. Montrer que $f + |V| = |E| + c +1$
 
-*Question 3* Montrer que dans tout graphe planaire, $3f <= 2a$. En déduire que $a <= 3(n-2)$ dans un graphe connexe planaire et que donc $K_5$ n'est pas planaire.
+*Question 3* Montrer que dans tout graphe planaire simple connexe à $n >= 3$ sommets et $a$ arêtes, $3f <= 2a$. En déduire que $a <= 3(n-2)$ et que donc $K_5$ n'est pas planaire.
 
-*Question 4* Montrer que dans un graphe sans triangle (sans 3 sommets reliés entre eux), $a<=2(n-2)$. En déduire que $K_(3,2)$ n'est pas planaire.
+*Question 4* Montrer que dans un graphe planaire simple connexe sans triangle, $a<=2(n-2)$. En déduire que $K_(3,3)$ n'est pas planaire.
 
 *Question 5* Montrer que tout graphe planaire à au moins un noeud de degré $<= 5$.
 
@@ -135,18 +135,18 @@ Une _face_ d'un graphe planaire est un cycle délimitant une zone de la représe
 Soit $G = (V,E)$ un graphe connexe, on dit que $A subset.eq E$ est une _couverture d'arette_ si pour tout $v in V$, on a un $e in A$ tel que recouvre $v$. On dit que $A$ est une couverture d'arêtes _minimale_ si $A$ est une couverture d'arête de plus petit cardinal. \
 Un graphe _étoile_ est un graphe tel qu'il existe un sommet $u$ tel que toutes les arêtes sont de la forme ${u,x}$.
 
-On cherche à montrer que si $M$ un couplage maximal et $A$ une couverture d'arête minimale, alors
+On cherche à montrer que si $M$ un couplage maximum et $A$ une couverture d'arête minimale, alors
 $ |A| + |M| = |V| $
 
 *Question 2* Montrer que s'il existe un couplage parfait $M$, alors c'est une couverture d'arêtes minimale.
 
 On fixe $A$ une couverture d'arête minimale. 
 
-*Question 3* Montrer que les graphes étoiles sont exactement les graphes ou il n'existe pas de chemin de longueur strictement plus grande que $2$. En déduire que $A$ est une union disjointe de composantes connexe qui sont des graphes étoile.
+*Question 3* Montrer que le graphe $(V,A)$ ne contient pas de chemin de longueur $3$. En déduire que ses composantes connexes non triviales sont des graphes étoile.
 
 *Question 4* Montrer que $|A| + |M| >= |V|$
 
-*Question 5* Montrer que $|A|+|M| = |V|$. _Indication: On montrer l'inégalité dans l'autre sens. On se fixe un couplage maximal $M$ et on construit une couverture minimale $X$ en prenant $M$ et en ajoutant une arête par sommet non couvert. Borner la taille de $X$._
+*Question 5* Montrer que $|A|+|M| = |V|$. _Indication: On montrer l'inégalité dans l'autre sens. On se fixe un couplage maximum $M$ et on construit une couverture minimale $X$ en prenant $M$ et en ajoutant une arête par sommet non couvert. Borner la taille de $X$._
 
 == $C$-approx du couplages maximum#footnote[TD11 L3 ENS Lyon Algo 1]
 
@@ -163,10 +163,10 @@ On considère l'algorithme suivant:
 ]
 
 1. Quelle est la complexité de l'algorithme~?
-2. Montrer que l'algorithme est une $C$-approx du couplage maximum pour un certain $C$ que l'on déterminera.
-On change la boucle pour chercher un chemin alternant $P$ de longueur $2t+1$, et si on en trouve un on effectue $M <-- (M\\P) union (P\\M)$. L'algorithme donné correspond donc au cas $t=1$.
+2. Montrer que l'algorithme est une $2/3$-approximation du couplage maximum.
+On change la boucle pour chercher un chemin alternant augmentant $P$ de longueur au plus $2t+1$, et si on en trouve un on effectue $M <-- (M\\P) union (P\\M)$. L'algorithme donné correspond donc au cas $t=1$.
 
-3. Donner le facteur d'approximation en fonction de $t$, et en déduire un _PTAS_, c'est-à-dire que pour tout $epsilon>0$ on a un algorithme polynomial qui renvoie une $(1-epsilon)$-approximation. On déterminera exactement la complexité en fonction de $epsilon$.
+3. Montrer que le facteur d'approximation est $(t+1)/(t+2)$, et en déduire un _PTAS_, c'est-à-dire que pour tout $epsilon>0$ fixé on a un algorithme polynomial qui renvoie une $(1-epsilon)$-approximation. On déterminera la complexité en fonction de $epsilon$.
 
 
 == Calcul de triangles #footnote[Tiré de Mallory Marin]
@@ -189,15 +189,15 @@ On change la boucle pour chercher un chemin alternant $P$ de longueur $2t+1$, et
 
 Un graphe $G = (V,E)$ est dit $k^+$-régulier si $forall v in V, deg(v) >= k$. Un graphe $G$ est dit planaire s'il existe une assignation $phi : V --> RR^2$ tel que pour toute paire d’arête $(x,y),(x',y') in E$, les segments $[phi(x) ;phi(y)]$ et $[phi(x') ;phi(y')]$ ne se coupent pas.
 
-Soit $G$ connexe planaire. On définie $f$ le nombre de face comme le nombre de composante connexe de $RR^2 \\ union.big_((x,y) in E) [phi(x) ;phi(y)]$.
+Soit $G$ connexe planaire. On définit $f$ le nombre de faces comme le nombre de composantes connexes de $RR^2$ privé de la représentation de $G$.
 
 1. Montrer le théorème d’Euler: $|E| = |V| + f -2$
-2. En déduire que $|E| < 3|V|$
+2. En déduire que, si $|V|>=3$, $|E| <= 3|V|-6$
 3. En déduire que si $G$ est planaire alors il n'est pas $6^+$-régulier.
 
 /*#correct[
   1. Par récurrence sur $|E|$
-  2. On montre $|E| <= 3|V|-6$~: Chaque arête est présente dans au plus deux faces et un minimum de 3 arêtes sont nécessaire pour avoir une face, donc $3f <= 2|E|$, donc $3|E| = 3|V| + 3f - 6 <= 3|V|+2|E|-6$ donc $|E| <= 3|V|-3$
+  2. On montre $|E| <= 3|V|-6$~: Chaque arête est présente dans au plus deux faces et un minimum de 3 arêtes sont nécessaire pour avoir une face, donc $3f <= 2|E|$, donc $3|E| = 3|V| + 3f - 6 <= 3|V|+2|E|-6$ donc $|E| <= 3|V|-6$
   3. On a $|E| < 3|V|$. Donc $sum_(v in V) deg v < 6|V|$. Donc le degré moyen est
   $ (sum_(v in V) deg v)/(|V|) < 6$ donc il y a au moins un sommet de degré $< 6$
 ]*/
@@ -215,7 +215,7 @@ On cherche à montrer que un graphe d'amis sans $C_5$ possède toujours un roi.
 
 On admet qu'un graphe d'amis ne possède pas de cycle de longeur $5$.
 
-4. Montrer que que si $G$ possède un cycle de longueur $>= 4$ alors $G$ n'est pas un graphe d'amis. 
+4. En utilisant l'hypothèse qu'il n'y a pas de cycle de longueur $5$, montrer que si $G$ possède un cycle de longueur $>= 4$ alors $G$ n'est pas un graphe d'amis. 
 5. Montrer que tout les graphes d'amis possède un roi.
 
 _Version Complete de cet exercice sans l'hypothèse sans $C_5$ dans `math/algb-graph`_
@@ -236,7 +236,7 @@ On suppose d'abord $G$ non régulier. Soient $x,y$ deux sommets de différent de
 Soit $w in.not {x,y,z}$.
 
 4. Montrer que $w in (N(x) union N(y)) inter (N(x) union N(z))$.
-5. Montrer que $w in.not N(y) in N(z)$, et en déduire que $w in N(x)$.
+5. Montrer que si $w in.not N(x)$, alors $w in N(y) inter N(z)$, et en déduire que $w in N(x)$.
 6. Conclure et montrer que si $G$ n'est pas régulier, alors $G$ possède un roi.
 
 _Version Complete de cet exercice sans l'hypothèse de régularité dans `math/algb-graph`_
@@ -248,9 +248,9 @@ Soit $m >=3$. Soit $G =(S,A)$ un graphe non orienté tel que pour tout $m$ perso
 
 == Un Graphe dénombrable
 
-On prend $phi :NN --> cal(P)_f (NN)$ une bijection de $NN$ dans les parties finies de $NN$. Montrer qu'a isomorphisme près, et en retirant les boucles, le graphe $(NN, {{x,y} : y in phi (x)})$ est unique.
+On prend $phi : NN --> cal(P)_f(NN)$ telle que pour tout ensemble fini $A subset.eq NN$ et tout $N in NN$, il existe $n>N$ tel que $phi(n)=A$. On définit le graphe $G_phi$ sur $NN$ par $\{x,y\} in E$ si, en supposant $x<y$, on a $x in phi(y)$. Montrer que, à isomorphisme près, le graphe $G_phi$ est indépendant du choix de $phi$.
 
-Trouver l'isomorphisme pour $phi_1, phi_2$ deux bijections.
+Construire un isomorphisme entre $G_(phi_1)$ et $G_(phi_2)$ par va-et-vient.
 
 /*
 
@@ -280,12 +280,12 @@ Soit $G = (V_G, E_G)$ un graphe. On dit que $D subset.eq V_G$ domine $X$ si $X s
 
 Soit $k >= 2$. Un coeur de $k$-domination est un $X$ tel que tout dominant de $X$ de taille $k$ domine nécessairement tout le graphe.
 
-*Question 1* Soit $X$ tel que $forall x in V_G, |N(v) inter X| < floor(|X|/k)$. Montrer que $G$ n'admet pas d'ensemble quasi-dominant de $X$ de taille au plus $k$.
+*Question 1* Soit $X$ tel que $forall v in V_G, |N(v) inter X| < floor(|X|/k)$. Montrer que $G$ n'admet pas d'ensemble quasi-dominant de $X$ de taille au plus $k$.
 
 Un graphe est dit sans $K_(t,t)$ si le graphe biparti complet à deux parties de $t$ sommets n'est pas présent comme sous-graphe. On considère l'algo suivant:
 #rect[
   *Entrée:* Un graphe $G$ sans $K_(t,t)$, $X subset.eq V_G$.\
-  $Y <- G$\
+  $Y <- X$\
   $S <- emptyset$\
   *tant que* $exists v in.not S, |N(v) inter Y| >= floor(|Y|/k)$ *faire:*\
   #h(20pt) $S <- S union {v}$\
@@ -298,7 +298,7 @@ Un graphe est dit sans $K_(t,t)$ si le graphe biparti complet à deux parties de
 
 On suppose que $|X|>= 2t k^t$, et on se donne $S,Y$ le résultat de l'algorithme
 
-*Question 3* Montrer que tout ensemble quasi-dominant de taille au plus $k$ intersecte $S$. En déduire que, soit $y in Y$, si $D$ domine $G-y$ alors $D$ domine $G$
+*Question 3* Montrer que tout ensemble quasi-dominant de taille au plus $k$ intersecte $S$. En déduire que, soit $y in Y$, si $D$ est de taille au plus $k$ et domine $G-y$, alors $D$ domine $G$
 
 *Question 5* En déduire un algorithme polynomial qui prend un $k >= 2$ et un graphe $G$ sans $K_(t,t)$ qui retourne un coeur de $k$-domination de taille au plus $2t k^t$.
 
@@ -312,11 +312,11 @@ On cherche à montrer que tout graphe est $(Delta+1)$-coloriable en arête.
 
 *Question 2* Montrer qu'un graphe ne peux pas être $k$-coloré pour $k < Delta$.
 
-Pour $gamma$ une coloration on note $overline(gamma)(u)$ l'ensemble des couleurs des arête d'extrémité $u$ qui *ne* sont *pas* prise. Soient $a,b$ deux couleurs, on définit $K(a\/b)$ la *chaine de Kempe* comme étant un ensemble d'arettes maximal pour l'inclusion contenant que des arettes de couleur $a$ ou $b$
+Pour $gamma$ une coloration on note $overline(gamma)(u)$ l'ensemble des couleurs qui ne sont utilisées par aucune arête d'extrémité $u$. Soient $a,b$ deux couleurs, on note $K(a\/b)$ le sous-graphe formé des arêtes de couleur $a$ ou $b$
 
 *Question 3* Montrer que $G[K(a\/b)]$ est une union disjointe de cycle de longueur pair ou de chemins.
 
-*Question 4* Soit $G$ biaprti, $gamma$ une coloration partielle, $(u,v) in E_G$ avec $a in overline(gamma)(u)$ et $b in overline(gamma)(v)$. Montrer que si $u$ et $v$ ne peuvent pas être dans la même composante connexe de $K(a\/b)$
+*Question 4* Soit $G$ biparti, $gamma$ une coloration partielle, $(u,v) in E_G$ avec $a in overline(gamma)(u)$ et $b in overline(gamma)(v)$. Montrer que $u$ et $v$ ne peuvent pas être dans la même composante connexe de $K(a\/b)$
 
 *Question 5* Montrer que si $G$ est biparti alors $G$ est $Delta(G)$-arête-colorable
 
@@ -325,11 +325,11 @@ Pour $gamma$ une coloration on note $overline(gamma)(u)$ l'ensemble des couleurs
 - $a in overline(gamma')(v)$ et
 - $overline(gamma')(x) = overline(gamma)(x)$ pour tout $x in V \\ {u,v}$ sauf au plus un qui vérifie alors $(overline(gamma')(x) \\ overline(gamma)(x)) union (overline(gamma)(x) \\ overline(gamma')(x)) = {a,b}$
 
-*Question 6* Soit $gamma$ une $k$-coloration partielle de $G$ dont tous les arêtes non coloré $e_1,..., e_r$ sont toutess de la forme $e_i = (u,v_i)$. On suppose que $|overline(gamma)(u)| >= r$, $|overline(gamma)(v_1) inter overline(gamma)(u)| >= 1$ et que pour tout $i >= 2$, on a $|overline(gamma)(v_i) inter overline(gamma)(u)| >= 2$. Montrer que $G$ est $k$-colorable.
+*Question 7* Soit $gamma$ une $k$-coloration partielle de $G$ dont toutes les arêtes non colorées $e_1,..., e_r$ sont toutess de la forme $e_i = (u,v_i)$. On suppose que $|overline(gamma)(u)| >= r$, $|overline(gamma)(v_1) inter overline(gamma)(u)| >= 1$ et que pour tout $i >= 2$, on a $|overline(gamma)(v_i) inter overline(gamma)(u)| >= 2$. Montrer que $G$ est $k$-colorable.
 
-*Question 7* En déduire que tout graphe est $(Delta+1)$-arête-colorable.
+*Question 8* En déduire que tout graphe est $(Delta+1)$-arête-colorable.
 
-*Question 8* Montrer que pour tout $d>1$ il existe un graphe $G$ non $d$-arete colorable de degré maximum $d$.
+*Question 9* Montrer que pour tout $d>1$ il existe un graphe $G$ non $d$-arete colorable de degré maximum $d$.
 
 == FPT: Kernelisation de Feedback vertex set
 
@@ -343,7 +343,7 @@ On considère le problème FEEDBACK-VERTEX-SET suivant:
 2. Soit $(G,k)$ une instance et $v$ un sommet de degré $1$. Montrer que $(G,k)$ est une instance positive ssi $(G-v,k)$ l'est aussi.
 3. Soit $G$ une instance et $v$ un sommet de degré $2$ relié $ u,u' != v$. Montrer que $(G,k)$ est une instance positive ssi $(G -u + "uu"',k)$ l'est aussi
 4. Soit $G$ une instance et $v$ un sommet avec une boucle. Montrer que $(G,k)$ est une instance positive ssi $(G-v,k-1)$ l'est aussi.
-Soit $G$ le graph obtenu après exécution des deux règles précédentes autant de fois que possible. On a donc que le degré minimum de $G$ est 3. On note $V_(3k)$ les $3 k$ sommets de plus grand degré. Soit $S$ est une solution de FEEDBACK-VERTEX-SET, on suppose par l'absurde que $S$ n'intersecte pas $V_(3k)$.
+Soit $G$ le graphe obtenu après exécution des règles de réduction précédentes autant de fois que possible (en supprimant aussi les sommets isolés). On a donc que le degré minimum de $G$ est au moins 3 et que $G$ n'a pas de boucle. On note $V_(3k)$ les $3 k$ sommets de plus grand degré. Soit $S$ est une solution de FEEDBACK-VERTEX-SET, on suppose par l'absurde que $S$ n'intersecte pas $V_(3k)$.
 
 5. Montrer que, pour $d = min_(x in V_(3k)) deg(x)$, on a
   $ sum_(v in X union V_(3k)) deg v >= 3|X|+3k d $
@@ -380,6 +380,6 @@ On considère le problème EDGE-CLIQUE-COVER suivant:
 
 1. Montrer que pour $k=1$ et $k=2$ le problème est polynomial
 2. Soit $(G,k)$ une instance et $v$ un sommet de degré $1$. Montrer que $(G,k)$ est une instance positive ssi $(G-v,k-1)$ l'est aussi
-3. Soit $(u,v) in E$ tel que $N(u) = N(v)$ (avec $N(x)$ le voisinage de $x$). Montrer que $(G,k)$ est une instance positive ssi $(G - u,k)$ l'est.
+3. Soit $(u,v) in E$ tel que $N[u] = N[v]$ (avec $N[x] = N(x) union {x}$ le voisinage fermé de $x$). Montrer que $(G,k)$ est une instance positive ssi $(G-u,k)$ l'est.
 4. Montrer que après exécution des deux règles précédentes autant de fois que possible, on a $|V| <= 2^k$
-4. En déduire que pour $k <= log_2(|V|)$, le problème EDGE-CLIQUE-COVER est polynomial.
+5. En déduire que EDGE-CLIQUE-COVER est à paramètres fixés tractable en paramètre $k$ en résolvant exhaustivement le noyau obtenu.

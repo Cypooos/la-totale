@@ -23,7 +23,7 @@
 
 *Questions à rajouter*
 - BDD & d-DNNF
-- d-DNNF are DAG circuit with not only on leafs. d-DNNF are more succint than BDD (hard proof)
+- d-DNNF are DAG circuits in NNF, with negations only on leaves, decomposable AND gates and deterministic OR gates. d-DNNF can be more succinct than BDD (hard proof)
 - Circuit language
 - Weighted model counting
 - Weighted model counting in d-DNNF can be done as and -> product, or -> sum
@@ -68,7 +68,7 @@ Les variables propositionnelles sont indexées et représentées par des entiers
 
 1. Mettre sous la forme normale conjonctive la formule $not (X_1 or (not X_2 and X_3))$
 2. Donner le code OCaml d'une fonction ```ml val new_var: fnc -> int``` qui renvoie un nom de variable propositionnel non utilisé.
-3. Donner le code OCaml d'une fonction ```ml val to_3: fnc -> fnc``` qui prend une formule en forme normale conjonctive et qui renvoie une formule équivalente ou chaque clause possède au plus 3 littéraux. On aura le droit d'introduire de nouvelles variables non utilisée initialement.
+3. Donner le code OCaml d'une fonction ```ml val to_3: fnc -> fnc``` qui prend une formule en forme normale conjonctive et qui renvoie une formule équisatisfiable où chaque clause possède au plus 3 littéraux. On aura le droit d'introduire de nouvelles variables non utilisées initialement. Toute valuation des variables initiales satisfaisant la formule de départ devra pouvoir être étendue aux nouvelles variables pour satisfaire la formule produite.
 
 
 == Push down not
@@ -104,7 +104,7 @@ On dit qu’un système de connecteurs logiques est _complet_ si toute formule p
   ]
 On introduit deux nouveaux connecteurs logiques pour écrire des formules propositionnelles:
 - Le « OU exclusif » (ou XOR), noté $xor$, définit par $nu(psi_1 xor psi_2) = V$ si et seulement si $nu(psi_1) != nu(psi_2)$.
-- Le « NON-ET » (ou NAND), noté $arrow.t$, définit par $nu(psi_1 arrow.t psi_2) = V$ si et seulement si $nu(psi_1) = nu(psi_2) = F$.
+- Le « NON-ET » (ou NAND), noté $arrow.t$, définit par $nu(psi_1 arrow.t psi_2) = V$ si et seulement si il n'est pas vrai simultanément que $nu(psi_1) = V$ et $nu(psi_2) = V$.
 
 3. L'ensemble ${xor, not}$ forme t'il un système complet de connecteur~?
 4. Montrer que ${arrow.t}$ forme un système complet de connecteurs.
@@ -126,7 +126,7 @@ Montrer qu’il existe une formule propositionnelle $psi$ telle que pour tout va
 
 On dit qu'une formule $F$ de la logique propositionnelle est _linéaire_ si chaque variable propositionnelle apparaît au plus une fois.
 
-1. Montrer que si $F$ est une formule propositionnelle linéaire qui n'utilise pas $bot$, alors il existe une valuation $mu$ telle que $mu tack.double F$
+1. Montrer que si $F$ est une formule propositionnelle linéaire qui n'utilise ni $bot$ ni $top$, alors il existe une valuation $mu$ telle que $mu tack.double F$
 2. Dans le cas ou $F$ est linéaire, proposer un algorithme polynomial qui compte le nombre de valuations satisfesant $F$
 
 == Equivalences avec Sheffer
@@ -152,7 +152,7 @@ type sheffer =
 ```
 
 3. Donner le code OCaml d'une fonction ```ml val to_sheff: form -> sheffer``` qui à une formule retourne une formule équivalente n'utilisant que l'opérateur de Sheffer.
-4. Est-ce que le résultat est polynomial en la taille de l'entrée~? Si ce n'est pas le cas, proposer, en ajoutant de nouvelles variables non utilisées, une version polynomiale.
+4. Est-ce que le résultat est polynomial en la taille de l'entrée~? Si ce n'est pas le cas, proposer, en ajoutant de nouvelles variables non utilisées, une version de taille polynomiale équisatisfiable à la formule de départ.
 
 == Equivalence avec ite#footnote[Exercice de Maxime Bridoux]
 
@@ -191,7 +191,7 @@ type prop_mono =
 | Or of prop_mono * prop_mono
 | And of prop_mono * prop_mono
 ```
-On définit une relation $prec.eq$ sur les valeures de vérité $V,F$ par $F prec V$ que l'ont étent aux valuations par $mu prec.eq mu'$ si pour toute variable $X$ on a $mu(X) prec.eq mu'(X)$.
+On définit une relation $prec.eq$ sur les valeures de vérité $V,F$ par $F prec.eq F$, $F prec.eq V$ et $V prec.eq V$, que l'ont étent aux valuations par $mu prec.eq mu'$ si pour toute variable $X$ on a $mu(X) prec.eq mu'(X)$.
 
 1. Montrer que $prec.eq$ est une relation d'ordre.
 2. Montrer que si une formule monotone est satisfaite par une valuation $v$, alors elle est satisfaite par toute valuation $w$ telle que $v prec.eq w$.
@@ -258,7 +258,7 @@ Soient $phi, psi$ deux formules propositionnelles telles que $phi tack.double ps
 
 == FNC-SAT vers CLIQUE
 
-On cherche à montrer que 3-SAT est résoluble en temps polynomial si et seulement si le problème CLIQUE l'est. 
+On cherche à montrer que FNC-SAT est résoluble en temps polynomial si et seulement si le problème CLIQUE l'est.
 
 Soit $F = and.big_(1 <= i <= n) C_i$ une formule en FNC possédant $n$ clauses, que l'on écrit $C_i = l_i^((1)) or ... or l_i^((k_i)).$ On construit un graphe $G_F$ de la manière suivante :
 - pour chaque clause $C_i$ et chaque occurrence d'un littéral $l_i^((j))$, on crée un sommet $(i,j)$
@@ -299,7 +299,7 @@ $
 
 Soit $n in NN^*$. On considère des variables booléennes $X_1,...,X_n$.
 
-Un _BDD ordonné_ est un graphe orienté acyclique dont les feuilles sont étiquetées par `true` ou `false`, et dont les noeuds internes sont étiquetés par une variable. Depuis un noeud étiqueté par $X_i$, l’arête gauche correspond à $X_i = F$ et l’arête droite à $X_i = V$. On impose que, sur tout chemin de la racine vers une feuille, les variables apparaissent dans le meme ordre $X_1,...,X_n$. La racine sera toujours $1$. On signale que ce n'est pas toujours un arbre : il est possible que deux noeud différents pointent vers le meme fils.
+Un _BDD ordonné_ est un graphe orienté acyclique dont les feuilles sont étiquetées par `true` ou `false`, et dont les noeuds internes sont étiquetés par une variable. Depuis un noeud étiqueté par $X_i$, l’arête gauche correspond à $X_i = F$ et l’arête droite à $X_i = V$. On impose que, sur tout chemin de la racine vers une feuille, les variables apparaissent dans le meme ordre $X_1,...,X_n$. On signale que ce n'est pas toujours un arbre : il est possible que deux noeud différents pointent vers le meme fils.
 
 On propose la représentation OCaml suivante :
 ```ml
@@ -353,9 +353,9 @@ On considère l'algorithme suivant :
 
 On fixe un ensemble $X = {x_1, ... , x_n}$ de variables propositionnelle. Un _diagramme de décision_ $D$ sur $X$ est la donnée d’un graphe orienté $(V, E)$, supposé sans cycle, d'un nœud initial $v_"init"$ et d'un ensemble d'états finaux $F = F_1 union.sq F_0 subset.eq V$ non vide ne possédant aucune arête sortante.
 
-Chaque arrête est étiquetée par un booléen et chaque nœud par une variable de $X$. Chaque nœud non final possède exactement deux arêtes sortantes, une étiquetée par $1$ et une par $0$.
+Chaque arrête est étiquetée par un booléen et chaque nœud non final par une variable de $X$. Chaque nœud non final possède exactement deux arêtes sortantes, une étiquetée par $1$ et une par $0$.
 
-Pour toute _valuation_ $mu : X --> { 1, 0}$, un diagramme de décision $D$ associe une valeur $D(mu) in { 1, 0}$ obtenus en parcourant le graphe en commençant à $v_"init"$  et à chaque sommet $v$, prendre l’arête étiqueté par $mu(v)$, jusqu’à arriver dans $F_1$ (dans ce cas $D(mu) = 1$) ou arriver dans $F_0$ (dans ce cas, $D(mu) = 0$)
+Pour toute _valuation_ $mu : X --> { 1, 0}$, un diagramme de décision $D$ associe une valeur $D(mu) in { 1, 0}$ obtenue en parcourant le graphe en commençant à $v_"init"$ et, à chaque sommet non final $v$ étiqueté par la variable $x(v)$, en prenant l’arête étiquetée par $mu(x(v))$, jusqu’à arriver dans $F_1$ (dans ce cas $D(mu) = 1$) ou dans $F_0$ (dans ce cas, $D(mu) = 0$).
 
 1. On considère $X = {x_1, ... ,x_n}$ et le graphe de décision $D_1$ suivant ou l'état initial est $x_1$, les états finaux ont été entouré ($F_1$ correspond aux état avec un 1 et respectivement $F_0$ correspond au états avec un 0):
 #align(center)[
@@ -371,7 +371,7 @@ Si on se donne une formule logique $phi$, on dit que D _représente_ $phi$ si $p
 
 3. Donner un diagramme de décision $D_2$ représentant la fonction $not (x_1 and x_2) or x_3$
 
-La profondeur d’un diagramme de décision est la plus grande longueur possible d’un chemin orienté à partir du nœud initial $v_"init"$, en comptant le nombre de nœuds de traversés. On appelle profondeur minimale d’une fonction booléenne $phi$ la plus petite profondeur possible pour un diagramme de décision représentant $phi$.
+La profondeur d’un diagramme de décision est le plus grand nombre de nœuds non finaux traversés sur un chemin orienté à partir du nœud initial $v_"init"$. On appelle profondeur minimale d’une fonction booléenne $phi$ la plus petite profondeur possible pour un diagramme de décision représentant $phi$.
 
 4. Décrire la profondeur du diagramme $D_2$ et celle du diagramme $D_1$.
 5. Quelle est la profondeur minimale de la fonction identifiée en question 1? 

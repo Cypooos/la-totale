@@ -33,7 +33,7 @@ Par exemple, pour $k=5$, si les 5 fils d'exécution executent ```c vote(2), vote
 
 *Question 1* Dans le cas ou les votes sont soit 0 soit 1, proposer une implémentation de ```c void vote(int valeur);``` à base d'un mutex, un sémaphore initialisé à 0 et de deux variables entières partagés.
 
-*Question 2* On considère le cas ou les votes sont dans $[|0 ;p|]$. Proposer une solution avec un tableau de mutex de longueur $p$, un compteur protégé par un mutex et un sémaphore initialisé à 0.
+*Question 2* On considère le cas ou les votes sont dans $[|0 ;p|]$. Proposer une solution avec un tableau de mutex de longueur $p+1$, un compteur protégé par un mutex et un sémaphore initialisé à 0.
 
 *Question 3* Proposer une solution avec un tableau de longueur $k$, le nombre de fils, n'utilisant qu'un compteur protégé par un mutex et un sémaphore.
 
@@ -74,17 +74,18 @@ Expliquer pourquoi cette implémentation peut donner à des situations d'interbl
 
 *Question 2* Proposer une implémentation sans interblocage utilisant un compteur protégé par un mutex. Cette solution peut-elle être source de famine~?
 
-*Question 3* Proposer une solution garentissant l'abscence de famine utilisant un sémaphore, et une variable protégé par un mutex.
+*Question 3* Proposer une solution garantissant l'absence de famine utilisant un sémaphore, et une variable protégée par un mutex. On supposera que les fils bloqués sur un sémaphore sont réveillés dans l'ordre FIFO.
 
-*Question 4* Montrer l'abscence d'interblocage et de famine.
+*Question 4* Montrer l'absence d'interblocage et de famine.
 
 == Mutex ré-entrant
 
-On cherche à implémenter un mutex réentrant: c'est un mutex sauf que si la ressource est allouée à un fil $k$, alors le fils $k$ peut se lock autant de fois qu'il veux. Notamment, cela permet d'executer ce code sans situation de blocage:
+On cherche à implémenter un mutex réentrant: c'est un mutex sauf que si la ressource est allouée à un fil $k$, alors le fils $k$ peut se lock autant de fois qu'il veux. Chaque appel à `lock` doit néanmoins être compensé par un appel à `unlock`. Notamment, cela permet d'executer ce code sans situation de blocage:
 ```c 
 void exemple() {
   lock(mutex_reentrant);
   lock(mutex_reentrant);
+  unlock(mutex_reentrant);
   unlock(mutex_reentrant);
 }
 ```
@@ -103,9 +104,9 @@ On cherche ici a modéliser un pont à voie unique qui ne peut être que emprunt
 
 *Question 1* Proposer une solution utilisant un mutex, un compteur partagé et de l'attente active. Expliquer pourquoi il peut avoir une famine.
 
-*Question 2* Donner une solution ayant une abscence de famine avec 2 sémaphores initialisé à 1 et un entier. On pourra s'inspirer de la solution avec de l'attente active.
+*Question 2* Donner une solution ayant une absence de famine avec 2 sémaphores initialisés à 1 et un entier. On supposera que les fils bloqués sur un sémaphore sont réveillés dans l'ordre FIFO. On pourra s'inspirer de la solution avec de l'attente active.
 
 *Question 3* On suppose maintenant qu'un maximum de 5 voitures peuvent être présentent en même temps sur le pont. Modifier le code pour correspondre à ce critère.
 
-*Question 4* Et s'il le pont possèdait $k$ voies, tel qu'une seule ne peut être empruntée en même temps~?
+*Question 4* Et si le pont possédait $k$ voies, chacune ne pouvant être empruntée que par une voiture à la fois, les voitures présentes sur le pont devant toujours aller dans le même sens~?
 

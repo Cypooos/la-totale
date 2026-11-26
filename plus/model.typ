@@ -29,6 +29,28 @@ Soit $T$ une théorie du 1er ordre cohérente dans un langage $cal(L)$. On pose 
 3. Montrer que la théorie $T^*$ est complete.
 4. En déduire que si $T$ peut encoder Peano, alors $T^*$ n'est pas récursivement énumrable.
 
+== Cloture par ordinal interne 
+
+Soit $A$ un ensemble. Montrer qu'il existe un unique ensemble $B$ tel que $B = { x in A | x subset.eq B}$
+/*
+  - L'équation reviens à $B = P(B) sect A$ (un point-fixe de $X |-> P(X) sect A$)
+  - On peut montrer que $B$ est transitif et inclus dans $A$
+  - $B$ est en réalité le plus grand ensemble transitif inclus dans $A$
+*/
+
+== Fonctions à valeurs partout
+
+1. Montrer qu'il existe une fonction $f : RR --> RR$ telle que $f$ prends toutes les valeurs sur tout les intervalles (i.e. $forall a < b, f([a;b]) = RR$) 
+
+2. Montrer qu'il existe une fonction $f : QQ --> QQ$ telle que $f$ prends toutes les valeurs sur tout les intervalles (i.e. $forall a < b, f([a;b] inter QQ) = QQ$) 
+
+== Fonctions périodiques bizarres
+
+1. Montrer qu'il existe $f,g : RR --> RR$ tout deux périodiques telle que $forall x in RR, f(x) + g(x) = x$. _On pourra considérer une base de $RR$ comme $QQ$-espace vectoriel._
+2. Montrer que pour tout polynome $P in RR[X]$ de degrée $n$ il existe $f_1,...,f_n : RR --> RR$ toutes périodiques telles que $forall x in RR, sum_i f_i(x) = P(x)$.
+3. On pose $Delta_a (f) := x |-> f(x) - f(x-a)$. Montrer que $exp$ ne peut pas etre écrite comme somme finie de fonctions périodiques.
+
+
 == ZF intuitioniste et le tiers exclu
 
 On considère les axiomes de ZF en logique intuitioniste. Les axiomes de ZF ne permettent pas de prouver le tiers exclu.
@@ -41,7 +63,6 @@ Le _tiers exclu faible_ est la formule $not P or not not P$, et n'est pas prouva
 
 3. Montrer que le tiers exclu faible est équivalent à $forall X subset.eq {*}, X = emptyset or X != emptyset$. (?)
 
-
 == Modèle dénombrable de ZFC et le graphe de Rado
 
 Un graphe infini $G = (S,A)$ est dit comme respectant la _propriété de Rado_ si pour tout $U,V subset.eq S$ des ensemble disjoint fini de $S$,  
@@ -53,6 +74,28 @@ On considère ZFC avec l'axiome de fondation que l'on suppose consistante. Soit 
 On considère $overline(M)$ le symétrique de $M$ : c'est le graphe $(V,overline(E))$ avec $E = E union {(x,y) : (y,x) in E}$.
 
 Montrer que $overline(M)$ est le graphe de Rado. On pourra considerer ${u_M : u in U} union {{v_M : v in V}} in M$.
+
+== Nains et Axiome du Choix
+
+On considère une suite de nains indéxé par $omega$, en file indienne, à la queue-le-le, à qui on va mettre des chapeaux. Le $i$-ème nain peut observer les chapeaux de tout les nains plus grand que lui (les $j > i$), mais ne peux voir ni son propre chapeau ni le chapeau des nains $j < i$. Les nains (qui peuvent utilliser l'axiome du choix de manière constructive et se mettre d'accord sur des systèmes de représentant par exemple), établissent une stratégie commune, avant que l'on distribue les chapeaux, qui sont soit blanc soit noirs. Ils vont tous en meme temps essayer de deviner la couleur de leurs chapeau, et il ne faut qu'un nombre fini d'entre eux fassent une erreur.
+
+On modélise plus sérieusemennt le jeu. Soit $C$ un ensemble de couleurs de chapeau et $(X,<)$ une relation d'ordre, on pose $N(x) = {y in X | y > x}$. Une stratégie pour les nains consistent en une série de fonction $(f_x)_(x in X)$ tel que $f_x : C^N(x) --> C$. Le nombre d'erreur d'une stratégie sur une séquence $u in C^X$, en notant $u_(>x)$ la séquence démarrant sur $x$ (exclut), est défini comme le cardinal de ${x in X | f_x (u_(>x)) != u_x}$. 
+
+
+1. Pour $u,v in {0,1}^omega$, on dit que $u tilde v$ si $exists i, forall j > i, u_j = v_j$. Montrer que c'est une relation d'équivalence.
+2. Montrer que pour $C = {0,1}$ et la relation d'ordre $(omega,<)$ les nains peuvent toujours faire un nombre fini d'erreur.
+3. Montrer que pour un $C$ quelquonque, sur $(omega, <)$ les nains peuvent toujours faire un nombre fini d'erreur.
+4. On suppose que les nains ne connaissent pas leur position dans la suite, et ne peuvent que choisir en fonction de l'infinité devant eux, sans savoir le nombre d'éléments derrière eux. On modélisera ça par le fait qu'il existe $f : C^(omega \\ {0}) --> C$ de manière à ce que tout les $(f_i)_i$ sont juste $f$ qui à translaté $u_(>x)$ en un $u_(>0)$. Montrer que les nains peuvent toujours faire un nombre fini d'erreur.
+5. Montrer que pour tout ordinal $alpha$, les nains ont une stratégie gagnante sur $(alpha,<)$ avec $C$ quelquonque. (?)
+6. On suppose que $X$ soit un ordre total avec un minimum. Est-ce que les nains ont toujours une stratégie avec un nombre fini d'erreurs?
+
+On suppose maintenant que les nains parlent à tour de role : d'abord le nain 0, puis 1 etc..., en sachant que le $i$-ème nain entend ce que dit tout les nains d'avant.
+
+7. Proposer une modélisation du problème dans ce cas et montrer que les nains peuvent toujours atteindre 1 erreur pour $C = {0,1}$. Et pour $C$ quelquonque?
+
+On considère maintenant une famille de nains indéxé sur $RR$, et une suite $(epsilon_x)_(x in RR)$. Le $x$-ème nain (pour $x in RR$) ne peux que voir les chapeaux des nains dans $]x-epsilon_x ; x+epsilon_x [space \\ {x}$. 
+
+8. Montrer que les nains peuvent ne faire qu'un nombre dénombrable d'erreurs.
 
 
 == Ordinal de Hartogs
@@ -76,3 +119,19 @@ Un ensemble est dit calculable lorsque sa fonction caractéristique est calculab
 2. Montrer que si $alpha$ est calculable, alors $alpha+1$ est calculable. En déduire que $omega_1^"CK"$ n'est pas un ordinal successeur.
 3. Montrer que si $beta$ est un ordinal calculable et $alpha<beta$, alors $alpha$ est calculable.
 4. Montrer que $omega_1^"CK"$ est un ordinal dénombrable, mais qu'il n'est pas calculable.
+
+== Forcing pt 1, algèbre de Boole complète
+
+Soit $(PP,<=)$ une relation d'ordre. On appelera les éléments de $PP$ les _conditions de forcing_, et on dira que $q$ est une condition _plus forte_ que $p$ si $q <= p$. On dira que $p$ est _compatible_ avec $q$ (noté $p || q$) s'il existe $r <= p,q$. Sinon, on dira que $p$ est incompatible avec $q$ (que l'on notera $p bot q$).
+
+On suppose que $(PP,<=)$ respecte :
+- Il existe $bold(1) in PP$ tel que $bold(1)$ soit une _condition maximale_ (i.e. $forall x, x <= bold(1)$)
+- $PP$ est _séparatif_, c'est à dire que pour tout $p lt.eq.not q$ il existe $r <= p$ tel que $r bot q$. 
+
+Poyur $U subset.eq PP$, on pose $arrow.b U = {p in PP | exists u in U, p <= u}$. On défini l'ensemble des ouverts $ cal(O)(PP) := { U subset.eq PP | arrow.b U = U } = {U subset.eq PP | forall p in U, forall q <= p, q in U} $
+
+1. Montrer que $(cal(O)(U),subset.eq)$ forme un lattice complet (i.e. possèdes des sup et inf de taille arbitraire)
+2. Pour $U, V in cal(O)(U)$, on pose 
+
+== Forcing pt 2, $PP$-noms
+

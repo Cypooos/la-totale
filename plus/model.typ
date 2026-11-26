@@ -1,4 +1,4 @@
-= *Math: Théorie des ensemble et modeles en logique*
+= *Plus: Théorie des ensemble et modeles en logique*
 
 == Cours
 

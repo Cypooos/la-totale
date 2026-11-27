@@ -71,25 +71,22 @@ _Indication:_ Trier $P$ selon les $(x_i)_i$, puis couper $P$ en deux pour s'apel
 
 Soit $A$ un tableau de $n$ entiers relatifs, on cherche un algorithme en $O(n)$ qui calcule le sous-tableau connexe qui maximise la somme de ses éléments, i.e. le couple $(i,j)$ avec $0<=i<=j<=|T|$ tel que $sum_(k in [|i ;j|]) A[k]$ soit maximal.
 
-== Eau de pluie piégée #footnote[#link("https://leetcode.com/problems/trapping-rain-water/", "Leetcode: Trapping Rain Water")]
-Soit $H$ un tableau de $n$ entiers représentant les hauteurs d'un terrain vu de coupe.\
-L'objectif de ce problème est de calculer $q$ la quantité d'eau maximale piégée dans les creus du terrain après une pluie.\
-On considère que l'eau qui peut s'écouler par les bords du tableau n'est pas piégée.\
-Par exemple pour $H=[0,1,0,2,1,0,1,3,2,1,2,1]$, la réponse est $q=6$, on ne peut ajouter de carré d'eau sans que ce dernier ne s'écoule nécessairement.
+== Eau de pluie piégée #footnote[#link("https://leetcode.com/problems/trapping-rain-water/", "Exercice inspirée de Leetcode: \"Trapping Rain Water\"")]
+
+Soit $H$ un tableau de $n$ entiers représentant les hauteurs d'un terrain vu de coté.
+L'objectif de ce problème est de calculer $q$ la quantité d'eau maximale piégée dans les creus du terrain après une pluie.
+On considère que l'eau peut s'écouler par les bords du tableau.
+
+Par exemple pour $H=[0,1,0,2,1,0,1,3,2,1,2,1]$, la réponse est $q=6$:
 #figure(
-  image("../sup/rainwatertrap.png"),
-  caption: [Configuration maximale pour $H = [0,1,0,2,1,0,1,3,2,1,2,1]$],
+  image("raindrop.svg",width: 70%),
+  caption: [En bleu les carrés remplis d'eau pour $H = [0,1,0,2,1,0,1,3,2,1,2,1]$],
   numbering: none,
 )
 
 1. Écrire en C un algorithme qui prend $H$ en entrée et qui renvoie $q$ en $O(1)$ en mémoire.\
   Donner sa complexité en temps.
-
-2. Adapter cet algorithme pour passer en $O(n)$ en temps et $O(n)$ en mémoire
-
-3. Donner un algorithme qui résout ce problème en $O(n)$ en temps et $O(1)$ en mémoire
-
-_Indication:_ Utiliser deux pointeurs
+2. Donner un algorithme qui résout ce problème en $O(n)$ en temps et $O(1)$ en mémoire. On pourra utilliser 2 pointeurs.
 
 
 == Le glouton par défault#footnote[Algo 1 ENS Lyon]

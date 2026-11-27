@@ -15,10 +15,11 @@ Le document vise notamment :
 Les exercices sont trié par section, chapitre, puis dans chaque chapitre par ordre (très) approximatif de difficulté :
 - `sup/`: Contiens les chapitres `imp` (impératif), `func` (fonctionnel), `seq` (structures de données séquentielles), `ind` (inductions et ordres), `tree` (arbres et structures inductives), `graph` (théorie des graphes), `prop` (logique propositionelle), `db` (base de données, SQL), `algo` (algorithmique)
 - `spe/` : Contiens les chapitres `lang` (théorie des langages), `reg` (langages régulier), `gram` (grammaires non-contextuelles), `graph2` (théorie des graphes 2), `game` (théorie des jeux), `data` (apprentissage), `system` (mutex, sémaphores), `proba` (algorithmes d'approximation et probabilistes), `deduc` (déduction naturelle), `class` (classes de complexitées), `calc` (calculabilité)
+- `plus/` : Contiens les chapitres bonus qui ne sont pas au programme de prépa, comme `g-alg` (algèbre pour la théorie des graphes), `model` (Théorie des modèles, ZFC, Godel), `lambda` (une introduction au lambda calcul), `topo-games` (Topologie discrete et jeux infinis)
 
-Dans le futur, les 2 sections suivantes seront rajoutées:
-- `math/` : Contiens les chapitres de mathématiques utile pour l'informatique, comme `g-alg` (utilliser l'algèbre pour la théorie des graphes), `model` (Théorie des modèles, ZFC, Godel), `ord` (Relations d'ordres, wqo), `denom` (Dénombrement, série génératrices de langages), `topo` (Topologie pour l'informatique)
-- `compl/` : Contiens les chaptres complémentaire / avancés d'informatique non présent dans le programme, comme `lamb` (lambda calcul, le chapitre le plus accesible), `parra` (algorithmes parralélisés), `fpt` (FPT, tree-width), `logic` (Logique avancé, Système F, Rocq)
+Le chapitre `plus/lambda` est assez accesible est est recommandée pour les préparationnaire préparant les ENS.
+
+Dans le futur, les chapitres de  `ord` (Relations d'ordres, wqo), `denom` (Dénombrement, série génératrices de langages), `topo` (Topologie pour l'informatique) `parra` (algorithmes parralélisés et distribuées), `fpt` (FPT, tree-width), `logic` (Logique avancé, Système F, Rocq) pourront etre ajoutés.
 
 Les exercices sont conçus pour être aussi indépendants que possible, sauf mention contraire. Ils sont souvent difficiles : beaucoup correspondent plutôt à une bonne colle, voire à une partie de sujet d’écrit. Il ne faut donc pas hésiter à ajouter des questions intermédiaires si vous souhaitez les donner à des élèves.
 
@@ -40,10 +41,8 @@ Pour corriger des fautes d'orthographes, de logique ou pour contribuer, faites u
 - [ ] Finir tout les exercices possédant un TODO
 - [ ] Harmoniser les sections "Cours" de chaque chapitre
 - [ ] Ajouter des problèmes sur union-find dans `spé/graph2`
-- [ ] Avoir plus de 300 exercices uniques (~250/300)
+- [x] Avoir plus de 300 exercices uniques (~250/300)
 - [ ] Uniformiser le style graphique, nottamment pour le compteur des questions
-
-Par la suite, 2 autres sections seront rajouté pour du post-prépa : `math` pour les exercices mélangeant mathématiques et informatique, et `complement` pour des sujets non abordés tels que le lambda-calcul, modèles en logique, ZFC, MSO et tree-width, la dynamique symbolique, assistants de preuves, parralélisme, bio-info etc...
 
 À terme, le projet pourra être déplacé hors de GitHub pour des raisons éthiques et pratiques. En attendant, les issues et pull requests restent le moyen le plus simple de contribuer.
 
@@ -59,9 +58,11 @@ En contribuant, vous êtes responsable du contenu soumis. Mais ce n'est pas grav
 * Les exercices situés dans `sup/` et `spe/` doivent rester accessibles avec le programme de prépa, rappelé dans l’exercice `Cours` de chaque section.
 * Les exercices peuvent être classiques, mais ils doivent présenter un intérêt pédagogique réel.
 * Des exercices plus mécaniques peuvent etre acceptés, par exemple pour s’entraîner sur une technique précise : mise en FNC, algorithme de Berry-Sethi, calcul d’automates, etc.
-* Ce git n'a pas pour but de faire un corrigé. Toutefois, il est possible d’ajouter, en commentaire sous une question, des indications, des étapes clefs ou des éléments de correction.
+* Ce git n'a pas pour but de faire un corrigé. Toutefois, il est possible d’ajouter, en commentaire typst sous une question, des indications, des étapes clefs ou des éléments de correction.
 * Les règles globales `#set` et `#show` sont interdites, et tout ce qui impacte de manière globale les autre exercice.s Crée des variables temporaire `#let sha = ...` est autorisé tant que c'est raisonnable. 
 * Les imports sont interdits, sauf exception.
 * Si un exercice qui est principalement dans un chapitre utillise un chapitre qui est plus loin dans l'ordre, indiquer entre parenthèse dans le titre de l'exercice, le chapitre en question qui est nécéssaire.
 * Si un exercice utillise plusieurs chapitre du programme de manière équivalente et qu'il ne peux pas etre découpé, mettez-le dans le chapitre le plus loins dans l'ordre. Ainsi, par exemple, si un exercice parle de grammaire non-contextuelles et de langage régulier, il sera mis dans le chapitre grammaire.
 * Un exercice peut faire appel à des petits points des chapitres précédents sans soucis.
+
+Merci à tout les contributeurs: @Milan-Torres, (ajoute ton pseudo ici en faisant une PR!)

@@ -1,4 +1,4 @@
-//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, g-alg, model, all
+//  seq, func, ind, tree, graph, prop, db, algo, lang, reg, gram, graph2, game, data, system, proba, deduc, class, calc, lambda, g-alg, model, topo-games, all
 
 
 // Ceci permet de compiler le fichier avec chap=<chapitre> pour avoir un pdf avec 1 exos par page et que les exos du chapitre. 

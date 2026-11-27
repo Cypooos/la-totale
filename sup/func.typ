@@ -16,7 +16,7 @@ Je préviens (si tu commence par cette section) que les exercices ici (surtout v
 On s'intéresse à écrire une fonction dans un langage de programmation fonctionnel capable de prendre en entrée une fonction f et de renvoyer une version mémoïsée de f.
 
 1. Écrire une fonction ```ml val memo: ('a -> 'b) -> ('a -> 'b)``` telle que si f est une fonction non récursive, alors `memo f` renvoie une version mémoïsée de f
-2. Écrire une fonction ```ml val memo_rec: ('a -> 'b) -> ('a -> 'b)``` telle que si f est une fonction récursive, alors `memo f` renvoie une version mémoïsée de f. On suppose que les appels récursif sont tous de la forme `memo f`. Attention à préserver la structure des appels récursifs.
+2. Pour pouvoir rediriger les appels récursifs vers la version mémoïsée, on représente une fonction récursive sous forme ouverte par un fonctionnel qui reçoit son appel récursif en argument. Écrire une fonction ```ml val memo_rec: (('a -> 'b) -> 'a -> 'b) -> ('a -> 'b)``` telle que `memo_rec f` renvoie le point fixe mémoïsé du fonctionnel `f`.
 3. Écrire une fonction ```ml val fibo: int -> int``` qui calcule la fonction de Fibonacci avec une complexité en $O(n)$ en utilisant `memo_rec`.
 
 == Suspension et listes infinies
@@ -43,14 +43,14 @@ and 'a slist = 'a slist_cell susp
 4. Définir une fonction ```ml scons: 'a -> 'a slist -> 'a slist``` qui ajoute un élément en tête d’une liste paresseuse. Définir une valeur `snil` représentant la liste paresseuse vide.
 5. Écrire deux fonctions ```ml shd: 'a slist -> 'a``` et ```ml stl: 'a slist -> 'a slist``` qui prennent une liste paresseuse non vide en paramètre, et qui renvoient respectivement son premier élément et la liste paresseuse des autres éléments
 6. Écrire une fonction ```ml sappend: ’a slist -> ’a slist -> ’a slist``` qui concatène en $O(1)$ deux listes paresseuses.
-7. Écrire une fonction ```ml srev: 'a slist -> 'a slist``` qui renverse une liste paresseuse de manière efficace. Quelle est la complexité des accès aux différents éléments de la liste renversée~?
+7. Pour une liste paresseuse finie, écrire une fonction ```ml srev: 'a slist -> 'a slist``` qui la renverse. Quelle quantité de la liste d'entrée doit nécessairement être forcée avant de pouvoir produire le premier élément de la liste renversée~? Quelle est ensuite la complexité des accès~?
 8. Définir en OCaml une liste paresseuse qui contient _tous_ les carrés parfaits.
 
 == Continuation
 
 On se donne le type tree suivant pour représenter des arbres binaires:
 ```ml
-type 'a tree = E | N of 'a * tree * tree
+type 'a tree = E | N of 'a * 'a tree * 'a tree
 ```
 
 La hauteur d'un arbre peut être calculée par la fonction height suivante, de type `tree -> int`~:
@@ -93,14 +93,14 @@ On peut modifier le code par continuation pour qu'il n'utilise plus de fonctions
 5. Compléter le code à trou suivant. K1, K2, K3 sont les fonctions anonymes marquées par les commentaires `(*1*)`, `(*2*)` et `(*3*)` respectivement. La composition d'une suite de fonctions anonymes est alors représentée par une liste desdites fonctions qui la composent, aka le type `cont`. `apply k v` simule l'application de la fonction anonyme représentée par `k` avec `v`. La fonction `aux2` est l'analogue de la fonction `aux1`
 
 ```ml
-type cont =
-  | K1 of tree * cont 
-  | K2 of int * cont
+type 'a cont =
+  | K1 of 'a tree * 'a cont
+  | K2 of int * 'a cont
   | K3
 let rec aux2 t k =
   match t with
   | E -> apply ...
-  | N (l, r) -> aux2 ...
+  | N (_, l, r) -> aux2 ...
 and apply k v =
   match k with
   | K1 (r, k) -> aux2 ...
@@ -153,7 +153,7 @@ On va essayer de faire `set` en $O(log n)$. Pour cela, on chercher à définir `
 
 7. Coder `transform`, de manière à ce que la complexité soit en $O(log n + C_f)$ avec $C_f$ la complexité de $f$
 8. Donner une nouvelle version de `set` à l'aide de `transform` qui est en $O(log n)$
-9. En appliquant une technique de défonctionalisation vu dans l'exercice sur les continuations, proposer un type enum ```ml type trans = | ...``` et une implémentation de `transform` et `set` de telle sorte à ce que le type soit maintenant ```ml val transform2: 'a. 'a seq -> int -> trans -> 'a seq```. A la fin, on ne devrai plus voir de fonction anonymes.
+9. En appliquant une technique de défonctionalisation vue dans l'exercice sur les continuations, proposer un type paramétré ```ml type 'a trans = | ...``` et une implémentation de `transform` et `set` de telle sorte à ce que le type soit maintenant ```ml val transform2: 'a. 'a seq -> int -> 'a trans -> 'a seq```. A la fin, on ne devra plus voir de fonctions anonymes.
 
   Petite rappel de l'intuition sur la défonctionalisation: on simule la stack avec une liste.
 
@@ -172,7 +172,7 @@ end
 On définit une _monade_ comme étant un module de signature `Monad` qui respecte 3 égalitées:
 - `return` est neutre à gauche: ```ml bind (return x) f = f x```
 - `return` est neutre à droite: ```ml bind m return = m```
-- La monade est associative: ```ml bind (bind m f) g = bind m (fun x => bind (f x) g)```
+- La monade est associative: ```ml bind (bind m f) g = bind m (fun x -> bind (f x) g)```
 
 *Question 1* On se donne le module suivant:
 ```ml
@@ -198,14 +198,16 @@ let join x = bind x (fun y -> y)
 
 *Question 3* Donner le type de `map` et `join`. Pour les monades de la question 1 et 2, à quoi correspond `map` et `join`~? _`join` est parfois appellé `flatten`_
 
-*Question 4* Montrer que `map` et `join` satisfait ```ml join (map join x) = join (join x)```.
-
-On admettra que `map` et `join` satisfont aussi
-- ```ml join (map return x) = join (return x)```
+*Question 4* Montrer que `return`, `map` et `join` satisfont les identités suivantes:
+- ```ml map (fun x -> x) m = m```
+- ```ml map (fun x -> g (f x)) m = map g (map f m)```
+- ```ml map f (return x) = return (f x)```
+- ```ml join (return x) = x```
+- ```ml join (map return x) = x```
+- ```ml join (map join x) = join (join x)```
 - ```ml join (map (map f) x) = map f (join x)```
-_Je ne suis pas sur de cette question et de la question 5_
 
-*Question 5* Montrer que si un module possède `join` et `map` avec les 3 équations précédente alors on peut le munir d'une structure de monade. On donnera la définition de `bind` et la preuve que la loi d'associativié est respectées (on admettera les 2 autres).
+*Question 5* Réciproquement, on suppose donnés `return`, `map` et `join` satisfaisant les identités de la question précédente. Montrer qu'en posant ```ml bind m f = join (map f m)```, on obtient une structure de monade. On détaillera en particulier la preuve de l'associativité.
 
 *Question 6* On s'intéresse maintenant à la monade suivante:
 ```ml
@@ -237,7 +239,7 @@ On cherche à définir un parser en OCaml en utilisant des combinateurs que l'on
 
 ```ml
 type 'a seq = | Nil | Cons of 'a * 'a node
-and 'a node = 'a next
+and 'a node = unit -> 'a seq
 type 'a parser = char list -> ('a * char list) seq
 ```
 
@@ -258,7 +260,7 @@ Par exemple, si `parser_int: int parser` parse des nombres, on peut imaginer que
 
 *Question 3* Définir la fonction ```ml let (||) p1 p2 = ...``` telle que `(||) p1 p2` renvoie le parser qui effecture la concaténation des résultats des deux parser. On rappelle que la syntaxe `(||)` en OCaml permet de redéfinir la fonction `||` et d'écrire `p1 || p2` à la place de `(||) p1 p2`.
 
-*Question 4* (dur) Définir la fonction ```ml val fix: ('a parser -> 'a parser) -> 'a parser``` qui prend en argument une fonction `f` et qui renvoie un parser `p` tel que `p` agit comme `f p`. On fera bien attention à ce que `fix` termine quand `f` termine.
+*Question 4* (dur) Définir la fonction ```ml val fix: ('a parser -> 'a parser) -> 'a parser``` qui prend en argument une fonction `f` et qui renvoie un parser `p` tel que `p` agit comme `f p`. La construction de `fix f` elle-même doit terminer immédiatement ; l'évaluation du parser obtenu pourra diverger si la récursion décrite par `f` n'est pas productive.
 
 // let rec fix f = fun input -> f (fun input () -> fix f input ()) input
 
@@ -266,7 +268,7 @@ Par exemple, si `parser_int: int parser` parse des nombres, on peut imaginer que
 
 On définit alors le combinateur suivant:
 ```ml
-let (<*>) (p1: ('a -> 'b) parser) (p2: 'a parser): 'a parser = bind p1 (fun f -> map f p2)
+let (<*>) (p1: ('a -> 'b) parser) (p2: 'a parser): 'b parser = bind p1 (fun f -> map f p2)
 ```
 Il prend en argument deux parser `p1` et `p2`, parse l'entrée d'abord avec $p_1$, puis ensuite avec $p_2$, et applique la fonction résultat du parsing de $p_1$ au résultat du parsing de $p_2$, et ceci pour chaque entrée. Comme pour `(||)`, on pourra écrire `p1 <*> p2` au lieu de `(<*>) p1 p2`.
 

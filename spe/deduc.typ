@@ -38,17 +38,17 @@ Montrer le séquent $not (A and B) tack not A or not B$ en logique classique
 Montrer les séquents suivants en logique intuitioniste:
 - $forall x, not A tack not exists x, A$ où $x in "VL"(A)$
 - $exists x, not A tack not forall x, A$ où $x in "VL"(A)$
-- $not exists x, A tack forall x, A$ où $x in "VL"(A)$
+- $not exists x, A tack forall x, not A$ où $x in "VL"(A)$
 
 Montrer en logique classique (ce séquent n'est pas démontrable en logique intuisioniste~! )~:
-- $not forall x, A tack exists x, A$ où $x in "VL"(A)$
+- $not forall x, A tack exists x, not A$ où $x in "VL"(A)$
 == Equivalence entre les formules donnant la logique classique
 
 Montrer que en logique intuitioniste, nous avons les jugements suivants:
 - $A or not A tack ((A -> B) -> A) -> A$ (Tiers-exclu vers Peirce)
-- $((A -> B) -> A) -> A tack A or not A$ (Peirce vers Tiers-exclu)
+- $((not (A or not A) -> (A or not A)) -> (A or not A)) tack A or not A$ (une instance de Peirce vers Tiers-exclu)
 - $A or not A tack not not A -> A$ (Tiers-exclu vers élimination du double non)
-- $not not A -> A tack A or not A$ (élimination du double non vers Tiers-exclu)
+- $not not (A or not A) -> (A or not A) tack A or not A$ (une instance de l'élimination du double non vers Tiers-exclu)
 
 == Arbres nécésitant de deviner
 
@@ -102,7 +102,7 @@ $ &psi(X) := X &"pour" X "une variable"\
 &psi(top) := top, psi(bot) := bot $
 ]
 
-Montrer que $tack F$ est prouvable si et seulement si $tack psi(F)$ est prouvable
+Montrer que $tack F$ est prouvable en logique classique si et seulement si $tack psi(F)$ est prouvable en logique classique
 
 == Complétude #footnote[Le magnifique livre de Mme. Galatée Hemery~!~!~!~! \<3]
 
@@ -110,7 +110,7 @@ On cherche à montrer que si $F$ une formule propositionnelle est vraie pour tou
 
 Pour $mu$ une valuation et $phi$ une formule on pose 
 $ |phi|_mu = cases(phi &"si" mu tack.double phi, not phi &"sinon" ) $
-1. Soit $F$ une formule et ${X_1, ...,X_n }$ les variables propositionnelles de $F$. Montrer que le séquent suivant est démontrable en logique classique pour toute valuation $mu$~:\ $ |X_1|_mu, ..., |X_n|_mu tack |A|_mu $
+1. Soit $F$ une formule et ${X_1, ...,X_n }$ les variables propositionnelles de $F$. Montrer que le séquent suivant est démontrable en logique classique pour toute valuation $mu$~:\ $ |X_1|_mu, ..., |X_n|_mu tack |F|_mu $
 2. Montrer que en logique classique, si $Gamma, X tack phi$ et $Gamma, not X tack phi$ sont prouvable, alors $Gamma tack phi$ l'est aussi.
 3. Montrer que si A est une tautologie, alors pour toute valuation $mu$, on a $|X_1|_mu, ..., |X_n|_mu tack A$ démontrable.
 4. Conclure.
@@ -136,10 +136,10 @@ $
 (Gamma tack R(x,y))/(Gamma tack R(y,x))"sym" #h(150pt) ()/(Gamma tack not R(x,x)) "nr"
 $
 
-On peut interpréter alors une formule $F$ de cette théorie comme une formule sur des graphes non orienté sans boucle: soit $G =(V,E)$ un graphe, on a $(x,y) in E$ si et seulement si $R(x,y)$. Par exemple, la formule "$forall x, R(s,x)$" est la formule qui indique que $s$ est connecté à tous les sommets.
+On peut interpréter alors une formule $F$ de cette théorie comme une formule sur des graphes non orienté sans boucle: soit $G =(V,E)$ un graphe, on a $(x,y) in E$ si et seulement si $R(x,y)$. Par exemple, la formule "$forall x, x != s -> R(s,x)$" est la formule qui indique que $s$ est connecté à tous les autres sommets.
 
 1. Montrer que le séquent $tack not (forall x, forall y, R(x,y))$ est démontrable. 
-2. Montrer à l'aide d'un arbre de preuve que dans un graphe, si un sommet est relié à tous les autres, alors chaque sommet admet au moins un voisin.
+2. Montrer à l'aide d'un arbre de preuve que dans un graphe possédant au moins deux sommets, si un sommet est relié à tous les autres, alors chaque sommet admet au moins un voisin.
 
 == Formule Duale
 Pour $F$ une formule de la logique propositionnelle, on définit par induction $F^bot$ la _formule duale de $F$_ par:
@@ -147,7 +147,7 @@ Pour $F$ une formule de la logique propositionnelle, on définit par induction $
 #columns(2)[
 $ (A or B)^bot & := A^bot and B^bot\ 
 (A and B)^bot & := A^bot or B^bot\ 
-(A -> B)^bot & := not A^bot or B^bot $
+(A -> B)^bot & := not A^bot and B^bot $
 #colbreak()
 $ &X^bot := not X &"pour" X "une variable"\ 
 &(not A)^bot := not A^bot $
@@ -301,7 +301,7 @@ Et avec ça, on a montré le théorème bien compliqué que s'il existe une preu
 == Correspondance du système à la Hilbert #footnote[Partie 4 du projet de rocq du cours PRFA 2025/2026]
 
 
-Si $F$ est une formule, on dit que $G$ est une sous-formule de $F$ (noté $G prec F$) si on peut remplacer des variable propositionnelle de $F$ en d'autres formules pour obtenir $G$. Par exemple, la formule $(X and Y) -> (X and Y) and (X -> Y)$ est une sous-formule de $A -> A and B$ obtenu en remplaçant $A$ par $X and Y$ et $B$ par $X -> Y$. On ne peut pas remplacer la même variable par deux formules différente.
+Si $F$ est une formule, on dit que $G$ est une instance de substitution de $F$ (noté $G prec F$) si on peut remplacer des variable propositionnelle de $F$ en d'autres formules pour obtenir $G$. Par exemple, la formule $(X and Y) -> (X and Y) and (X -> Y)$ est une sous-formule de $A -> A and B$ obtenu en remplaçant $A$ par $X and Y$ et $B$ par $X -> Y$. On ne peut pas remplacer la même variable par deux formules différente.
 
 Pour $R$ un ensemble de formules, on considère le _système logique à la hilbert sur $R$_ (on le note avec $triangle.r_H$) possédant les 2 règles suivantes:
 
@@ -367,8 +367,8 @@ On définit la logique déductive multiplicative sur les formules constitué seu
   $ (Gamma tack' A and B )/(Gamma tack' B ) and_e^d $
 ]
 
-1. Montrer que le séquent $tack F$ est prouvable en logique minimale ssi $tack' F$ est prouvable en logique multiplicative.
-2. Proposer des règles pour l'introduction et l'élimination du $or$ pour la logique multiplicative et traiter leur cas pour la question 1.
+1. Montrer que si le séquent $tack' F$ est prouvable en logique multiplicative alors $tack F$ est prouvable en logique minimale. Montrer que la réciproque est fausse, par exemple avec $tack A -> (B -> A)$.
+2. Proposer des règles pour l'introduction et l'élimination du $or$ pour la logique multiplicative et montrer de même que toute preuve multiplicative donne une preuve en logique minimale.
 
 
 == Modèles de Kripke
@@ -407,12 +407,12 @@ $
 $
 
 6. Montrer que $scripts(tack)_(P_(n)) P_(n+1)$
-7. Montrer qu'il nexiste pas de modèle $cal(M)$ de profondeur de moins que $n$ tels que $cal(M) tack.double P'$ pour toute instanciation de $P'$ de $P_(n+1)$
-8. Montrer qu'il existe un moddèle de profondeur $n$ tels que $cal(M) tack.double P_(n)$
+7. Montrer que toute instanciation de $P_n$ est valide dans tout modèle de Kripke de profondeur au plus $n$.
+8. Construire, pour tout $n$, un modèle de Kripke de profondeur $n+1$ qui valide toute instanciation de $P_(n+1)$ mais dans lequel $P_n$ n'est pas valide.
 9. Pour $F$ une formule, on pose $cal(L)_F := {phi |space  scripts(tack)_F phi "est prouvable"}$. Montrer qu'il existe une suite infinie de formules $(phi_i)_(i in NN)$ telles que 
 $  ... subset.neq cal(L)_(phi_(3)) subset.neq cal(L)_(phi_(2)) subset.neq cal(L)_(phi_(1)) subset.neq cal(L)_(A or not A) $
 
-_Fun fact: avec de la théorie plus poussé, on a que il y a un continuium $aleph_1$ de logiques._
+_Fun fact: avec de la théorie plus poussé, on a qu'il y a un continuum $2^(aleph_0)$ de logiques intermédiaires._
 // TODO: continuium entre logique intuitioniste et classique
 
 == Logique modale#footnote[Centrale Info 2026]
@@ -502,7 +502,7 @@ Dans ce cas on dit que $cal(M)$ _satisfait_ $phi$ au $i$-ème jour. Si $cal(M) t
 
 3. Montrer que $tack.double lozenge square  A -> square lozenge A$. Qu'est-ce que ça veux dire~?
 
-Un *automate de Büchi* est un automate $(Q,Sigma,T,I,F)$ complet permettant de reconnaître des mots infinis, avec $I,F subset.eq Q$ et $T subset.eq Q times Sigma times Q$. Soit $X$ un ensemble de mots. On note $X^omega$ l'ensemble des mots infinis de $X$ défini formellement par $x in X^omega$ s'il existe une suite $(x_i)_(i in NN)$ telle que $x = x_0 x_1 x_2 ...$ 
+Un *automate de Büchi* est un automate $(Q,Sigma,T,I,F)$ complet permettant de reconnaître des mots infinis, avec $I,F subset.eq Q$ et $T subset.eq Q times Sigma times Q$. Soit $X subset.eq Sigma^+$ un ensemble de mots non vides. On note $X^omega$ l'ensemble des mots infinis obtenus comme concaténation infinie de mots de $X$ : $x in X^omega$ s'il existe une suite $(x_i)_(i in NN)$ d'éléments de $X$ telle que $x = x_0 x_1 x_2 ...$ 
 
 Un mot infini $x$ sur $Sigma^omega$ est reconnu par un automate de Büchi lorsqu'il existe un chemin infini dans cet automate étiqueté par $x$, commençant par un état initial et passant une infinité de fois par un état final.
 
@@ -520,17 +520,18 @@ Comme $cal(V)$ est fini, une valuation peut être représenté par $mu in {"true
   - Le fait que on passe de $X_q$ à $X_(q')$ vrais seulement si $A_alpha$ est vrai pour $(q,alpha, q') in T$
   - Le fait que l'on passe une infinité de fois par ${X_q : q in F}$
 
-  En déduire que si $L$ est reconnu par automate de Buchi alors il existe une formule $phi$ tel que $L(phi) = L$
+  En déduire une formule de logique temporelle sur l'alphabet étendu par les variables $(X_q)_(q in Q)$ qui caractérise les mots encodant un calcul acceptant de l'automate. Expliquer pourquoi cela ne permet pas, en général, d'en déduire une formule $phi$ sur l'alphabet initial telle que $L(phi)=L$.
 
 
-On va essayer de montrer que $L$ est reconnu par un automate de Buchi si et seulement si il existe $phi$ tel que $L = L(phi)$, et donc que de tester si une formule est vrai ou fausse est décidable. On a fait le sens simple, mais la preuve du sens retour est très délicate, principalement dans le cas de la négation.
+On va essayer de montrer que pour toute formule de logique linéaire temporelle $phi$, le langage $L(phi)$ est reconnu par un automate de Buchi, et donc que la satisfiabilité d'une formule est décidable. La réciproque est fausse en général : les langages définissables en LTL forment une sous-classe stricte des langages $omega$-réguliers. La preuve de ce sens est délicate, principalement dans le cas de la négation.
 
 Soient $phi, psi$ deux formules de langage reconnu par $cal(A) = (Q,Sigma,T,I,F)$ et $cal(A)' = (Q',Sigma,T',I',F')$.
 
-9. Montrer que $L(square phi)$ et $L(circle phi)$ sont reconnus par des automates de Buchi.
+9. Montrer que $L(circle phi)$ est reconnu par un automate de Buchi. Pour $L(square phi)$, ramener la construction au complémentaire de $L(phi)$ et à la possibilité de deviner un suffixe.
 10. Pourquoi l'automate produit classique de l'intersection ne marche pas pour reconnaître $L(phi and psi)$~?
 
-En considérant une extension de l'automate produit $cal(A)_and = (Q_and,Sigma,T_and,I_and,F_and)$ avec un bit d'information bonus $b in {0,1}$~: on pose $Q_and = Q times Q' times {0,1}$ et $F_and = F times Q' times {0} union Q times F' times {0}$, tel que à chaque rencontre avec un $F_and$ on alterne le bit d'information $b <- 1 - b$.
+En considérant une extension de l'automate produit $cal(A)_and = (Q_and,Sigma,T_and,I_and,F_and)$ avec un bit d'information bonus $b in {0,1}$~: on pose $Q_and = Q times Q' times {0,1}$. Le bit $0$ signifie que l'on attend une visite de $F$, et le bit $1$ que l'on attend une visite de $F'$. On change de bit lorsqu'on visite l'ensemble attendu.
 
-10. Donner une définition formelle de $T_and$. Montrer que $L(phi and psi)$ est reconnu par $cal(A)_and$.
+10. Donner une définition formelle de $T_and$ et choisir un ensemble $F_and$ de sorte qu'une exécution acceptante corresponde à une infinité d'alternances entre une visite de $F$ et une visite de $F'$. Montrer que $L(phi and psi)$ est reconnu par $cal(A)_and$.
 
+(A continuer)

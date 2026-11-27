@@ -16,7 +16,7 @@
 3. Rappeler l’intêret et le fonctionnement de l’algorithme de classification hiérarchique ascendante.
 == Single-pass (CCINP 2024) #footnote[https://prepas-mp2i.fr/documents/sujets/2024/CCINP-INFO.pdf ]
 
-On considère l'algorithme suivant pour catégoriser des données $X = {arrow(x_1), ..., arrow(x_n)} subset.eq RR^d$. On note $delta(arrow(x), arrow(y)) = sum_(i=1)^d |arrow(x)_i - arrow(x)_i|$ la distance entre $arrow(x)$ et $arrow(y)$. La distance de $arrow(x)$ à une classe $C$ est la distance de $arrow(x)$ au centre de $C$. On note $"Cl"(arrow(x),C)$ la classe dont le centre est le plus proche de $arrow(x)$ pour $delta$.
+On considère l'algorithme suivant pour catégoriser des données $X = {arrow(x_1), ..., arrow(x_n)} subset.eq RR^d$. On note $delta(arrow(x), arrow(y)) = sum_(i=1)^d |arrow(x)_i - arrow(y)_i|$ la distance entre $arrow(x)$ et $arrow(y)$. La distance de $arrow(x)$ à une classe $C$ est la distance de $arrow(x)$ au centre de $C$. On note $"Cl"(arrow(x),C)$ la classe dont le centre est le plus proche de $arrow(x)$ pour $delta$.
 
 Soit $theta in RR_+$, on considère:
 #align(center,rect(align(left,[
@@ -37,8 +37,8 @@ Soit $theta in RR_+$, on considère:
 
 *Question 3* Soit $arrow(x) in X$, on note $C_"ini"$ la classe de $arrow(x)$ au moment ou il a été ajouté, et $C^*$ sa classe à la fin. Montrer que
 
-$ delta(arrow(x), C^*) <= theta ln(|C^*| - |C_"ini"|) $
-_On admettera que $1/2 + 1/3+...+1/k <= ln (k)$_
+$ delta(arrow(x), C^*) <= theta (1 + ln(|C^*|/|C_"ini"|)) $
+_On admettera que $1/2 + 1/3+...+1/k <= 1 + ln (k)$_
 
 *Question 4* Quel sont les avantages de cet algorithme par rapport aux $k$-moyennes~? Proposer des améliorations à l'algorithme.
 
@@ -49,13 +49,13 @@ _On admettera que $1/2 + 1/3+...+1/k <= ln (k)$_
 $
   mu_X := 1/(|X|) sum_(x in X) x #h(50pt) S(X) := sum_(x in X) (x - mu_X)^2
 $
-On pose $S(i,j)= S({x_i,...,x_j})$. On cherche à résoudre l'algorithme des $k$-moyennes sur $E$ de manière exacte. C'est à dire que l'on cherche une partition $cal(P) = {X_1,...,X_K}$ de $[|0 ;N-1|]$ qui minimise la somme des scores de chaque $X_i$
+On pose $S(i,j)= S({x_i,...,x_j})$. On cherche à résoudre l'algorithme des $k$-moyennes sur $E$ de manière exacte. C'est à dire que l'on cherche une partition $cal(P) = {X_1,...,X_K}$ de $E$ qui minimise la somme des scores de chaque $X_i$
 
 *Question 2* Montrer que l'algorithme CHA ne permet pas de résoudre de manière exacte le problème. On pourra prendre $N=4$ et $K=2$.
 
 *Question 3* On note $I(n,k)$ le score minimale d'une partition de ${x_0,...,x_n}$ en $k$ classes. Que vaux $I(n,1)$~?
 
-*Question 4* Montrer que $ forall n > 0, forall k > 1, I(n,k) = min_(k-1<=m<= n-1) (I(m,k-1) + S(m,n)) $
+*Question 4* Montrer que $ forall n > 0, forall k > 1, I(n,k) = min_(k-2<=m<= n-1) (I(m,k-1) + S(m+1,n)) $
 
 *Question 5* En déduire une fonction ```c double inertie(double* E, int N, int K)``` qui calcule le score minimale possible d’une parition de $E$ en $K$ classes non vides.
 
@@ -63,22 +63,22 @@ On pose $S(i,j)= S({x_i,...,x_j})$. On cherche à résoudre l'algorithme des $k$
 
 == $k$-centres
 
-*Définition* On fixe $V subset.eq RR^d$ un jeu de donnée. Pour $arrow(y) in RR^d$ on définit $d(arrow(y),V) = max_(arrow(x) in V) ||arrow(y) - arrow(x)||$. On cherche à choisir $k$ points de $V$ tel qu'ils minimise 
+*Définition* On fixe $V subset.eq RR^d$ un jeu de donnée. Pour $arrow(y) in RR^d$ et $X subset.eq RR^d$ non vide on définit $d(arrow(y),X) = min_(arrow(x) in X) ||arrow(y) - arrow(x)||$. On cherche à choisir $k$ points de $V$ tel qu'ils minimise 
 $max_(v in V) d(v,X)$. On regarde donc le problème $k$-CENTRE suivant:
 
 #rect[
-  *Entrée:* $v_1,..., v_n subset.eq RR^d$ une liste de points finis\
+  *Entrée:* $v_1,..., v_n in RR^d$ une liste finie de points\
   *Sortie:* $X := {x_1,...,x_k} subset.eq V$ qui minimise $max_(v in V) d(v,X) $
 ]
 
 *Question 1* Rapeller le fonctionnement de l'algorithme des $k$-moyennes. Quel sont les différences avec le problème des $k$-centres~?
 
-*Question 2* On cherche à montrer que l'algorithme du cours de la question ne donne pas de bonne approximation du problème des $k$-centres. Pour cela on pose $k=2$, $d=1$ et on pose $N$ points en 0, $N$ points en 1 et un point en $D$. Montrer que pour des bonnes valeurs de $N$ et $D$ on peut avoir le ratio $"opt-k-moyennes"/"opt-k-centre"$ arbitrairement large.
+*Question 2* On cherche à montrer qu'une solution optimale pour le problème des $k$-moyennes ne donne pas forcément une bonne approximation du problème des $k$-centres. Pour cela on pose $k=2$, $d=1$ et on pose $N$ points en 0, $N$ points en 1 et un point en $D$. Montrer que pour de bonnes valeurs de $N$ et $D$, une solution optimale pour $k$-moyennes peut avoir un ratio d'approximation arbitrairement grand pour $k$-centres.
 
 *Question 3* Proposer un algorithme glouton pour le problème des $k$-centres.
 
-*Question 4* On note $p_1,..., p_k$ les $k$ points retrourné par notre algorithme et $p^*_1,...,p^*_k$ la solution optimale. On partitionne $V = union.sq.big_(i in NN) V_i$ avec $V_i$ l'ensemble des points les plus proches de $p^*_i$. Montrer que
-- Si $forall i, V_i inter {p_1,...,p_n} != emptyset$ alors on a une 2-approximation
+*Question 4* On note $p_1,..., p_k$ les $k$ points retrourné par notre algorithme et $p^*_1,...,p^*_k$ la solution optimale. On partitionne $V = union.sq.big_(1 <= i <= k) V_i$ avec $V_i$ l'ensemble des points les plus proches de $p^*_i$. Montrer que
+- Si $forall i, V_i inter {p_1,...,p_k} != emptyset$ alors on a une 2-approximation
 - Sinon, on a aussi une 2-approximation
 
 

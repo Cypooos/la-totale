@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 165" width="840" height="330">
+  <title>Trapping rain water</title>
+  <g fill="#5382b3">
+    <rect x="88" y="118" width="32" height="32"/>
+    <rect x="152" y="86" width="32" height="32"/>
+    <rect x="184" y="86" width="32" height="64"/>
+    <rect x="216" y="86" width="32" height="32"/>
+    <rect x="312" y="86" width="32" height="32"/>
+  </g>
+  <g fill="#000">
+    <rect x="56" y="118" width="32" height="32"/>
+    <rect x="120" y="86" width="32" height="64"/>
+    <rect x="152" y="118" width="32" height="32"/>
+    <rect x="216" y="118" width="32" height="32"/>
+    <rect x="248" y="54" width="32" height="96"/>
+    <rect x="280" y="86" width="32" height="64"/>
+    <rect x="312" y="118" width="32" height="32"/>
+    <rect x="344" y="86" width="32" height="64"/>
+    <rect x="376" y="118" width="32" height="32"/>
+  </g>
+  <path d="M24 9 V150 H412" fill="none" stroke="#000" stroke-width="1.6"/>
+  <path d="M24 5 L20 14 H28 Z" fill="#000"/>
+  <g fill="#000" font-family="sans-serif" font-size="10" text-anchor="end">
+    <path d="M24 150 h5" stroke="#000" stroke-width="0.6"/><text x="17" y="153.5">0</text>
+    <path d="M24 118 h5" stroke="#000" stroke-width="0.6"/><text x="17" y="121.5">1</text>
+    <path d="M24 86 h5" stroke="#000" stroke-width="0.6"/><text x="17" y="89.5">2</text>
+    <path d="M24 54 h5" stroke="#000" stroke-width="0.6"/><text x="17" y="57.5">3</text>
+  </g>
+</svg>

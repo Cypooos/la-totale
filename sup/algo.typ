@@ -43,7 +43,7 @@ Soit $L_1, L_2$ deux listes triées. Proposer un algoritme en OCaml qui calcule 
 
 Soit $L$ une liste de longueur $n$, on dit que $(i,j)$ pour $0<= i < j < n$ est une inversion si $L[i]>L[j]$. On cherche à compter le nombre d'inversion.
 
-En vous inspirant du tri fusion, proposer une approche dichotomique en $O( n log n)$. 
+En vous inspirant du tri fusion, proposer une approche dichotomique en $O( n log n)$.
 
 == Meilleur chemin dans une grille
 
@@ -61,15 +61,33 @@ On cherche un chemin de score maximal. On représentera la grille par une matric
 
 == Points les plus proches
 
-On pose  $P = { p_1,...,p_n} subset.eq RR^2$ un ensemble de points du plan. On écrit pour tout $1<=i <= n$ $p_i = (x_i, y_i)$. On cherche deux points $p_i,p_j$ distincts qui minimise $ ||p_i - p_j||_2 = sqrt((x_i - x_j)^2 + (y_i - y_j)^2) $ 
+On pose  $P = { p_1,...,p_n} subset.eq RR^2$ un ensemble de points du plan. On écrit pour tout $1<=i <= n$ $p_i = (x_i, y_i)$. On cherche deux points $p_i,p_j$ distincts qui minimise $ ||p_i - p_j||_2 = sqrt((x_i - x_j)^2 + (y_i - y_j)^2) $
 
 Montrer qu'il existe un algorithme en $O(n log n)$.
 
-_Indication:_ Trier $P$ selon les $(x_i)_i$, puis couper $P$ en deux pour s'apeller récursivement sur deux sous-ensemble de points. Quel cas manquent-t'ils? Pour ces cas-làs, considérer un tri selon les $(y_i)_i$ 
+_Indication:_ Trier $P$ selon les $(x_i)_i$, puis couper $P$ en deux pour s'apeller récursivement sur deux sous-ensemble de points. Quel cas manquent-t'ils? Pour ces cas-làs, considérer un tri selon les $(y_i)_i$
 
 == Sous-tableau connexe
 
 Soit $A$ un tableau de $n$ entiers relatifs, on cherche un algorithme en $O(n)$ qui calcule le sous-tableau connexe qui maximise la somme de ses éléments, i.e. le couple $(i,j)$ avec $0<=i<=j<n$ tel que $sum_(k in [|i ;j|]) A[k]$ soit maximal.
+
+== Eau de pluie piégée #footnote[#link("https://leetcode.com/problems/trapping-rain-water/", "Exercice inspirée de Leetcode: \"Trapping Rain Water\"")]
+
+Soit $H$ un tableau de $n$ entiers représentant les hauteurs d'un terrain vu de coté.
+L'objectif de ce problème est de calculer $q$ la quantité d'eau maximale piégée dans les creus du terrain après une pluie.
+On considère que l'eau peut s'écouler par les bords du tableau.
+
+Par exemple pour $H=[0,1,0,2,1,0,1,3,2,1,2,1]$, la réponse est $q=6$:
+#figure(
+  image("raindrop.svg",width: 70%),
+  caption: [En bleu les carrés remplis d'eau pour $H = [0,1,0,2,1,0,1,3,2,1,2,1]$],
+  numbering: none,
+)
+
+1. Écrire en C un algorithme qui prend $H$ en entrée et qui renvoie $q$ en $O(1)$ en mémoire.\
+  Donner sa complexité en temps.
+2. Donner un algorithme qui résout ce problème en $O(n)$ en temps et $O(1)$ en mémoire. On pourra utilliser 2 pointeurs.
+
 
 == Le glouton par défault#footnote[Algo 1 ENS Lyon]
 Étant donné un ensemble ${x_1,...,x_n}$ de $n$ points sur une droite, décrire un algorithme qui détermine
@@ -100,7 +118,7 @@ On note $"head"(P)$ l'élement en tete d'une pile $P$, et on considère l'algori
   #h(15pt) *sinon*:\
   #h(30pt) Dépiler $P$\
   #h(15pt) *Fin si*\
-  *Fin Pour*\ 
+  *Fin Pour*\
 ]]]
 
 2. Montrer que à toute étape elle contient que les meme valeurs. Elle peut donc etre implémentée par un couple $("valeur de tete", "compteur")$. Donner un code en $C$ qui execute cet algorithme avec cette optimisation.
@@ -184,7 +202,7 @@ On cherche a faire un algorithme de retour sur trace pour trouver le nombre de p
 3. Expliquer pourquoi, pour placer l'entier $k$ à la position $i+1$, il faut vérifier les cases $i+1$ et $i+k+2$.
 4. Proposer un algorithme récursif de retour sur trace. Montrer qu'il termine. Quelle est sa complexité?
 5. Montrer que si l’algorithme renvoie une solution, alors c’est bien une permutation de Langford.
-6. Soit $T$ une permutation de langford. En dénombrant $1+2+...+2n$ de deux manières différentes, montrer qu'il n'existe pas de permutation de langford de longeur $2n$ si $n equiv 1 [4]$ ou $n equiv 2 [4]$. 
+6. Soit $T$ une permutation de langford. En dénombrant $1+2+...+2n$ de deux manières différentes, montrer qu'il n'existe pas de permutation de langford de longeur $2n$ si $n equiv 1 [4]$ ou $n equiv 2 [4]$.
 
 
 == Tableaux auto-référents

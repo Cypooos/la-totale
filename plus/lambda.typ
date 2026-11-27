@@ -1,4 +1,4 @@
-= *More: Lambda calcul et Types*
+= *Plus: Lambda calcul et Types*
 
 == Cours
 

@@ -1,4 +1,4 @@
-= *Math: Algèbre (Linéaire) pour les Graphes*
+= *Plus: Algèbre (Linéaire) pour les Graphes*
 
 == Définitions
 
